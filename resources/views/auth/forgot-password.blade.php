@@ -43,12 +43,44 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{{ URL::asset('assets/js/config.js') }}"></script>
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>
     <!-- Content -->
 
+
+    <x-authentication-card>
+
+        <!-- LOGO here! -->
+
+        <div class="mb-4 text-sm text-gray-600">
+            {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+        </div>
+
+        @if (session('status'))
+            <div class="mb-4 font-medium text-sm text-green-600">
+                {{ session('status') }}
+            </div>
+        @endif
+
+        <x-validation-errors class="mb-4" />
+
+        <form method="POST" action="{{ route('password.email') }}">
+            @csrf
+
+            <div class="block">
+                <x-label for="email" value="{{ __('Email') }}" />
+                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+            </div>
+
+            <div class="flex items-center justify-end mt-4">
+                <x-button class="btn btn-primary">
+                    {{ __('Email Password Reset Link') }}
+                </x-button>
+            </div>
+        </form>
+    </x-authentication-card>
 
 
     <!-- / Content -->
