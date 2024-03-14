@@ -34,6 +34,8 @@
     <link rel="stylesheet" href="{{ URL::asset('assets/vendor/css/butterup.css') }}">
 
     <!-- Page CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 
     <!-- Helpers -->
     <script src="{{ URL::asset('assets/vendor/js/helpers.js') }}"></script>
@@ -43,6 +45,13 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     @yield('head')
+    <style>
+        div:where(.swal2-container).swal2-backdrop-show,
+        div:where(.swal2-container).swal2-noanimation {
+            background: rgba(0, 0, 0, .4);
+            z-index: 1080;
+        }
+    </style>
 </head>
 
 <body>
@@ -69,7 +78,7 @@
                     <!-- Dashboards -->
                     {{-- <li class="menu-item {{ preg_match('/\/dashboard\/create$/', Request::path()) ? 'active' : null }}"> --}}
                     <li class="menu-item {{ preg_match('/dashboard$/', Request::path()) ? 'active' : null }}">
-                        <a href="#" class="menu-link">
+                        <a href="{{ route('dashboard') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Dashboards">Dashboards</div>
                             <div class="badge bg-danger rounded-pill ms-auto">5</div>
@@ -80,8 +89,8 @@
                         <span class="menu-header-text">MANAGEMENT</span>
                     </li>
                     <!-- Apps -->
-                    <li class="menu-item {{ preg_match('/\/dashboard\/users$/', Request::path()) ? 'active' : null }}">
-                        <a href="#!" class="menu-link">
+                    <li class="menu-item {{ preg_match('/dashboard\/users$/', Request::path()) || preg_match('/dashboard\/users\/\d+\/edit$/', Request::path()) ? 'active' : null }}">
+                        <a href="{{ route('users.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-user"></i>
                             <div data-i18n="Users">Users</div>
                         </a>
@@ -199,7 +208,7 @@
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
                                     data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online">
-                                        <img src="../assets/img/avatars/1.png" alt
+                                        <img src="{{ URL::asset('/assets/img/avatars/1.png') }}" alt
                                             class="w-px-40 h-auto rounded-circle" />
                                     </div>
                                 </a>
@@ -209,12 +218,12 @@
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
-                                                        <img src="../assets/img/avatars/1.png" alt
+                                                        <img src="{{ URL::asset('/assets/img/avatars/1.png') }}" alt
                                                             class="w-px-40 h-auto rounded-circle" />
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <span class="fw-medium d-block">John Doe</span>
+                                                    <span class="fw-medium d-block">{{ $auth->name }}</span>
                                                     <small class="text-muted">Admin</small>
                                                 </div>
                                             </div>
@@ -273,7 +282,7 @@
                                 </script>
                                 , made with ❤️ by
                                 <a href="https://themeselection.com" target="_blank"
-                                    class="footer-link fw-medium">ThemeSelection</a>
+                                    class="footer-link fw-medium">GodesQ Team</a>
                             </div>
                         </div>
                     </footer>
@@ -293,14 +302,12 @@
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
-
-    <script src="{{ URL::asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="{{ URL::asset('assets/vendor/libs/popper/popper.js') }}"></script>
     <script src="{{ URL::asset('assets/vendor/js/bootstrap.js') }}"></script>
     <script src="{{ URL::asset('/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
     <script src="{{ URL::asset('/assets/vendor/js/menu.js') }}"></script>
     <script src="{{ URL::asset('assets/vendor/js/butterup.js') }}"></script>
-
     <!-- endbuild -->
 
     <!-- Vendors JS -->
@@ -311,6 +318,22 @@
 
     <!-- Page JS -->
     <script src="{{ URL::asset('/assets/js/dashboards-analytics.js') }}"></script>
+
+    <!-- Additional JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+            });
+        });
+    </script>
     @stack('scripts')
 
     <!-- Place this tag in your head or just before your close body tag. -->

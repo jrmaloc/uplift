@@ -151,7 +151,6 @@
                     data: $(this).serialize(),
                     dataType: "json",
                     success: function(response) {
-                        console.log(response.status);
                         if (response.status === 200) {
                             window.location.href = "{{ route('dashboard') }}";
                         } else {
