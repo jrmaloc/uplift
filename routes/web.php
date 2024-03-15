@@ -23,7 +23,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('/login', [AuthenticateController::class, 'login']);
+Route::post('login', [AuthenticateController::class, 'login'])->name('auth.login');
+Route::post('register', [AuthenticateController::class, 'register'])->name('auth.register');
 
 Route::middleware([
     'auth:sanctum',

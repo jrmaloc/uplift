@@ -8,7 +8,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Login Basic - Pages | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <title>Login</title>
 
     <meta name="description" content="" />
 
@@ -105,7 +105,7 @@
 
                         <p class="text-center">
                             <span>Don't have an account yet?</span>
-                            <a href="auth-register-basic.html">
+                            <a href="{{ route('register') }}">
                                 <span>Create an account</span>
                             </a>
                         </p>
@@ -146,7 +146,7 @@
             $('#formAuthentication').on('submit', function(e) {
                 e.preventDefault();
                 $.ajax({
-                    url: "{{ route('login') }}",
+                    url: "{{ route('auth.login') }}",
                     method: "POST",
                     data: $(this).serialize(),
                     dataType: "json",

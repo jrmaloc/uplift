@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthenticateController extends Controller
 {
@@ -35,7 +38,43 @@ class AuthenticateController extends Controller
         // Authentication failed...
         return response()->json([
             'error' => 'Invalid credentials!',
-            'message' => 'Data does not match in our records.'
+            'message' => 'Data does not match in our records.',
         ]);
+    }
+
+    public function register(Request $request)
+    {
+        try {
+            $request->validate([
+                'name' => 'required|regex:/^[a-zA-Z\s\-\.]+$/|max:255',
+                'email' => 'required|email|unique:users',
+                'username' => 'required|max:255',
+                'password' => 'required|min:8',
+            ]);
+
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'username' => $request->username,
+                'password' => Hash::make($request->password),
+            ]);
+
+            if ($user) {
+                $user->assignRole('user');
+                $user->role_id = 3;
+                $user->save();
+
+
+                event(new Registered($user));
+
+                Auth::login($user);
+
+                return redirect();
+            }
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $errors = $e->validator->errors();
+            return redirect()->back()->withErrors($errors)->withInput();
+        }
     }
 }
