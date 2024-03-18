@@ -65,7 +65,7 @@
                         <h4 class="mb-2">Welcome to Uplift! 👋</h4>
                         <p class="mb-4">Please sign-in to your account</p>
 
-                        <form id="formAuthentication" class="mb-3" method="POST" action="">
+                        <form id="formAuthentication" class="mb-3" method="POST" action="{{ route('auth.login') }}">
                             @csrf
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email or Username</label>
@@ -142,41 +142,41 @@
 
 
     <script>
-        $(document).ready(function() {
-            $('#formAuthentication').on('submit', function(e) {
-                e.preventDefault();
-                $.ajax({
-                    url: "{{ route('auth.login') }}",
-                    method: "POST",
-                    data: $(this).serialize(),
-                    dataType: "json",
-                    success: function(response) {
-                        if (response.status === 200) {
-                            window.location.href = "{{ route('dashboard') }}";
+        // $(document).ready(function() {
+        //     $('#formAuthentication').on('submit', function(e) {
+        //         e.preventDefault();
+        //         $.ajax({
+        //             url: "{{ route('auth.login') }}",
+        //             method: "POST",
+        //             data: $(this).serialize(),
+        //             dataType: "json",
+        //             success: function(response) {
+        //                 if (response.status === 200) {
+        //                     window.location.href = "{{ route('dashboard') }}";
 
-                            window.sessionStorage.setItem('login', 'true');
-                        } else {
-                            butterup.toast({
-                                title: response.error,
-                                message: response.message,
-                                type: 'error',
-                                icon: true,
-                                dismissable: false,
-                            });
-                        }
-                    },
-                    error: function(error) {
-                        butterup.toast({
-                            title: "Something went wrong",
-                            message: "Please try again.",
-                            type: 'error',
-                            icon: true,
-                            dismissable: false,
-                        });
-                    }
-                })
-            })
-        })
+        //                     window.sessionStorage.setItem('login', 'true');
+        //                 } else {
+        //                     butterup.toast({
+        //                         title: response.error,
+        //                         message: response.message,
+        //                         type: 'error',
+        //                         icon: true,
+        //                         dismissable: false,
+        //                     });
+        //                 }
+        //             },
+        //             error: function(error) {
+        //                 butterup.toast({
+        //                     title: "Something went wrong",
+        //                     message: "Please try again.",
+        //                     type: 'error',
+        //                     icon: true,
+        //                     dismissable: false,
+        //                 });
+        //             }
+        //         })
+        //     })
+        // })
     </script>
 </body>
 

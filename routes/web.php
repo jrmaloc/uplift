@@ -31,7 +31,7 @@ Route::post('/dashboard/users/{user}/checkpassword', [UserController::class, 'ch
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
-    'verified',
+    'verified', 'revalidate',
 ])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
@@ -40,5 +40,4 @@ Route::middleware([
     Route::match(['GET', 'POST'], 'logout', [AuthenticateController::class, 'logout'])->name('auth.logout');
     Route::resource('/dashboard/users', UserController::class);
 });
-
 

@@ -494,4 +494,26 @@
 
 @push('scripts')
 
+    @if (session('login'))
+        <script>
+            butterup.toast({
+                title: 'Welcome back!',
+                message: 'You have successfully logged in. 🎊',
+                type: 'success',
+                icon: true,
+                dismissable: true,
+            });
+        </script>
+    @elseif (session('register'))
+        <script>
+            butterup.toast({
+                title: 'Congratulations!',
+                message: 'You are successfully registered. 🎊',
+                type: 'success',
+                icon: true,
+                dismissable: true,
+            });
+        </script>
+    @endif
+
 @endpush

@@ -32,6 +32,20 @@ select:focus {
     box-shadow: 0 0.125rem 0.25rem 0 rgba(105, 108, 255, 0.4);
 }
 
+.btn-secondary {
+    color: #fff;
+    background-color: #8592a3 !important;
+    border-color: #8592a3;
+    box-shadow: 0 0.125rem 0.25rem 0 rgba(133, 146, 163, 0.4);
+}
+
+.btn-danger {
+    color: #fff;
+    background-color: #ff3e1d;
+    border-color: #ff3e1d;
+    box-shadow: 0 0.125rem 0.25rem 0 rgba(255, 62, 29, 0.4);
+}
+
 .form-control {
     display: block;
     width: 100%;

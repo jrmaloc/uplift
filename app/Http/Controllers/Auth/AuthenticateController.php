@@ -29,17 +29,10 @@ class AuthenticateController extends Controller
 
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             // Authentication passed...
-            return response()->json([
-                'success' => true,
-                'status' => 200,
-            ]);
+            return redirect()->route('dashboard')->with('login', true);
+        } else {
+            abort(500);
         }
-
-        // Authentication failed...
-        return response()->json([
-            'error' => 'Invalid credentials!',
-            'message' => 'Data does not match in our records.',
-        ]);
     }
 
     public function register(Request $request)

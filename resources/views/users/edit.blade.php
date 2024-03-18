@@ -957,7 +957,7 @@
         </div>
 
         <x-slot:footer>
-            <button type="button" class="btn btn-secondary">Reset</button>
+            <button type="close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-primary">Save Changes</button>
         </x-slot>
     </x-modal>
@@ -1033,7 +1033,7 @@
                             </div>
                         </div>
                         <div class="text-center">
-                            <h3 id="name">
+                            <h3 id="name" class="h3">
                                 {{ $user->name }}<span class="font-weight-light" id="age">,
                                     {{ $age }}</span>
                             </h3>
@@ -1192,8 +1192,6 @@
                                 icon: true,
                                 dismissable: true
                             });
-
-
                         } else if (response.status === 201) {
                             butterup.toast({
                                 title: 'Heads Up!',
@@ -1301,11 +1299,6 @@
                                     }
                                 }
                             });
-                            // Swal.fire({
-                            //     title: "Deleted!",
-                            //     text: "Your file has been deleted.",
-                            //     icon: "success"
-                            // });
                         }
                     });
                 });
