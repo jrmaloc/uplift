@@ -104,11 +104,12 @@ class UserController extends Controller
 
         $age = $dob->diffInYears(Carbon::now());
 
-
+        $role = Role::find($user->role_id);
 
         return view('users.edit', [
             'user' => $user,
             'age' => $age,
+            'role' => $role,
         ]);
     }
 
@@ -118,6 +119,76 @@ class UserController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        if ($request->ajax()) {
+            $data = $request->validate([
+                'name' => 'required',
+                'email' => 'required|email',
+                'username' => 'required',
+                'contact_number' => 'required',
+                'birthday' => 'required',
+                'gender' => 'required',
+                'bio' => 'required',
+            ]);
+
+            $user = User::findOrFail($id);
+            $dob = Carbon::parse($user->birthday);
+
+            $age = $dob->diffInYears(Carbon::now());
+
+            $save = $user->update($data);
+            if ($save) {
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'User Updated Successfully!',
+                    'data' => $user,
+                    'age' => $age
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 500,
+                    'message' => 'Something went wrong',
+                ], 500);
+            }
+        }
+    }
+
+    public function password(Request $request, string $id)
+    {
+        if ($request->ajax()) {
+            $data = $request->validate([
+                'old_password' => 'required',
+                'new_password' => 'required|min:8',
+                'confirm_password' => 'required|same:new_password',
+            ]);
+
+            $user = User::findOrFail($id);
+
+            if (Hash::check($data['old_password'], $user->password)) {
+
+                if (!Hash::check($data['new_password'], $user->password)) {
+                    $newPass = Hash::make($data['new_password']);
+                    $user->password = $newPass;
+
+                    $save = $user->save();
+                    if ($save) {
+                        return response()->json([
+                            'status' => 200,
+                            'message' => 'Password changed successfully',
+                        ]);
+                    }
+                } else {
+                    return response()->json([
+                        'status' => 201,
+                        'message' => 'You are trying to change the same password!',
+                    ]);
+                }
+            } else {
+                return response()->json([
+                    'status' => 500,
+                    'message' => 'Incorrect Credentials',
+                ]);
+            };
+        }
     }
 
     /**
@@ -138,10 +209,27 @@ class UserController extends Controller
             } else {
                 return response()->json([
                     'status' => 500,
-                    'message' => 'Something went wrong',
+                    'message' => 'Something went wrong. Please try again',
                 ], 500);
             }
+        }
+    }
 
+    public function check(string $id, Request $request)
+    {
+        if ($request->ajax()) {
+
+            $user = User::findOrFail($id);
+            $try = $request->input;
+            if (Hash::check($try, $user->password)) {
+                return response()->json([
+                 'status' => 200,
+                ]);
+            } else {
+                return response()->json([
+                'status' => 500,
+                ]);
+            }
         }
     }
 }

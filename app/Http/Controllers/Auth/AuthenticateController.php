@@ -64,17 +64,27 @@ class AuthenticateController extends Controller
                 $user->role_id = 3;
                 $user->save();
 
-
                 event(new Registered($user));
 
                 Auth::login($user);
 
-                return redirect();
+                return redirect()->route('dashboard')->with('register', 'Welcome to Uplift!');
             }
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             $errors = $e->validator->errors();
             return redirect()->back()->withErrors($errors)->withInput();
         }
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::guard('web')->logout(); // Logs the user out
+
+        $request->session()->invalidate(); // Invalidate the user's session
+
+        $request->session()->regenerateToken();
+
+        return redirect(route('auth.login')); // Redirect to your desired page after logout
     }
 }
