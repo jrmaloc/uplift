@@ -94,8 +94,15 @@
                     <li
                         class="menu-item {{ preg_match('/dashboard\/users$/', Request::path()) || preg_match('/dashboard\/users\/\d+\/edit$/', Request::path()) ? 'active' : null }}">
                         <a href="{{ route('users.index') }}" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-user"></i>
+                            <i class="menu-icon bx bx-user"></i>
                             <div data-i18n="Users">Users</div>
+                        </a>
+                    </li>
+                    <li
+                        class="menu-item {{ preg_match('/dashboard\/posts$/', Request::path()) || preg_match('/dashboard\/posts\/\d+\/edit$/', Request::path()) ? 'active' : null }}">
+                        <a href="{{-- route('posts.index') --}}#" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-clipboard"></i>
+                            <div data-i18n="Users">Posts</div>
                         </a>
                     </li>
                     <li class="menu-item">
