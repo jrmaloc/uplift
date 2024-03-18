@@ -25,6 +25,8 @@ Route::get('/', function () {
 
 Route::post('login', [AuthenticateController::class, 'login'])->name('auth.login');
 Route::post('register', [AuthenticateController::class, 'register'])->name('auth.register');
+Route::match(['PUT', 'PATCH'], '/dashboard/users/{user}/password', [UserController::class, 'password'])->name('users.password');
+Route::post('/dashboard/users/{user}/checkpassword', [UserController::class, 'check'])->name('users.checkpassword');
 
 Route::middleware([
     'auth:sanctum',
@@ -35,5 +37,8 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
+    Route::match(['GET', 'POST'], 'logout', [AuthenticateController::class, 'logout'])->name('auth.logout');
     Route::resource('/dashboard/users', UserController::class);
 });
+
+

@@ -126,6 +126,7 @@
                                     <span class="text-danger text-xs">{{ $message }}</span>
                                 @enderror
                             </div>
+
                             <div class="mb-3 form-password-toggle">
                                 <label class="form-label" for="password">Password</label>
                                 <div class="input-group input-group-merge">
@@ -156,7 +157,7 @@
 
                         <p class="text-center text-sm mt-4">
                             <span>Already have an account?</span>
-                            <a href="auth-login-basic.html">
+                            <a href="{{ route('login') }}">
                                 <span>Sign in instead</span>
                             </a>
                         </p>
@@ -212,6 +213,7 @@
                 }
             }
 
+            // after registration, rekta login here
             $('#formAuthentication').on('submit', function(e) {
                 e.preventDefault();
                 $.ajax({

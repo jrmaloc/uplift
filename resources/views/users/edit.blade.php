@@ -421,11 +421,7 @@
         }
 
         .bg-gradient-default {
-            background: linear-gradient(87deg, #172b4d 0, #1a174d 100%) !important;
-        }
-
-        .bg-gradient-default {
-            background: linear-gradient(87deg, #172b4d 0, #1a174d 100%) !important;
+            background: linear-gradient(87deg, rgba(50, 51, 115, 1) 0%, rgba(50, 51, 115, 1) 100%) !important;
         }
 
         @keyframes floating-lg {
@@ -502,29 +498,6 @@
         a.text-white:hover,
         a.text-white:focus {
             color: #e6e6e6 !important;
-        }
-
-        .avatar {
-            font-size: 1rem;
-            display: inline-flex;
-            width: 48px;
-            height: 48px;
-            color: #fff;
-            border-radius: 50%;
-            background-color: #adb5bd;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .avatar img {
-            width: 100%;
-            border-radius: 50%;
-        }
-
-        .avatar-sm {
-            font-size: .875rem;
-            width: 36px;
-            height: 36px;
         }
 
         .btn {
@@ -630,47 +603,6 @@
             }
         }
 
-        .dropdown {
-            display: inline-block;
-        }
-
-        .dropdown-menu {
-            min-width: 12rem;
-        }
-
-        .dropdown-menu .dropdown-item {
-            font-size: .875rem;
-            padding: .5rem 1rem;
-        }
-
-        .dropdown-menu .dropdown-item>i {
-            font-size: 1rem;
-            margin-right: 1rem;
-            vertical-align: -17%;
-        }
-
-        .dropdown-header {
-            font-size: .625rem;
-            font-weight: 700;
-            padding-right: 1rem;
-            padding-left: 1rem;
-            text-transform: uppercase;
-            color: #f6f9fc;
-        }
-
-        .dropdown-menu a.media>div:first-child {
-            line-height: 1;
-        }
-
-        .dropdown-menu a.media p {
-            color: #8898aa;
-        }
-
-        .dropdown-menu a.media:hover .heading,
-        .dropdown-menu a.media:hover p {
-            color: #172b4d !important;
-        }
-
         .footer {
             padding: 2.5rem 0;
             background: #f7fafc;
@@ -724,16 +656,6 @@
 
         textarea[resize='horizontal'] {
             resize: horizontal !important;
-        }
-
-        .form-control-alternative {
-            transition: box-shadow .15s ease;
-            border: 0;
-            box-shadow: 0 1px 3px rgba(50, 50, 93, .15), 0 1px 0 rgba(0, 0, 0, .02);
-        }
-
-        .form-control-alternative:focus {
-            box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
         }
 
         .input-group {
@@ -852,10 +774,6 @@
             background-color: #fff;
         }
 
-        .focused .form-control {
-            border-color: rgba(50, 151, 211, .25);
-        }
-
         .mask {
             position: absolute;
             top: 0;
@@ -869,19 +787,6 @@
             .mask {
                 transition: none;
             }
-        }
-
-        .nav-link {
-            color: #525f7f;
-        }
-
-        .nav-link:hover {
-            color: #5e72e4;
-        }
-
-        .nav-link i.ni {
-            position: relative;
-            top: 2px;
         }
 
         .navbar-search .input-group {
@@ -926,70 +831,6 @@
 
         .navbar-search-dark .focused .input-group {
             border-color: rgba(255, 255, 255, .9);
-        }
-
-        @media (min-width: 768px) {
-            .navbar .dropdown-menu {
-                margin: 0;
-                pointer-events: none;
-                opacity: 0;
-            }
-
-            .navbar .dropdown-menu-arrow:before {
-                position: absolute;
-                z-index: -5;
-                bottom: 100%;
-                left: 20px;
-                display: block;
-                width: 12px;
-                height: 12px;
-                content: '';
-                transform: rotate(-45deg) translateY(12px);
-                border-radius: 2px;
-                background: #fff;
-                box-shadow: none;
-            }
-
-            .navbar .dropdown-menu-right:before {
-                right: 20px;
-                left: auto;
-            }
-
-            @ keyframes show-navbar-dropdown {
-                0% {
-                    transition: visibility .25s, opacity .25s, transform .25s;
-                    transform: translate(0, 10px) perspective(200px) rotateX(-2deg);
-                    opacity: 0;
-                }
-
-                100% {
-                    transform: translate(0, 0);
-                    opacity: 1;
-                }
-            }
-
-            @keyframes hide-navbar-dropdown {
-                from {
-                    opacity: 1;
-                }
-
-                to {
-                    transform: translate(0, 10px);
-                    opacity: 0;
-                }
-            }
-        }
-
-        @media (max-width: 767.98px) {
-            .navbar-nav .nav-link {
-                padding: .625rem 0;
-                color: #172b4d !important;
-            }
-
-            .navbar-nav .dropdown-menu {
-                min-width: auto;
-                box-shadow: none;
-            }
         }
 
         @keyframes show-navbar-collapse {
@@ -1052,46 +893,108 @@
             text-transform: uppercase;
         }
 
-        .display-2 span {
-            font-weight: 300;
-            display: block;
-        }
-
-        @media (max-width: 768px) {
-            .btn {
-                margin-bottom: 10px;
-            }
-        }
-
-        #navbar .navbar {
-            margin-bottom: 20px;
-        }
-
         [type='text'] {
             border-radius: 5px;
         }
 
-        .col-lg-6, .col-md-12, .col-lg-4 {
+        .col-lg-6,
+        .col-md-12,
+        .col-lg-4 {
             margin-bottom: 15px;
         }
     </style>
 @endsection
 
 @section('content')
+    <!-- Offcanvas -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="settingsOffcanvas" aria-labelledby="settingsOffcanvasLabel">
+        <div class="offcanvas-header">
+            <h3 id="settingsOffcanvasLabel" class="h4 offcanvas-title">User Settings</h3>
+            <button type="button" class="btn-close text-reset flex justify-center align-items-center"
+                data-bs-dismiss="offcanvas" aria-label="Close"><span class="bx bx-x text-2xl"></span></button>
+        </div>
+        <div class="offcanvas-body mt-8 mx-0 flex-grow-0">
+            ---
+        </div>
+    </div>
+
+    <x-modal id="passwordModal" title="Edit Password" formID="changePassForm">
+        <div class="mb-3 form-password-toggle col-8 mx-auto">
+            <label class="form-label" for="old_password">Current Password</label>
+            <div class="input-group input-group-merge">
+                <input type="password" id="old_password" class="form-control" name="old_password"
+                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                    aria-describedby="password" />
+                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+            </div>
+            @error('password')
+                <span class="text-danger text-xs">{{ $message }}</span>
+            @enderror
+        </div>
+        <div class="mb-3 form-password-toggle col-8 mx-auto">
+            <label class="form-label" for="new_password">New Password</label>
+            <div class="input-group input-group-merge">
+                <input type="password" id="new_password" class="form-control" name="new_password"
+                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                    aria-describedby="password" />
+                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+            </div>
+            @error('password')
+                <span class="text-danger text-xs">{{ $message }}</span>
+            @enderror
+        </div>
+        <div class="mb-3 form-password-toggle col-8 mx-auto">
+            <label class="form-label" for="confirm_password">Confirm Password</label>
+            <div class="input-group input-group-merge">
+                <input type="password" id="confirm_password" class="form-control" name="confirm_password"
+                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                    aria-describedby="password" />
+                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+            </div>
+            @error('password')
+                <span class="text-danger text-xs">{{ $message }}</span>
+            @enderror
+        </div>
+
+        <x-slot:footer>
+            <button type="button" class="btn btn-secondary">Reset</button>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </x-slot>
+    </x-modal>
+
+    <x-modal id="deleteAccountModal" formID="deleteAccountForm" title="Delete Account">
+        <p class="text-sm flex" style="text-align: justify;">Are you sure you want to delete your account? Once your account
+            is deleted, all of its resources and data will be
+            permanently deleted. Please enter your password to confirm you would like to permanently delete your account.
+        </p>
+
+        <div class="mt-8 form-password-toggle col-10 mx-auto">
+            <label class="form-label" for="delete_password">Your Password</label>
+            <div class="input-group input-group-merge">
+                <input type="password" id="delete_password" class="form-control" name="delete_password"
+                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                    aria-describedby="password" />
+                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+            </div>
+            @error('password')
+                <span class="text-danger text-xs">{{ $message }}</span>
+            @enderror
+        </div>
+
+        <x-slot:footer>
+            <button type="button" class="btn btn-secondary">Reset</button>
+            <button type="button" class="btn btn-danger delete-acc-btn" disabled>Delete Account</button>
+        </x-slot>
+    </x-modal>
+
+
     <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
-        style="min-height: 600px; background-image: url(https://raw.githubusercontent.com/creativetimofficial/argon-dashboard/gh-pages/assets-old/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+        style="min-height: 600px; background-size: cover; background-position: center top;">
         <!-- Mask -->
-        <span class="mask bg-gradient-default opacity-8"></span>
+        <span class="mask bg-gradient-default opacity-8 rounded-md"></span>
         <!-- Header container -->
         <div class="container-fluid d-flex align-items-center">
-            <div class="row">
-                <div class="col-lg-7 col-md-10">
-                    <h1 class="display-2 text-white">Hello Jesse</h1>
-                    <p class="text-white mt-0 mb-5">This is your profile page. You can see the progress you've made with
-                        your work and manage your projects or assigned tasks</p>
-                    <a href="#!" class="btn btn-info">Edit profile</a>
-                </div>
-            </div>
+
         </div>
     </div>
     <!-- Page content -->
@@ -1103,14 +1006,15 @@
                         <div class="col-lg-3 order-lg-2">
                             <div class="card-profile-image">
                                 <a href="#">
-                                    <img src="{{ URL::asset('assets/img/avatars/5.png') }}" class="rounded-circle">
+                                    <img src="{{ URL::asset('assets/img/avatars/5.png') }}"
+                                        class="rounded-circle absolute top-4">
                                 </a>
                             </div>
                         </div>
                     </div>
                     <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
                         <div class="d-flex justify-content-between">
-                            <a href="#" class="btn btn-sm btn-info mr-4">Connect</a>
+                            {{-- <a href="#" class="btn btn-sm btn-info mr-4">Connect</a> --}}
                         </div>
                     </div>
                     <div class="card-body pt-0 pt-md-4">
@@ -1129,22 +1033,15 @@
                             </div>
                         </div>
                         <div class="text-center">
-                            <h3>
-                                {{ $user->name }}<span class="font-weight-light">, {{ $age }}</span>
+                            <h3 id="name">
+                                {{ $user->name }}<span class="font-weight-light" id="age">,
+                                    {{ $age }}</span>
                             </h3>
-                            <div class="h5 font-weight-300">
-                                <i class="ni location_pin mr-2"></i>{{ $user->address }}
-                            </div>
                             <div class="h5 mt-4">
-                                <i class="ni business_briefcase-24 mr-2"></i>Solution Manager - Creative Tim Officer
-                            </div>
-                            <div>
-                                <i class="ni education_hat mr-2"></i>University of Computer Science
+                                <i class="ni business_briefcase-24 mr-2 capitalize"></i><span
+                                    class="capitalize">{{ $role->name }}</span>
                             </div>
                             <hr class="my-4">
-                            <p>Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and
-                                records all of his own music.</p>
-                            <a href="#">Show more</a>
                         </div>
                     </div>
                 </div>
@@ -1153,91 +1050,86 @@
                 <div class="card bg-secondary shadow">
                     <div class="card-header bg-white border-0">
                         <div class="row align-items-center">
-                            <div class="col-8">
+                            <div class="col-5">
                                 <h3 class="mb-0">My account</h3>
                             </div>
-                            <div class="col-4 text-right">
-                                <a href="#!" class="btn btn-sm btn-primary">Settings</a>
+                            <div class="col-7 text-right">
+                                <a href="#passwordModal" data-bs-toggle="modal" class="btn btn-sm btn-info">Edit
+                                    Password<span class="bx ml-2 bxs-edit"></span></a>
+                                <a href="#deleteAccountModal" data-bs-toggle="modal" class="btn btn-sm btn-danger">Delete
+                                    Account<span class="bx ml-2 bxs-tag-x"></span></a>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form id="userUpdateForm" method="POST">
+                            @csrf
+                            @method('PUT')
                             <h6 class="heading-small text-muted mb-4">User information</h6>
                             <div class="pl-lg-4">
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <div class="form-group focused">
-                                            <label class="form-control-label" for="input-username">Username</label>
-                                            <input type="text" id="input-username"
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">Username<span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" id="input-username" name="username"
                                                 class="form-control form-control-alternative" placeholder="Username"
-                                                value="lucky.jesse">
+                                                value="{{ $user->username }}" autofocus>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-email">Email address</label>
-                                            <input type="email" id="input-email"
+                                            <label class="form-control-label" for="input-email">Email address<span
+                                                    class="text-danger">*</span></label>
+                                            <input type="email" id="input-email" name="email"
                                                 class="form-control form-control-alternative"
-                                                placeholder="jesse@example.com">
+                                                placeholder="abc@example.com" value="{{ $user->email }}">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="form-group focused">
-                                            <label class="form-control-label" for="input-first-name">First name</label>
-                                            <input type="text" id="input-first-name"
-                                                class="form-control form-control-alternative" placeholder="First name"
-                                                value="Lucky">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group focused">
-                                            <label class="form-control-label" for="input-last-name">Last name</label>
-                                            <input type="text" id="input-last-name"
-                                                class="form-control form-control-alternative" placeholder="Last name"
-                                                value="Jesse">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr class="my-4">
-                            <!-- Address -->
-                            <h6 class="heading-small text-muted mb-4">Contact information</h6>
-                            <div class="pl-lg-4">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group focused">
-                                            <label class="form-control-label" for="input-address">Address</label>
-                                            <input id="input-address" class="form-control form-control-alternative"
-                                                placeholder="Home Address"
-                                                value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09" type="text">
+                                <div class="row mb-3">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-full-name">Full name<span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" id="input-full-name" name="name"
+                                                class="form-control form-control-alternative" placeholder="Juan Dela Cruz"
+                                                value="{{ $user->name }}">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-4">
-                                        <div class="form-group focused">
-                                            <label class="form-control-label" for="input-city">City</label>
-                                            <input type="text" id="input-city"
-                                                class="form-control form-control-alternative" placeholder="City"
-                                                value="New York">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <div class="form-group focused">
-                                            <label class="form-control-label" for="input-country">Country</label>
-                                            <input type="text" id="input-country"
-                                                class="form-control form-control-alternative" placeholder="Country"
-                                                value="United States">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-contact_number">Contact
+                                                Number<span class="text-danger">*</span></label>
+                                            <input type="tel" id="input-contact_number" name="contact_number"
+                                                class="form-control form-control-alternative" placeholder="0912 345 6789"
+                                                value="{{ $user->contact_number }}">
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-country">Postal code</label>
-                                            <input type="number" id="input-postal-code"
-                                                class="form-control form-control-alternative" placeholder="Postal code">
+                                            <label class="form-control-label" for="input-dob">Birthday<span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" id="input-dob" value="{{ $user->birthday }}"
+                                                class="form-control form-control-alternative" name="birthday"
+                                                placeholder="Select a date...">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-gender">Gender<span
+                                                    class="text-danger">*</span></label>
+                                            <select name="gender" id="input-gender" class="form-control">
+                                                <option value="" disabled selected>Select one</option>
+                                                <option value="male" {{ $user->gender === 'male' ? 'selected' : '' }}>
+                                                    Brother</option>
+                                                <option value="female" {{ $user->gender === 'female' ? 'selected' : '' }}>
+                                                    Sister</option>
+                                                <option value="others" {{ $user->gender === 'others' ? 'selected' : '' }}>
+                                                    Others</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -1247,9 +1139,16 @@
                             <h6 class="heading-small text-muted mb-4">About me</h6>
                             <div class="pl-lg-4">
                                 <div class="form-group focused">
-                                    <label>About Me</label>
-                                    <textarea rows="4" class="form-control form-control-alternative" placeholder="A few words about you ...">A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</textarea>
+                                    <label class="form-control-label" for="bio">Bio<span
+                                            class="text-danger">*</span></label>
+                                    <textarea id="bio" name="bio" rows="4" class="form-control form-control-alternative"
+                                        placeholder="A few words about you ...">{{ $user->bio != null ? $user->bio : '' }}</textarea>
                                 </div>
+                            </div>
+
+                            <div class="mt-4 flex justify-end">
+                                <button type="reset" class="btn btn-secondary">Reset</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
                             </div>
                         </form>
                     </div>
@@ -1258,3 +1157,159 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#input-dob').flatpickr({
+                altInput: true,
+                altFormat: "F j, Y",
+                dateFormat: "Y-m-d",
+            });
+
+            var id = {{ $user->id }};
+
+            $('#passwordModal').on('hidden.bs.modal', function() {
+                $('input[type="password"]').val('');
+            });
+
+            $('#changePassForm').submit(function(e) {
+                e.preventDefault();
+                let formData = $(this).serialize();
+
+                $.ajax({
+                    url: "{{ route('users.password', [':user']) }}".replace(':user', id),
+                    data: formData,
+                    method: 'PUT',
+                    success: function(response) {
+                        $('#passwordModal').modal('hide');
+
+                        if (response.status === 200) {
+                            butterup.toast({
+                                title: 'Success',
+                                message: response.message,
+                                type: 'success',
+                                icon: true,
+                                dismissable: true
+                            });
+
+
+                        } else if (response.status === 201) {
+                            butterup.toast({
+                                title: 'Heads Up!',
+                                message: response.message,
+                                type: 'warning',
+                                icon: true,
+                                dismissable: true
+                            });
+                        } else if (response.status === 500) {
+                            butterup.toast({
+                                title: 'Error!',
+                                message: response.message,
+                                type: 'error',
+                                icon: true,
+                                dismissable: true
+                            });
+                        }
+                    }
+                })
+            });
+
+            $('#userUpdateForm').submit(function(e) {
+                e.preventDefault();
+                let formData = $(this).serialize();
+
+                $.ajax({
+                    url: "{{ route('users.update', [':user']) }}".replace(':user', id),
+                    data: formData,
+                    method: 'PUT',
+                    success: function(response) {
+                        if (response.status === 200) {
+                            butterup.toast({
+                                title: 'Success',
+                                message: response.message,
+                                type: 'success',
+                                icon: true,
+                                dismissable: true
+                            });
+
+                            $('#name').html(response.data.name + ', ' + response.age);
+                        }
+                    },
+                    error: function(error) {
+                        butterup.toast({
+                            title: 'Oops! Something went wrong',
+                            message: 'Please complete the form',
+                            type: 'error',
+                            icon: true,
+                            dismissable: true
+                        });
+                    }
+                })
+            });
+
+            $('#delete_password').on('input', function(e) {
+                var val = $(this).val();
+
+                $.ajax({
+                    url: "{{ route('users.checkpassword', [':user']) }}".replace(':user', id),
+                    method: 'POST',
+                    data: {
+                        input: val
+                    },
+                    success: function(response) {
+                        if (response.status === 200) {
+                            $('.delete-acc-btn').prop('disabled', false);
+                        } else {
+                            $('.delete-acc-btn').prop('disabled', true);
+                        }
+                    }
+                })
+            })
+
+            $('.delete-acc-btn').on('click', function(e) {
+                $('#deleteAccountModal').modal('hide');
+
+                $('#deleteAccountModal').on('hidden.bs.modal', function() {
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "You won't be able to revert this!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes, delete it!"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            e.preventDefault();
+
+                            $.ajax({
+                                url: "{{ route('users.destroy', [':user']) }}"
+                                    .replace(':user', id),
+                                method: 'DELETE',
+                                success: function(response) {
+                                    if (response.status === 200) {
+                                        window.location.reload();
+                                    } else if (response.status === 500) {
+                                        butterup.toast({
+                                            title: 'Error!',
+                                            message: response.message,
+                                            type: 'error',
+                                            icon: true,
+                                            dismissable: true
+                                        });
+                                    }
+                                }
+                            });
+                            // Swal.fire({
+                            //     title: "Deleted!",
+                            //     text: "Your file has been deleted.",
+                            //     icon: "success"
+                            // });
+                        }
+                    });
+                });
+            })
+        });
+    </script>
+@endpush

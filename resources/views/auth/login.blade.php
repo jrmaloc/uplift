@@ -153,6 +153,8 @@
                     success: function(response) {
                         if (response.status === 200) {
                             window.location.href = "{{ route('dashboard') }}";
+
+                            window.sessionStorage.setItem('login', 'true');
                         } else {
                             butterup.toast({
                                 title: response.error,
