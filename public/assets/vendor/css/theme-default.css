@@ -579,9 +579,6 @@ html[dir=rtl] .border-primary {
 a {
   color: #696cff;
 }
-a:hover {
-  color: #787bff;
-}
 
 .fill-primary {
   fill: #696cff;

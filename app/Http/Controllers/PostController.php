@@ -19,6 +19,9 @@ class PostController extends Controller
 
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->addColumn("creator", function ($post) {
+                    return $post->user->name; // Access the user's name via the relationship
+                })
                 ->addColumn("actions", function ($info) {
                     $editButton = '<a href="posts/' . $info->id . '/edit" class="btn btn-outline-secondary btn-sm"><i class="tf-icons bx bx-edit"></i></a>';
                     $deleteButton = '<a href="javascript:void(0);" id="' . $info->id . '" class="btn btn-outline-danger remove-btn btn-sm"><i class="tf-icons bx bx-trash"></i></a>';
@@ -63,6 +66,8 @@ class PostController extends Controller
     public function edit(string $id)
     {
         //
+
+        return view('posts.edit');
     }
 
     /**

@@ -12,7 +12,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="{{ URL::asset('assets/img/favicon/favicon.ico') }}" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -52,6 +52,11 @@
         div:where(.swal2-container).swal2-noanimation {
             background: rgba(0, 0, 0, .4);
             z-index: 1080;
+        }
+
+        .notification-body {
+            max-height: 40vh;
+            overflow-y: auto;
         }
     </style>
 </head>
@@ -214,6 +219,63 @@
                         <ul class="navbar-nav flex-row align-items-center ms-auto">
 
                             <!-- User -->
+                            <li class="nav-item navbar-dropdown dropdown">
+                                <div class="btn-group">
+                                    <button type="button"
+                                        class="btn-icon badge rounded-pill bg-label-primary dropdown-toggle hide-arrow"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bx bx-bell"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end vw-25">
+                                        <li><a class="dropdown-item notification-header"
+                                                href="javascript:void(0);">Notifications</a></li>
+                                        <li>
+                                            <hr class="dropdown-divider noti" />
+                                        </li>
+                                        <ul class="notification-body">
+                                            <li class="dropdown-item"><a class="notification-item"
+                                                    href="javascript:void(0);" style="max-width: 80%;">Action Action
+                                                    Action Action Action
+                                                    Action Action Action Action Action Action</a></li>
+                                            <li><a class="dropdown-item" href="javascript:void(0);">Another action</a>
+                                            </li>
+                                            <li><a class="dropdown-item" href="javascript:void(0);">Something else
+                                                    here</a></li>
+                                            <li><a class="dropdown-item" href="javascript:void(0);">Action</a></li>
+                                            <li><a class="dropdown-item" href="javascript:void(0);">Another action</a>
+                                            </li>
+                                            <li><a class="dropdown-item" href="javascript:void(0);">Something else
+                                                    here</a></li>
+                                            <li><a class="dropdown-item" href="javascript:void(0);">Action</a></li>
+                                            <li><a class="dropdown-item" href="javascript:void(0);">Another action</a>
+                                            </li>
+                                            <li><a class="dropdown-item" href="javascript:void(0);">Something else
+                                                    here</a></li>
+                                            <li><a class="dropdown-item" href="javascript:void(0);">Action</a></li>
+                                            <li><a class="dropdown-item" href="javascript:void(0);">Another action</a>
+                                            </li>
+                                            <li><a class="dropdown-item" href="javascript:void(0);">Something else
+                                                    here</a></li>
+                                            <li><a class="dropdown-item" href="javascript:void(0);">Action</a></li>
+                                            <li><a class="dropdown-item" href="javascript:void(0);">Another action</a>
+                                            </li>
+                                            <li><a class="dropdown-item" href="javascript:void(0);">Something else
+                                                    here</a></li>
+                                            <li><a class="dropdown-item" href="javascript:void(0);">Action</a></li>
+                                            <li><a class="dropdown-item" href="javascript:void(0);">Another action</a>
+                                            </li>
+                                            <li><a class="dropdown-item" href="javascript:void(0);">Something else
+                                                    here</a></li>
+                                        </ul>
+                                        <li>
+                                            <hr class="dropdown-divider" />
+                                        </li>
+                                        <li><a class="dropdown-item notification-footer"
+                                                href="javascript:void(0);">See All</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
                             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
                                     data-bs-toggle="dropdown">
@@ -289,8 +351,7 @@
                                 ©
                                 <script>
                                     document.write(new Date().getFullYear());
-                                </script>
-                                , made with ❤️ by
+                                </script>, made with ❤️ by
                                 <a href="https://themeselection.com" target="_blank"
                                     class="footer-link fw-medium">GodesQ Team</a>
                             </div>

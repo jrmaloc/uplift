@@ -33,8 +33,8 @@
                                 <tr>
                                     <th>Id</th>
                                     <th>Post</th>
-                                    <th>Type</th>
                                     <th>Creator</th>
+                                    <th>Type</th>
                                     <th>Privacy</th>
                                     <th>Timestamp</th>
                                     <th>Actions</th>
@@ -65,15 +65,15 @@
                     }
                 },
                 {
-                    data: 'type',
-                    name: 'type',
-                    render: function(data) {
-                        return '<div class="badge rounded-pill bg-label-primary px-4 py-2">' + data + '</div>';
-                    }
+                    data: 'creator',
+                    name: 'creator',
+                    // render: function(data) {
+                    //     return '<div class="badge rounded-pill bg-label-primary px-4 py-2">' + data + '</div>';
+                    // }
                 },
                 {
-                    data: 'user_id',
-                    name: 'creator',
+                    data: 'type',
+                    name: 'type',
                     render: function(data) {
                         return '<div class="badge rounded-pill bg-label-primary px-4 py-2">' + data + '</div>';
                     }
