@@ -2,16 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        if ($request->ajax()) {
+            $data = Post::all();
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn("actions", function ($info) {
+                    $editButton = '<a href="posts/' . $info->id . '/edit" class="btn btn-outline-secondary btn-sm"><i class="tf-icons bx bx-edit"></i></a>';
+                    $deleteButton = '<a href="javascript:void(0);" id="' . $info->id . '" class="btn btn-outline-danger remove-btn btn-sm"><i class="tf-icons bx bx-trash"></i></a>';
+
+                    return '<div class="dropdown flex gap-2">' . $editButton . $deleteButton . '</div>';
+                })
+                ->rawColumns(['actions'])
+
+                ->make(true);
+        }
+
+        return view('posts.index');
     }
 
     /**
