@@ -1,9 +1,13 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticateController;
+use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\RolesController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+
+
 
 
 
@@ -39,5 +43,7 @@ Route::middleware([
     Route::match(['GET', 'POST'], 'logout', [AuthenticateController::class, 'logout'])->name('auth.logout');
     Route::resource('/dashboard/users', UserController::class);
     Route::resource('/dashboard/posts', PostController::class);
+    Route::resource('/dashboard/roles', RolesController::class);
+    Route::resource('/dashboard/permissions', PermissionsController::class);
 });
 

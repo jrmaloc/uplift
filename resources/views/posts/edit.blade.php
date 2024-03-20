@@ -82,11 +82,6 @@
                     </select>
                 </div>
             </div>
-            <div class="card-footer flex justify-end gap-2">
-                <button type="button" class="btn btn-secondary">Reset</button>
-                <button type="button" class="btn btn-primary">Save</button>
-            </div>
-        </form>
     </div>
 @endsection
 

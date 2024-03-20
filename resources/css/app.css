@@ -46,6 +46,10 @@ select:focus {
     box-shadow: 0 0.125rem 0.25rem 0 rgba(255, 62, 29, 0.4);
 }
 
+.border {
+    border: 1px solid !important;
+}
+
 .form-control {
     display: block;
     width: 100%;

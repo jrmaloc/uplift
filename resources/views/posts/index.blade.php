@@ -3,7 +3,7 @@
 @section('head')
     <title>Posts</title>
     <style>
-        td:nth-child(2) {
+        td:nth-child(2), td:nth-child(4) {
             width: 400px !important;
             max-width: 400px !important;
             word-wrap: break-word;
