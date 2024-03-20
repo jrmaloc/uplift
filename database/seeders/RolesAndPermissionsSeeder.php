@@ -82,6 +82,7 @@ class RolesAndPermissionsSeeder extends Seeder
                 'view-comment',
             ],
             'user' => [
+                'create-post',
                 'view-post',
                 'view-user',
                 'create-comment',

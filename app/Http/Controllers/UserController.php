@@ -69,6 +69,15 @@ class UserController extends Controller
             $user = User::create($data);
             $user->assignRole('user');
 
+            $role = Role::where('name', 'user')->first();
+            if ($role) {
+                $permissions = $role->permissions;
+
+                $user->syncPermissions($permissions);
+            } else {
+                abort(403);
+            }
+
             if ($user) {
                 return response()->json([
                     'status' => 200,
@@ -141,7 +150,7 @@ class UserController extends Controller
                     'status' => 200,
                     'message' => 'User Updated Successfully!',
                     'data' => $user,
-                    'age' => $age
+                    'age' => $age,
                 ]);
             } else {
                 return response()->json([
@@ -223,11 +232,11 @@ class UserController extends Controller
             $try = $request->input;
             if (Hash::check($try, $user->password)) {
                 return response()->json([
-                 'status' => 200,
+                    'status' => 200,
                 ]);
             } else {
                 return response()->json([
-                'status' => 500,
+                    'status' => 500,
                 ]);
             }
         }

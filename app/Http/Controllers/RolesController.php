@@ -44,6 +44,7 @@ class RolesController extends Controller
         return view('roles.index', [
             'permission' => $permissions,
             'data' => $data,
+            'selected' => $permissions,
         ]);
     }
 
@@ -86,14 +87,20 @@ class RolesController extends Controller
     {
         //
         if ($request->ajax()) {
-            $user = User::findOrFail($id);
+            if ($request->from == 'show') {
+                $user = User::findOrFail($id);
 
-            $role = Role::where('id', $user->id)->first();
+                $role = Role::where('id', $user->role_id)->first();
+                $permissions = $user->getAllPermissions();
 
-            return response()->json([
-                'role' => $role,
-                'data' => $user,
-            ]);
+                return response()->json([
+                    'role' => $role,
+                    'permissions' => $permissions,
+                    'data' => $user,
+                ]);
+            } elseif ($request->from == 'edit') {
+
+            }
         }
     }
 

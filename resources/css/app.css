@@ -212,6 +212,24 @@ select:focus {
   box-shadow: var(--circle-checked-shadow);
 }
 
+.select2-container .select2-search--inline .select2-search__field {
+    box-sizing: border-box;
+    border: none;
+    font-size: 100%;
+    margin-top: 5px;
+    margin-left: 5px;
+    padding: 0;
+    max-width: 100%;
+    resize: none;
+    height: 18px;
+    vertical-align: bottom;
+    font-family: sans-serif;
+    overflow: hidden;
+    word-break: keep-all;
+    margin-bottom: 5px;
+    padding-bottom: 20px;
+}
+
 .select2-container--default
     .select2-results__option--highlighted.select2-results__option--selectable {
     background-color: #696cff;
