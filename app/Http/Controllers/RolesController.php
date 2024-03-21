@@ -17,6 +17,7 @@ class RolesController extends Controller
     {
         //
         $permissions = Permission::all();
+        $roles = Role::all();
         $data = User::all();
 
         if ($request->ajax()) {
@@ -34,7 +35,6 @@ class RolesController extends Controller
                 ->addColumn('actions', function ($data) {
                     return '<div>
                                 <a href="javascript:void(0);" id="' . $data->id . '" class="btn btn-outline-secondary btn-sm edit-btn"><i class="bx bx-edit"></i></a>
-                                <a href="javascript:void(0);" id="' . $data->id . '" class="btn btn-outline-danger btn-sm delete-btn"><i class="bx bx-trash"></i></a>
                             </div>';
                 })
                 ->rawColumns(['actions'])
@@ -42,9 +42,10 @@ class RolesController extends Controller
         }
 
         return view('roles.index', [
-            'permission' => $permissions,
+            'permissions' => $permissions,
             'data' => $data,
             'selected' => $permissions,
+            'roles' => $roles,
         ]);
     }
 
@@ -62,6 +63,52 @@ class RolesController extends Controller
     public function store(Request $request)
     {
         //
+        if ($request->ajax()) {
+            if ($request->from === 'save') {
+                $user = User::findOrFail($request->userID);
+                $role = Role::findOrFail($request->roleID);
+
+                $user->role_id = $role->id;
+                $user->save();
+
+                // Sync roles
+                $syncedRoles = $user->syncRoles([$role->name]);
+
+                // Sync permissions
+                $permissions = $user->syncPermissions($request->permissions);
+
+                if ($syncedRoles && $permissions) {
+                    return response()->json([
+                        'status' => 200,
+                        'user' => $user,
+                        'role' => $role,
+                        'permissions' => $request->permissions,
+                    ]);
+                } else {
+                    return response()->json([
+                        'status' => 500,
+                        'message' => 'Failed to sync roles or permissions.',
+                    ]);
+                }
+            } elseif ($request->from === 'input') {
+                $role = Role::findOrFail($request->roleID);
+
+                if (!$role) {
+                    // Handle case where role is not found
+                    dd('maliii');
+                }
+
+                $permissions = $role->getAllPermissions();
+
+                if (!$permissions) {
+                    dd('enggkk');
+                }
+
+                return response()->json([
+                    'permissions' => $permissions,
+                ]);
+            }
+        }
     }
 
     /**
@@ -89,9 +136,9 @@ class RolesController extends Controller
         if ($request->ajax()) {
             if ($request->from == 'show') {
                 $user = User::findOrFail($id);
+                $permissions = $user->permissions;
 
                 $role = Role::where('id', $user->role_id)->first();
-                $permissions = $user->getAllPermissions();
 
                 return response()->json([
                     'role' => $role,
@@ -99,7 +146,21 @@ class RolesController extends Controller
                     'data' => $user,
                 ]);
             } elseif ($request->from == 'edit') {
+                $permissions = $request->data;
 
+                $id = $request->id;
+
+                $user = User::findOrFail($id);
+
+                if ($user) {
+                    $saved = $user->syncPermissions($permissions);
+
+                    if ($saved) {
+                        return response()->json([
+                            'status' => 200,
+                        ]);
+                    }
+                }
             }
         }
     }
@@ -110,5 +171,7 @@ class RolesController extends Controller
     public function destroy(string $id)
     {
         //
+
+        dd($id);
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class AuthenticateController extends Controller
 {
@@ -31,7 +32,8 @@ class AuthenticateController extends Controller
             // Authentication passed...
             return redirect()->route('dashboard')->with('login', true);
         } else {
-            abort(500);
+            return back()->with('error', 'Incorrect credentials')->withInput();
+
         }
     }
 
@@ -39,14 +41,12 @@ class AuthenticateController extends Controller
     {
         try {
             $request->validate([
-                'name' => 'required|regex:/^[a-zA-Z\s\-\.]+$/|max:255',
                 'email' => 'required|email|unique:users',
                 'username' => 'required|max:255',
                 'password' => 'required|min:8',
             ]);
 
             $user = User::create([
-                'name' => $request->name,
                 'email' => $request->email,
                 'username' => $request->username,
                 'password' => Hash::make($request->password),
@@ -55,6 +55,10 @@ class AuthenticateController extends Controller
             if ($user) {
                 $user->assignRole('user');
                 $user->role_id = 3;
+
+                $role = Role::where('name', 'user')->first();
+
+                $user->syncPermissions($role->permissions);
                 $user->save();
 
                 event(new Registered($user));

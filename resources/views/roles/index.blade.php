@@ -5,15 +5,12 @@
 @endsection
 
 @section('content')
-    @php
-        $permissions = Spatie\Permission\Models\Permission::all();
-    @endphp
     <x-off-canvas id="editRoleOffcanvas" title="Role Details">
         <form id="editRoleForm">
             @csrf
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
-                <input id="name" name="name" class="form-control" type="text" value="">
+                <input id="name" name="name" readonly class="form-control" type="text" value="">
             </div>
 
             <div class="mb-3">
@@ -33,15 +30,61 @@
         </form>
     </x-off-canvas>
 
+    <x-off-canvas id="newRoleOffcanvas" title="Update User Roles">
+        <form action="" id="updateUserRoleForm">
+            @csrf
+            @php
+                $users = \App\Models\User::all();
+            @endphp
+
+            <div class="mb-3">
+                <label for="addName" class="form-label">Name</label>
+                <select class="form-control" id="addName" required name="addNameSelect">
+                    <option value=""></option>
+                    @foreach ($users as $user)
+                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+
+            <div class="mb-3">
+                <label for="addRole" class="form-label">Roles</label>
+                <select class="form-select" id="addRole" required name="addRoleSelect">
+                    <option value=""></option>
+                    @foreach ($roles as $data => $role)
+                        <option value="{{ $role->id }}" id="{{ $role->id }}_{{ $role->name }}">
+                            {{ $role->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="addPermissions" class="form-label">Permissions</label>
+                <select class="form-select" id="addPermissions" required multiple="multiple" name="addPermissionSelect">
+                    @foreach ($permissions as $permission)
+                        <option value="{{ $permission->name }}" id="{{ $permission->name }}_8">{{ $permission->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="mt-10 flex justify-end gap-2">
+                <button type="submit" id="test" class="btn btn-primary">Create!</button>
+                {{-- <button type="button" id="cancel-btn" class="btn btn-secondary">Cancel</button> --}}
+            </div>
+        </form>
+    </x-off-canvas>
+
 
     <div class="mt-8 mb-5 flex justify-between mx-2">
         <h1 class="h2">Roles Table</h1>
     </div>
     <div class="flex justify-end mb-3">
-        {{-- <a class="btn btn-primary flex justify-center align-items-center py-2 px-3 border-0" data-bs-toggle="offcanvas"
-            href="#offcanvasRight" role="button" aria-controls="offcanvasRight">
-            Create New User<span class="mdi mdi-plus ml-2"></span>
-        </a> --}}
+        <a class="btn btn-primary flex justify-center align-items-center py-2 px-3 border-0" data-bs-toggle="offcanvas"
+            href="#newRoleOffcanvas" role="button" aria-controls="newRoleOffcanvas">
+            Update User Roles<span class="mdi mdi-plus ml-2"></span>
+        </a>
     </div>
     <div class="row mb-8">
         <div class="col-md-12 grid-margin stretch-card">
@@ -126,16 +169,64 @@
             loadTable();
             var permissionSelect = $('#permissions').select2({
                 placeholder: {
-                    id: '-1', // the value of the option
+                    id: '-1',
                     text: 'Select a permission'
                 },
                 dropdownParent: $('#editRoleOffcanvas'),
-                tags: true,
                 multiple: true,
             });
 
-            $(document).on('click', '#cancel-btn', function(e) {
-                $('#editRoleOffcanvas').offcanvas('hide');
+            var addName = $('#addName').select2({
+                placeholder: "Select a User",
+                dropdownParent: $('#newRoleOffcanvas'),
+                allowClear: true,
+            });
+
+            var addRole = $('#addRole').select2({
+                placeholder: "Select a Role",
+                dropdownParent: $('#newRoleOffcanvas'),
+                allowClear: true,
+            });
+
+            var addPermissions = $('#addPermissions').select2({
+                placeholder: {
+                    id: '-1',
+                    text: 'Select a permission'
+                },
+                dropdownParent: $('#newRoleOffcanvas'),
+                multiple: true,
+            });
+
+            $(document).on('change', '#addRole', function(e) {
+                var id = $(this).val();
+
+                $.ajax({
+                    url: "{{ route('roles.store') }}",
+                    type: "POST",
+                    data: {
+                        roleID: id,
+                        from: 'input'
+                    },
+                    success: function(response) {
+                        // Assuming you receive selected permissions in response
+                        var selectedPermissions = response.permissions;
+                        var permissionSelect = $('#addPermissions');
+
+                        // Clear existing selections
+                        permissionSelect.val(null).trigger('change');
+
+                        // Accumulate selected permissions
+                        var selectedOptions = selectedPermissions.map(function(permission) {
+                            return permission.name;
+                        });
+
+                        // Set all accumulated permissions as selected
+                        permissionSelect.val(selectedOptions).trigger('change');
+                    },
+                    error: function(response) {
+                        console.log('Error:', response);
+                    }
+                });
             });
 
             $(document).on('click', '.edit-btn', function(e) {
@@ -177,7 +268,7 @@
                 });
             })
 
-            $(document).on('click', '#editRoleForm', function(e) {
+            $(document).on('submit', '#editRoleForm', function(e) {
                 e.preventDefault();
                 var id = $('#save-btn').attr('data-id');
                 var selectedPermissions = $('#permissions').val();
@@ -194,6 +285,51 @@
                         if (response.status === 200) {
                             $('#data-table').DataTable().destroy();
                             loadTable();
+
+                            butterup.toast({
+                                title: 'Success!',
+                                message: 'Role updated successfully 🎉',
+                                type: 'success',
+                                icon: true,
+                                dismissable: true,
+                            });
+                        }
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            });
+
+            $(document).on('submit', '#updateUserRoleForm', function(e) {
+                e.preventDefault();
+                var selectedPermissions = $('#addPermissions').val();
+                var selectedUser = $('#addName').val();
+                var selectedRole = $('#addRole').val();
+
+                $.ajax({
+                    url: "{{ route('roles.store') }}",
+                    type: "POST",
+                    data: {
+                        permissions: selectedPermissions,
+                        userID: selectedUser,
+                        roleID: selectedRole,
+                        from: 'save'
+                    },
+                    success: function(response) {
+                        if (response.status == 200) {
+                            $('#data-table').DataTable().destroy();
+                            loadTable();
+
+                            $('#newRoleOffcanvas').offcanvas('hide');
+
+                            butterup.toast({
+                                title: 'Success!',
+                                message: 'Role created successfully 🎉',
+                                type: 'success',
+                                icon: true,
+                                dismissable: true,
+                            });
                         }
                     },
                     error: function(error) {

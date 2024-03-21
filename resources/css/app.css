@@ -67,149 +67,158 @@ select:focus {
 }
 
 .switch {
-  /* switch */
-  --switch-width: 46px;
-  --switch-height: 24px;
-  --switch-bg: rgb(131, 131, 131);
-  --switch-checked-bg: rgb(0, 218, 80);
-  --switch-offset: calc((var(--switch-height) - var(--circle-diameter)) / 2);
-  --switch-transition: all .2s cubic-bezier(0.27, 0.2, 0.25, 1.51);
-  /* circle */
-  --circle-diameter: 18px;
-  --circle-bg: #fff;
-  --circle-shadow: 1px 1px 2px rgba(146, 146, 146, 0.45);
-  --circle-checked-shadow: -1px 1px 2px rgba(163, 163, 163, 0.45);
-  --circle-transition: var(--switch-transition);
-  /* icon */
-  --icon-transition: all .2s cubic-bezier(0.27, 0.2, 0.25, 1.51);
-  --icon-cross-color: var(--switch-bg);
-  --icon-cross-size: 6px;
-  --icon-checkmark-color: var(--switch-checked-bg);
-  --icon-checkmark-size: 10px;
-  /* effect line */
-  --effect-width: calc(var(--circle-diameter) / 2);
-  --effect-height: calc(var(--effect-width) / 2 - 1px);
-  --effect-bg: var(--circle-bg);
-  --effect-border-radius: 1px;
-  --effect-transition: all .2s ease-in-out;
+    /* switch */
+    --switch-width: 46px;
+    --switch-height: 24px;
+    --switch-bg: rgb(131, 131, 131);
+    --switch-checked-bg: rgb(0, 218, 80);
+    --switch-offset: calc((var(--switch-height) - var(--circle-diameter)) / 2);
+    --switch-transition: all 0.2s cubic-bezier(0.27, 0.2, 0.25, 1.51);
+    /* circle */
+    --circle-diameter: 18px;
+    --circle-bg: #fff;
+    --circle-shadow: 1px 1px 2px rgba(146, 146, 146, 0.45);
+    --circle-checked-shadow: -1px 1px 2px rgba(163, 163, 163, 0.45);
+    --circle-transition: var(--switch-transition);
+    /* icon */
+    --icon-transition: all 0.2s cubic-bezier(0.27, 0.2, 0.25, 1.51);
+    --icon-cross-color: var(--switch-bg);
+    --icon-cross-size: 6px;
+    --icon-checkmark-color: var(--switch-checked-bg);
+    --icon-checkmark-size: 10px;
+    /* effect line */
+    --effect-width: calc(var(--circle-diameter) / 2);
+    --effect-height: calc(var(--effect-width) / 2 - 1px);
+    --effect-bg: var(--circle-bg);
+    --effect-border-radius: 1px;
+    --effect-transition: all 0.2s ease-in-out;
 }
 
 .switch input {
-  display: none;
+    display: none;
 }
 
 .switch {
-  display: inline-block;
+    display: inline-block;
 }
 
 .switch svg {
-  -webkit-transition: var(--icon-transition);
-  -o-transition: var(--icon-transition);
-  transition: var(--icon-transition);
-  position: absolute;
-  height: auto;
+    -webkit-transition: var(--icon-transition);
+    -o-transition: var(--icon-transition);
+    transition: var(--icon-transition);
+    position: absolute;
+    height: auto;
 }
 
 .switch .checkmark {
-  width: var(--icon-checkmark-size);
-  color: var(--icon-checkmark-color);
-  -webkit-transform: scale(0);
-  -ms-transform: scale(0);
-  transform: scale(0);
+    width: var(--icon-checkmark-size);
+    color: var(--icon-checkmark-color);
+    -webkit-transform: scale(0);
+    -ms-transform: scale(0);
+    transform: scale(0);
 }
 
 .switch .cross {
-  width: var(--icon-cross-size);
-  color: var(--icon-cross-color);
+    width: var(--icon-cross-size);
+    color: var(--icon-cross-color);
 }
 
 .slider {
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  width: var(--switch-width);
-  height: var(--switch-height);
-  background: var(--switch-bg);
-  border-radius: 999px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  position: relative;
-  -webkit-transition: var(--switch-transition);
-  -o-transition: var(--switch-transition);
-  transition: var(--switch-transition);
-  cursor: pointer;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: var(--switch-width);
+    height: var(--switch-height);
+    background: var(--switch-bg);
+    border-radius: 999px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    position: relative;
+    -webkit-transition: var(--switch-transition);
+    -o-transition: var(--switch-transition);
+    transition: var(--switch-transition);
+    cursor: pointer;
 }
 
 .circle {
-  width: var(--circle-diameter);
-  height: var(--circle-diameter);
-  background: var(--circle-bg);
-  border-radius: inherit;
-  -webkit-box-shadow: var(--circle-shadow);
-  box-shadow: var(--circle-shadow);
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-transition: var(--circle-transition);
-  -o-transition: var(--circle-transition);
-  transition: var(--circle-transition);
-  z-index: 1;
-  position: absolute;
-  left: var(--switch-offset);
+    width: var(--circle-diameter);
+    height: var(--circle-diameter);
+    background: var(--circle-bg);
+    border-radius: inherit;
+    -webkit-box-shadow: var(--circle-shadow);
+    box-shadow: var(--circle-shadow);
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-transition: var(--circle-transition);
+    -o-transition: var(--circle-transition);
+    transition: var(--circle-transition);
+    z-index: 1;
+    position: absolute;
+    left: var(--switch-offset);
 }
 
 .slider::before {
-  content: "";
-  position: absolute;
-  width: var(--effect-width);
-  height: var(--effect-height);
-  left: calc(var(--switch-offset) + (var(--effect-width) / 2));
-  background: var(--effect-bg);
-  border-radius: var(--effect-border-radius);
-  -webkit-transition: var(--effect-transition);
-  -o-transition: var(--effect-transition);
-  transition: var(--effect-transition);
+    content: "";
+    position: absolute;
+    width: var(--effect-width);
+    height: var(--effect-height);
+    left: calc(var(--switch-offset) + (var(--effect-width) / 2));
+    background: var(--effect-bg);
+    border-radius: var(--effect-border-radius);
+    -webkit-transition: var(--effect-transition);
+    -o-transition: var(--effect-transition);
+    transition: var(--effect-transition);
 }
 
 /* actions */
 
-.switch input:checked+.slider {
-  background: var(--switch-checked-bg);
+.switch input:checked + .slider {
+    background: var(--switch-checked-bg);
 }
 
 .pointer-none {
     pointer-events: none;
 }
 
-.switch input:checked+.slider .checkmark {
-  -webkit-transform: scale(1);
-  -ms-transform: scale(1);
-  transform: scale(1);
+.switch input:checked + .slider .checkmark {
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
 }
 
-.switch input:checked+.slider .cross {
-  -webkit-transform: scale(0);
-  -ms-transform: scale(0);
-  transform: scale(0);
+.switch input:checked + .slider .cross {
+    -webkit-transform: scale(0);
+    -ms-transform: scale(0);
+    transform: scale(0);
 }
 
-.switch input:checked+.slider::before {
-  left: calc(100% - var(--effect-width) - (var(--effect-width) / 2) - var(--switch-offset));
+.switch input:checked + .slider::before {
+    left: calc(
+        100% - var(--effect-width) - (var(--effect-width) / 2) -
+            var(--switch-offset)
+    );
 }
 
-.switch input:checked+.slider .circle {
-  left: calc(100% - var(--circle-diameter) - var(--switch-offset));
-  -webkit-box-shadow: var(--circle-checked-shadow);
-  box-shadow: var(--circle-checked-shadow);
+.switch input:checked + .slider .circle {
+    left: calc(100% - var(--circle-diameter) - var(--switch-offset));
+    -webkit-box-shadow: var(--circle-checked-shadow);
+    box-shadow: var(--circle-checked-shadow);
+}
+
+.no-hover-pointer{
+    color: var(--bs-dropdown-link-hover-color) !important;
+    background-color: rgb(67 89 113 / 0%) !important;
+    pointer-events: none !important;
 }
 
 .select2-container .select2-search--inline .select2-search__field {
@@ -230,6 +239,21 @@ select:focus {
     padding-bottom: 20px;
 }
 
+.select2-container--default .select2-selection--single {
+    background-color: #fff;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    padding: 20px 5px;
+    display: flex;
+    align-items: center;
+}
+
+.select2-container--default
+    .select2-selection--single
+    .select2-selection__arrow {
+    display: none;
+}
+
 .select2-container--default
     .select2-results__option--highlighted.select2-results__option--selectable {
     background-color: #696cff;
@@ -242,7 +266,21 @@ select:focus {
     outline: 0;
 }
 
-.select2-container--default.select2-container--open.select2-container--below .select2-selection--multiple {
+.select2-container--default
+    .select2-selection--single
+    .select2-selection__clear {
+    cursor: pointer;
+    float: right;
+    font-weight: bolder;
+    height: 26px;
+    margin-right: 10px;
+    /* padding-right: 0px; */
+    position: absolute;
+    right: 0;
+}
+
+.select2-container--default.select2-container--open.select2-container--below
+    .select2-selection--multiple {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     padding: 10px 5px;
@@ -272,7 +310,8 @@ select:focus {
     margin: 7px 10px 0px !important;
 }
 
-.select2-container--default.select2-container--disabled .select2-selection--multiple {
+.select2-container--default.select2-container--disabled
+    .select2-selection--multiple {
     background-color: #fff;
     cursor: default;
     pointer-events: none;
@@ -282,7 +321,8 @@ button.select2-selection__choice__remove {
     border-right: 0px solid transparent !important;
 }
 
-.select2-container--default.select2-container--disabled .select2-selection__clear {
+.select2-container--default.select2-container--disabled
+    .select2-selection__clear {
     display: none;
 }
 

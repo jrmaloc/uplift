@@ -113,22 +113,22 @@
                     </li>
                     <!-- Pages -->
                     <li class="menu-item {{ preg_match('/dashboard\/roles$/', Request::path()) || preg_match('/dashboard\/permissions$/', Request::path()) ? 'open active' : '' }}">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <a href="{{ route('roles.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-cog"></i>
-                            <div data-i18n="Account Settings">Settings</div>
+                            <div data-i18n="Account Settings">Roles &amp; Permissions</div>
                         </a>
-                        <ul class="menu-sub">
+                        {{-- <ul class="menu-sub">
                             <li class="menu-item {{ preg_match('/dashboard\/roles$/', Request::path()) ? 'active' : null }}">
                                 <a href="{{ route('roles.index') }}" class="menu-link">
                                     <div data-i18n="Roles">Roles</div>
                                 </a>
                             </li>
                             <li class="menu-item {{ preg_match('/dashboard\/permissions$/', Request::path()) ? 'active' : null }}">
-                                <a href="#" class="menu-link">
+                                <a href="{{ route('permissions.index') }}" class="menu-link">
                                     <div data-i18n="Permissions">Permissions</div>
                                 </a>
                             </li>
-                        </ul>
+                        </ul> --}}
                     </li>
                 </ul>
             </aside>
@@ -217,7 +217,7 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item no-hover-pointer" href="#">
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
@@ -226,7 +226,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <span class="fw-medium d-block">{{ $auth->name }}</span>
+                                                    <span class="fw-medium d-block">{{ $auth->name != null ? $auth->name : $auth->username }}</span>
                                                     <small class="text-muted">Admin</small>
                                                 </div>
                                             </div>
