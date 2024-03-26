@@ -6,9 +6,11 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -57,5 +59,6 @@ Route::middleware([
     Route::resource('/dashboard/users', UserController::class);
     Route::resource('/dashboard/posts', PostController::class);
     Route::resource('/dashboard/roles', RolesController::class);
+    Route::resource('/dashboard/profile', ProfileController::class);
     Route::resource('/dashboard/permissions', PermissionsController::class);
 });

@@ -534,10 +534,22 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-3 order-lg-2">
                             <div class="card-profile-image">
-                                <a href="#">
-                                    <img src="{{ URL::asset('assets/img/avatars/5.png') }}"
-                                        class="rounded-circle absolute top-4">
-                                </a>
+                                <style>
+                                    .card-profile-image img {
+                                        max-width: 180px !important;
+                                        min-width: 180px !important;
+                                        max-height: 180px !important;
+                                        min-height: 180px !important;
+                                    }
+                                </style>
+                                <form action="POST" id="dp_upload">
+                                    @csrf
+                                    <label href="#" for="upload" id="profile">
+                                        <img id="avatar" src="{{ URL::asset($user->avatar) }}" class="rounded-circle">
+                                        <input type="file" name="file" id="upload" class="account-file-input"
+                                            hidden="" accept="image/png, image/jpeg">
+                                    </label>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -549,7 +561,7 @@
                     <div class="card-body pt-0 pt-md-4">
                         <div class="row">
                             <div class="col">
-                                <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+                                <div class="card-profile-stats d-flex justify-content-center">
                                     <div>
                                         <span class="heading">22</span>
                                         <span class="description">Friends</span>
@@ -694,6 +706,78 @@
                 altInput: true,
                 altFormat: "F j, Y",
                 dateFormat: "Y-m-d",
+            });
+
+            $('#upload').change(function(e) {
+                var file = e.target.files[0];
+
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function(event) {
+                        $('#avatar').attr('src', event.target.result);
+                    };
+                    reader.readAsDataURL(file);
+
+                    $('#dp_upload').submit();
+                }
+            });
+
+            $('#dp_upload').submit(function(e) {
+                e.preventDefault();
+
+                var formData = new FormData(this);
+                var id = {{ $auth->id }};
+
+                // Append the file input to the FormData object
+                var fileInput = $('#upload')[0]; // Replace 'upload' with the ID of your file input
+                formData.append('file', fileInput.files[0]);
+
+                // console.log(fileInput.files[0]);
+
+                // Send the AJAX request
+                $.ajax({
+                    url: "{{ route('profile.store') }}",
+                    type: 'POST', // Change to POST if your backend route handles file uploads via POST method
+                    data: formData,
+                    processData: false, // Important for handling file uploads
+                    contentType: false, // Important for handling file uploads
+                    success: function(data) {
+                        if (data.status == 200) {
+                            butterup.toast({
+                                title: 'Upload Success!',
+                                message: data.message,
+                                type: 'success',
+                                icon: true,
+                                dismissable: true,
+                            });
+                        }
+                    },
+                    error: function(error) {
+                        if (error.responseJSON && error.responseJSON.errors) {
+                            var errors = error.responseJSON.errors;
+                            for (var field in errors) {
+                                if (errors.hasOwnProperty(field)) {
+                                    var errorMessage = errors[field];
+                                    butterup.toast({
+                                        title: field,
+                                        message: errorMessage,
+                                        type: 'warning',
+                                        icon: true,
+                                        dismissable: true,
+                                    });
+                                }
+                            }
+                        } else {
+                            butterup.toast({
+                                title: "Error",
+                                message: 'An unexpected error occurred',
+                                type: 'error',
+                                icon: true,
+                                dismissable: true,
+                            });
+                        }
+                    }
+                });
             });
 
             var id = {{ $user->id }};
