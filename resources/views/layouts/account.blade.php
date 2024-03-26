@@ -65,9 +65,9 @@
 <body>
     <!-- Layout wrapper -->
     <x-off-canvas id="settingsOffcanvas" title="Settings" class="m-auto">
-            <h2 class="h1 flex justify-center">UNDER</h2>
-            <h2 class="h1 flex justify-center">MAINTENANCE</h2>
-            <h2 class="h1 flex justify-center">🚧⚠️</h2>
+        <h2 class="h1 flex justify-center">UNDER</h2>
+        <h2 class="h1 flex justify-center">MAINTENANCE</h2>
+        <h2 class="h1 flex justify-center">🚧⚠️</h2>
     </x-off-canvas>
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
@@ -90,10 +90,10 @@
                 <ul class="menu-inner py-1">
                     <!-- Dashboards -->
                     {{-- <li class="menu-item {{ preg_match('/\/dashboard\/create$/', Request::path()) ? 'active' : null }}"> --}}
-                    <li class="menu-item {{ preg_match('/dashboard$/', Request::path()) ? 'active' : null }}">
-                        <a href="{{ route('dashboard') }}" class="menu-link">
+                    <li class="menu-item {{ preg_match('/account\/home$/', Request::path()) ? 'active' : null }}">
+                        <a href="{{ route('home.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                            <div data-i18n="Dashboards">Dashboards</div>
+                            <div data-i18n="Homes">Home</div>
                             <div class="badge bg-danger rounded-pill ms-auto">5</div>
                         </a>
                     </li>
@@ -102,22 +102,23 @@
                         <span class="menu-header-text">MANAGEMENT</span>
                     </li>
                     <!-- Apps -->
-                    <li
+                    {{-- <li
                         class="menu-item {{ preg_match('/dashboard\/users$/', Request::path()) || preg_match('/dashboard\/users\/\d+\/edit$/', Request::path()) ? 'active' : null }}">
                         <a href="{{ route('users.index') }}" class="menu-link">
                             <i class="menu-icon bx bx-user"></i>
                             <div data-i18n="Users">Users</div>
                         </a>
-                    </li>
+                    </li> --}}
                     <li
                         class="menu-item {{ preg_match('/dashboard\/posts$/', Request::path()) || preg_match('/dashboard\/posts\/\d+\/edit$/', Request::path()) ? 'active' : null }}">
-                        <a href="{{ route('posts.index') }}" class="menu-link">
+                        <a href="{{-- route('posts.index') --}} #" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-clipboard"></i>
-                            <div data-i18n="Users">Posts</div>
+                            <div data-i18n="Users">My Posts</div>
                         </a>
                     </li>
                     <!-- Pages -->
-                    <li class="menu-item {{ preg_match('/dashboard\/roles$/', Request::path()) || preg_match('/dashboard\/permissions$/', Request::path()) ? 'open active' : '' }}">
+                    {{-- <li
+                        class="menu-item {{ preg_match('/dashboard\/roles$/', Request::path()) || preg_match('/dashboard\/permissions$/', Request::path()) ? 'open active' : '' }}">
                         <a href="{{ route('roles.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-cog"></i>
                             <div data-i18n="Account Settings">Roles &amp; Permissions</div>
@@ -133,8 +134,8 @@
                                     <div data-i18n="Permissions">Permissions</div>
                                 </a>
                             </li>
-                        </ul> --}}
-                    </li>
+                        </ul>
+                    </li> --}}
                 </ul>
             </aside>
             <!-- / Menu -->
@@ -231,7 +232,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <span class="fw-medium d-block">{{ $auth->name != null ? $auth->name : $auth->username }}</span>
+                                                    <span
+                                                        class="fw-medium d-block">{{ $auth->name != null ? $auth->name : $auth->username }}</span>
                                                     <small class="text-muted">Admin</small>
                                                 </div>
                                             </div>
@@ -247,7 +249,8 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" data-bs-toggle="offcanvas" href="#settingsOffcanvas" role="button" aria-controls="settingsOffcanvas">
+                                        <a class="dropdown-item" data-bs-toggle="offcanvas" href="#settingsOffcanvas"
+                                            role="button" aria-controls="settingsOffcanvas">
                                             <i class="bx bx-cog me-2"></i>
                                             <span class="align-middle">Settings</span>
                                         </a>
@@ -310,11 +313,11 @@
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="{{ URL::asset('assets/vendor/libs/popper/popper.js') }}"></script>
-    <script src="{{ URL::asset('assets/vendor/js/bootstrap.js') }}"></script>
+    <script src="{{ URL::asset('/assets/vendor/libs/popper/popper.js') }}"></script>
+    <script src="{{ URL::asset('/assets/vendor/js/bootstrap.js') }}"></script>
     <script src="{{ URL::asset('/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
     <script src="{{ URL::asset('/assets/vendor/js/menu.js') }}"></script>
-    <script src="{{ URL::asset('assets/vendor/js/butterup.js') }}"></script>
+    <script src="{{ URL::asset('/assets/vendor/js/butterup.js') }}"></script>
     <!-- endbuild -->
 
     <!-- Vendors JS -->

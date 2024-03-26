@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountPageController;
 use App\Http\Controllers\Auth\AuthenticateController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use Spatie\Permission\Models\Role;
 
 
 /*
@@ -27,7 +29,7 @@ Route::get('/', function () {
     return redirect()->route('auth.login');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'revalidate'])->group(function () {
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
 
@@ -51,7 +53,7 @@ Route::post('/dashboard/users/{user}/checkpassword', [UserController::class, 'ch
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
-    'verified', 'revalidate',
+    'verified', 'revalidate', 'role:admin|super-admin'
 ])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
@@ -62,3 +64,15 @@ Route::middleware([
     Route::resource('/dashboard/profile', ProfileController::class);
     Route::resource('/dashboard/permissions', PermissionsController::class);
 });
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified', 'revalidate',
+])->group(function () {
+    Route::resource('/account/users', UserController::class);
+    Route::resource('/account/posts', PostController::class);
+    Route::resource('/account/profile', ProfileController::class);
+    Route::resource('account/home', AccountPageController::class);
+});
+
