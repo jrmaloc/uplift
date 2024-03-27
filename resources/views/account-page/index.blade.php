@@ -3,362 +3,256 @@
 @section('head')
     <title>Home | Uplift</title>
     <style>
-        .field-reactions:checked:focus~.text-desc,
-        .field-reactions,
-        [class*=reaction-],
-        .text-desc {
-            clip: rect(1px, 1px, 1px, 1px);
-            overflow: hidden;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
 
-        .field-reactions:checked~[class*=reaction-],
-        .box:hover [class*=reaction-],
-        .field-reactions:focus~.text-desc {
-            clip: auto;
-            overflow: visible;
-            opacity: 1;
-        }
-
-        .main-title {
-            background: #3a5795;
-            padding: 10px;
-            color: #fff;
-            text-align: center;
-            font-size: 16px;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-        }
-
-        .text-desc {
-            font-weight: normal;
-            text-align: center;
-            transform: translateY(-50px);
-            white-space: nowrap;
-            font-size: 13px;
-            width: 100%;
-        }
-
-        [class*=reaction-] {
-            border: none;
-            background-image: url(http://deividmarques.github.io/facebook-reactions-css/assets/images/facebook-reactions.png);
-            background-color: transparent;
-            display: block;
-            cursor: pointer;
-            height: 48px;
-            position: absolute;
-            width: 48px;
-            z-index: 11;
-            top: -28;
-            transform-origin: 50% 100%;
-            transform: scale(0.1);
-            transition: all 0.3s;
-            outline: none;
-            will-change: transform;
-            opacity: 0;
-        }
-
-        .box {
-            position: absolute;
-            left: calc(50% - 150px);
-            top: calc(50% - 50px);
-            width: 300px;
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 9;
-            visibility: hidden;
-        }
-
-        .field-reactions:focus~.label-reactions {
-            border-color: rgba(88, 144, 255, 0.3);
-        }
-
-        .field-reactions:checked:focus~.label-reactions {
-            border-color: transparent;
-        }
-
-        .label-reactions {
-            background: url(https://cdn4.iconfinder.com/data/icons/facebook-likes/100/1.png) no-repeat 0 0;
-            border: 2px dotted transparent;
-            display: block;
-            height: 100px;
-            margin: 0 auto;
-            width: 100px;
-            color: transparent;
-            cursor: pointer;
-        }
-
-        .toolbox {
-            background: #fff;
-            height: 52px;
-            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 2px 2px rgba(0, 0, 0, 0.15);
-            width: 300px;
-            border-radius: 40px;
-            top: -30px;
-            left: 0;
-            position: absolute;
-            visibility: hidden;
-            opacity: 0;
-            transition: opacity 0.15s;
-        }
-
-        .legend-reaction {
-            background: rgba(0, 0, 0, 0.75);
-            border-radius: 10px;
-            box-sizing: border-box;
-            color: #fff;
-            display: inline-block;
-            font-size: 11px;
-            text-overflow: ellipsis;
-            font-weight: bold;
-            line-height: 20px;
-            max-width: 100%;
-            opacity: 0;
-            overflow: hidden;
-            padding: 0 6px;
-            transition: opacity 50ms ease;
-            left: 50%;
-            position: absolute;
-            text-align: center;
-            top: -28px;
-            transform: translateX(-50%);
-        }
-
-        .box:hover [class*=reaction-] {
-            transform: scale(0.8) translateY(-40px);
-        }
-
-        .box:hover [class*=reaction-]:hover,
-        .box:hover [class*=reaction-]:focus {
-            transition: all 0.2s ease-in;
-            transform: scale(1) translateY(-35px);
-        }
-
-        .box:hover [class*=reaction-]:hover .legend-reaction,
-        .box:hover [class*=reaction-]:focus .legend-reaction {
-            opacity: 1;
-        }
-
-        .box:hover .toolbox {
-            opacity: 1;
-        }
-
-        .box:hover .toolbox {
-            visibility: visible;
-        }
-
-        .box:hover .reaction-love {
-            transition-delay: 0.06s;
-        }
-
-        .box:hover .reaction-haha {
-            transition-delay: 0.09s;
-        }
-
-        .box:hover .reaction-wow {
-            transition-delay: 0.12s;
-        }
-
-        .box:hover .reaction-sad {
-            transition-delay: 0.15s;
-        }
-
-        .box:hover .reaction-angry {
-            transition-delay: 0.18s;
-        }
-
-        .field-reactions:checked~[class*=reaction-] {
-            transform: scale(0.8) translateY(-40px);
-        }
-
-        .field-reactions:checked~[class*=reaction-]:hover,
-        .field-reactions:checked~[class*=reaction-]:focus {
-            transition: all 0.2s ease-in;
-            transform: scale(1) translateY(-35px);
-        }
-
-        .field-reactions:checked~[class*=reaction-]:hover .legend-reaction,
-        .field-reactions:checked~[class*=reaction-]:focus .legend-reaction {
-            opacity: 1;
-        }
-
-        .field-reactions:checked~.toolbox {
-            opacity: 1;
-        }
-
-        .field-reactions:checked~.toolbox,
-        .field-reactions:checked~.overlay {
-            visibility: visible;
-        }
-
-        .field-reactions:checked~.reaction-love {
-            transition-delay: 0.03s;
-        }
-
-        .field-reactions:checked~.reaction-haha {
-            transition-delay: 0.09s;
-        }
-
-        .field-reactions:checked~.reaction-wow {
-            transition-delay: 0.12s;
-        }
-
-        .field-reactions:checked~.reaction-sad {
-            transition-delay: 0.15s;
-        }
-
-        .field-reactions:checked~.reaction-angry {
-            transition-delay: 0.18s;
-        }
-
-        .reaction-like {
-            left: 0;
-            background-position: 0 -144px;
-        }
-
-        .reaction-love {
-            background-position: -48px 0;
-            left: 50px;
-        }
-
-        .reaction-haha {
-            background-position: -96px 0;
-            left: 100px;
-        }
-
-        .reaction-wow {
-            background-position: -144px 0;
-            left: 150px;
-        }
-
-        .reaction-sad {
-            background-position: -192px 0;
-            left: 200px;
-        }
-
-        .reaction-angry {
-            background-position: -240px 0;
-            left: 250px;
-        }
     </style>
 @endsection
 
 @section('content')
-    @foreach ($posts as $post)
-        <div class="bg-white shadow-md rounded px-8 pt-6 pb-2 mb-4 w-50 mx-auto">
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="text-xl font-bold text-gray-700">
-                    {{ $post->caption }}
-                </h2>
-            </div>
-            <div>
-                <p class="text-gray-700 text-base">
-                    {{ $post->description }}
-                </p>
-            </div>
-            <div class="border-t-2 mt-4 px-2">
-                <ul class="flex justify-between mt-2">
-                    {{-- <li><a class="text-sm btn btn-secondary" href="#">React</a></li> --}}
-                    <li>
-                        <div class="box">
-                            <input type="checkbox" id="like" class="field-reactions">
-                            <label for="like">React</label>
-                            <div class="toolbox"></div>
-                            <label class="overlay" for="like"></label>
-                            <button class="reaction-like"><span class="legend-reaction">Like</span></button>
-                            <button class="reaction-love"><span class="legend-reaction">Love</span></button>
-                            <button class="reaction-haha"><span class="legend-reaction">Haha</span></button>
-                            <button class="reaction-wow"><span class="legend-reaction">Wow</span></button>
-                            <button class="reaction-sad"><span class="legend-reaction">Sad</span></button>
-                            <button class="reaction-angry"><span class="legend-reaction">Angry</span></button>
+    <div class="mt-16">
+        @foreach ($posts as $post)
+            <div class="bg-white shadow-md rounded px-8 pt-6 pb-2 mb-4 w-50 mx-auto">
+                <div class="flex flex-col items-start mb-4">
+                    <h2 class="text-xl font-bold text-gray-700">
+                        {{ $post->caption }}
+                    </h2>
+                    <h5>
+                        @php
+                            $user = App\Models\User::findOrFail($post->user_id);
+                        @endphp
+                        {{ $user->name }}
+                    </h5>
+                </div>
+                <div>
+                    <p class="text-gray-700 text-base">
+                        {{ $post->description }}
+                    </p>
+                </div>
+                <div class="mt-4 px-2">
+                    <style>
+                        .heart {
+                            display: none;
+                        }
+
+
+                        .heart+label {
+                            position: relative;
+                            padding-left: 35px;
+                            display: inline-block;
+                            font-size: 14px;
+                        }
+
+                        .heart+label:before {
+                            content: "\1F5A4";
+                            top: -11px;
+                            left: -8px;
+                            border: 1px solid transparent;
+                            padding: 10px;
+                            border-radius: 3px;
+                            display: block;
+                            position: absolute;
+                            transition: .5s ease;
+                        }
+
+
+
+                        .heart:checked+label:before {
+                            border: 1px solid transparent;
+                            background-color: transparent;
+                        }
+
+                        .heart:checked+label:after {
+                            content: '\1F49C';
+                            font-size: 18px;
+                            position: absolute;
+                            top: -1px;
+                            left: 1px;
+                            color: rgb(130, 97, 252);
+                            transition: .5s ease;
+                        }
+
+                        .heart:checked+label {
+                            color: rgb(130, 97, 252);
+                        }
+
+                        .btn-outline-primary:hover {
+                            color: #5f61e6 !important;
+                            background-color: #fff !important;
+                            border-color: #5f61e6 !important;
+                            box-shadow: 0 0.125rem 0.25rem 0 rgba(105, 108, 255, 0.4) !important;
+                            transform: translateY(-1px) !important;
+                        }
+
+                        .btn-outline-info:hover {
+                            color: #03b0d4 !important;
+                            background-color: #fff !important;
+                            border-color: #03b0d4 !important;
+                            box-shadow: 0 0.125rem 0.25rem 0 rgba(3, 195, 236, 0.4) !important;
+                            transform: translateY(-1px) !important;
+                        }
+
+                        .btn-check:focus+.btn-outline-primary,
+                        .btn-outline-primary:focus {
+                            color: #595cd9 !important;
+                            background-color: #fff !important;
+                            border-color: #595cd9 !important;
+                        }
+
+                        .btn-check:focus+.btn-outline-info,
+                        .btn-outline-info:focus {
+                            color: #03b0d4 !important;
+                            background-color: #fff !important;
+                            border-color: #03b0d4 !important;
+                        }
+
+                        .heart,
+                        .react {
+                            cursor: pointer;
+                        }
+                    </style>
+                    {{-- <div class="border-t-2"></div>
+                    <div class="flex justify-between mt-2 px-6">
+                        <div>
+                            <input type="checkbox" class="heart" data-id="{{ $post->id }}"
+                                id="heart{{ $post->id }}" />
+                            <label class="react text-sm" for="heart{{ $post->id }}">
+                                Lorem
+                            </label>
                         </div>
-                    </li>
-                    <li>
-                        <a class="text-sm" data-bs-toggle="collapse" href="#collapseExample_{{ $post->id }}"
-                            role="button" aria-expanded="false" aria-controls="collapseExample_{{ $post->id }}">Comment
+                        <a class="text-sm comment" id="{{ $post->id }}" data-bs-toggle="collapse"
+                            href="#collapse{{ $post->id }}" role="button" aria-expanded="false"
+                            aria-controls="collapse{{ $post->id }}">Comments
                         </a>
-                    </li>
-                </ul>
-                <ul class="collapse mt-4" id="collapseExample_{{ $post->id }}"
-                    style="max-height: 250px; overflow: auto;">
-                    <li class="d-grid p-3">
-                        <img src="../assets/img/elements/1.jpg" alt="collapse-image" class="me-4 mb-sm-0 mb-2"
-                            height="125" style="max-width: 10%; border-radius: 50%;" />
-                        <span class="mt-2">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                            has
-                            been the industry's standard dummy text ever since the 1500s, when an unknown printer
-                            took a
-                            galley of type and scrambled it to make a type specimen book. It has survived not only
-                            five
-                            centuries, but also the leap into electronic typesetting, remaining essentially
-                            unchanged.
-                            It was popularised in the 1960s with the release of Letraset sheets containing Lorem
-                            Ipsum
-                            passages, and more recently with desktop publishing software like Aldus PageMaker
-                            including
-                            versions of Lorem Ipsum.It is a long established fact that a reader will be distracted
-                            by
-                            the readable content of a page when looking at its layout. The point of using Lorem
-                            Ipsum is
-                            that it has a more-or-less normal distribution of letters.
-                        </span>
-                    </li>
-                    <li class="d-grid p-3">
-                        <img src="../assets/img/elements/1.jpg" alt="collapse-image" class="me-4 mb-sm-0 mb-2"
-                            height="125" style="max-width: 10%; border-radius: 50%;" />
-                        <span class="mt-2">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                            has
-                            been the industry's standard dummy text ever since the 1500s, when an unknown printer
-                            took a
-                            galley of type and scrambled it to make a type specimen book. It has survived not only
-                            five
-                            centuries, but also the leap into electronic typesetting, remaining essentially
-                            unchanged.
-                            It was popularised in the 1960s with the release of Letraset sheets containing Lorem
-                            Ipsum
-                            passages, and more recently with desktop publishing software like Aldus PageMaker
-                            including
-                            versions of Lorem Ipsum.It is a long established fact that a reader will be distracted
-                            by
-                            the readable content of a page when looking at its layout. The point of using Lorem
-                            Ipsum is
-                            that it has a more-or-less normal distribution of letters.
-                        </span>
-                    </li>
-                    <li class="d-grid p-3">
-                        <img src="../assets/img/elements/1.jpg" alt="collapse-image" class="me-4 mb-sm-0 mb-2"
-                            height="125" style="max-width: 10%; border-radius: 50%;" />
-                        <span class="mt-2">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                            has
-                            been the industry's standard dummy text ever since the 1500s, when an unknown printer
-                            took a
-                            galley of type and scrambled it to make a type specimen book. It has survived not only
-                            five
-                            centuries, but also the leap into electronic typesetting, remaining essentially
-                            unchanged.
-                            It was popularised in the 1960s with the release of Letraset sheets containing Lorem
-                            Ipsum
-                            passages, and more recently with desktop publishing software like Aldus PageMaker
-                            including
-                            versions of Lorem Ipsum.It is a long established fact that a reader will be distracted
-                            by
-                            the readable content of a page when looking at its layout. The point of using Lorem
-                            Ipsum is
-                            that it has a more-or-less normal distribution of letters.
-                        </span>
-                    </li>
-                </ul>
+                    </div>
+                    <div class="border-t-2 mt-1"></div> --}}
+
+                    <div class="btn-group flex justify-content-between mt-4" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-outline-primary label-btn" id="${comment.id}"
+                            style="max-width: 50%;">
+                            <input type="checkbox" class="heart" id="heart{{ $post->id }}" />
+                            <label class="react text-sm" for="heart{{ $post->id }}">Lorem</label>
+                        </button>
+                        <button type="button" class="btn btn-outline-info" id="{{ $post->id }}"
+                            data-bs-toggle="collapse" href="#collapse{{ $post->id }}" role="button"
+                            aria-expanded="false" aria-controls="collapse{{ $post->id }}" style="max-width: 50%;">
+                            Comment
+                            {{-- <span class="bx bx-error ml-1"></span> --}}
+                        </button>
+                    </div>
+                    <ul class="collapse multi-collapse" data-id="{{ $post->id }}" id="collapse{{ $post->id }}"
+                        style="max-height: 250px; overflow: auto;">
+
+                    </ul>
+                    <form action="" id="commentForm">
+                        @csrf
+                        <div id="commentField{{ $post->id }}" data-id="{{ $post->id }}" class="">
+                            <div class="input-group mt-8 mb-3">
+                                <textarea class="form-control" aria-label="With textarea" name="comment" placeholder="Something you want to say..."></textarea>
+                                <span class="input-group-text send-btn text-sm btn btn-primary">Send!</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
-    @endforeach
+        @endforeach
+    </div>
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.heart').change(function() {
+                if ($(this).prop('checked')) {
+                    console.log($(this).attr('data-id'));
+                } else {
+                    console.log('unchecked');
+                }
+            });
+
+            $(document).on('show.bs.collapse', '.collapse', function() {
+                var id = $(this).data('id'); // Get the data-id attribute value
+
+                $.ajax({
+                    url: "{{ route('home.index') }}",
+                    method: "GET",
+                    data: {
+                        id: id
+                    },
+                    success: function(response) {
+                        if (response.comments.length > 0) {
+                            response.comments.forEach(comment => {
+                                console.log(comment)
+                                let commentHtml = `
+                                    <li class="d-grid p-3 mt-2">
+                                        <div class="flex align-items-center">
+                                            <img src="{{ URL::asset('${comment.user.avatar}') }}" alt="collapse-image" class="me-4 mb-sm-0 mb-2" height="125" style="max-width: 10%; border-radius: 50%;" />
+                                            <span class="font-semibold">${comment.user.name}</span>
+                                        </div>
+                                        <span class="mt-3">${comment.comments}</span>
+
+                                        <div class="btn-group flex justify-content-between mt-4" role="group" aria-label="Basic example">
+                                            <button type="button" class="btn btn-outline-primary label-btn" id="${comment.id}" style="max-width: 50%;">
+                                                <input type="checkbox" class="heart" id="comment${comment.id}" />
+                                                <label class="react text-sm" for="comment${comment.id}">Lorem</label>
+                                            </button>
+                                            <button type="button" class="btn btn-outline-danger" style="max-width: 50%;">Report <span class="bx bx-error ml-1"></span></button>
+                                        </div>
+                                    </li>`;
+                                // Append the comment HTML to the comment_group element
+                                $('#collapse' + id).append(commentHtml);
+                            });
+
+                            $('#commentField' + id).html(`
+                                <div class="input-group mt-8 mb-3">
+                                    <textarea class="form-control" aria-label="With textarea" placeholder="Something you want to say..."></textarea>
+                                    <span class="input-group-text send-btn text-sm btn btn-primary">Send!</span>
+                                </div>
+                            `);
+                        } else {
+                            $('#collapse' + id).html(
+                                '<li class="d-flex justify-center p-3 mt-4 alert alert-success"><span class="bx bx-loader mr-2"></span>No Comments.</li>'
+                            );
+                        }
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            });
+
+
+            $(document).on('click', '.label-btn', function(e) {
+                var id = $(this).attr('id');
+
+                $('#comment' + id).prop('checked', function(i, currentValue) {
+                    return !currentValue;
+                });
+
+            });
+
+            $(document).on('click', '.send-btn', function(e) {
+                e.preventDefault();
+                var id = $(this).parent().parent().data('id');
+                var comment = $(this).parent().parent().parent().find('textarea').val();
+
+                console.log(id, comment);
+
+                $.ajax({
+                    url: "{{ route('comments.store') }}",
+                    method: "POST",
+                    data: {
+                        post_id: id,
+                        comment: comment
+                    },
+                    success: function(response) {
+                        console.log(response);
+
+
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            })
+        });
+    </script>
+@endpush
