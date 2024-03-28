@@ -8,11 +8,15 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\PostPageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserPageController;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
+
+
 
 
 
@@ -72,8 +76,8 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified', 'revalidate',
 ])->group(function () {
-    Route::resource('/account/users', UserController::class);
-    Route::resource('/account/posts', PostController::class);
+    Route::resource('/account/user_page', UserPageController::class);
+    Route::resource('/account/posts_page', PostPageController::class);
     Route::resource('/account/profile', ProfileController::class);
     Route::resource('account/home', AccountPageController::class);
     Route::resource('/account/comments', CommentController::class);

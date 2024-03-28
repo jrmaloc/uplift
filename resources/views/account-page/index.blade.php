@@ -10,7 +10,7 @@
 @section('content')
     <div class="mt-16">
         @foreach ($posts as $post)
-            <div class="bg-white shadow-md rounded px-8 pt-6 pb-2 mb-4 w-50 mx-auto">
+            <div class="bg-white shadow-md rounded px-8 pt-6 pb-4 mb-4 w-50 mx-auto">
                 <div class="flex flex-col items-start mb-4">
                     <h2 class="text-xl font-bold text-gray-700">
                         {{ $post->caption }}
@@ -124,12 +124,27 @@
                         </a>
                     </div>
                     <div class="border-t-2 mt-1"></div> --}}
+                    @php
+                        $id = $post->id;
+                        $user_id = $auth->id;
+                        $reactions = json_decode($post->reaction_count, true);
+
+                        if ($reactions == null) {
+                            $reactions = [];
+                        }
+
+                        $included = in_array($user_id, $reactions);
+
+                        $reactCount = count($reactions);
+                    @endphp
 
                     <div class="btn-group flex justify-content-between mt-4" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-outline-primary label-btn" id="${comment.id}"
+                        <button type="button" class="btn btn-outline-primary post-react-btn" id="{{ $post->id }}"
                             style="max-width: 50%;">
-                            <input type="checkbox" class="heart" id="heart{{ $post->id }}" />
-                            <label class="react text-sm" for="heart{{ $post->id }}">Lorem</label>
+                            <input type="checkbox" class="heart" {{ $included ? 'checked' : '' }}
+                                id="heart{{ $post->id }}" />
+                            <label class="react text-sm" for="heart{{ $post->id }}"><span
+                                    id="post_reaction_count{{ $post->id }}">{{ $reactCount }}</span></label>
                         </button>
                         <button type="button" class="btn btn-outline-info" id="{{ $post->id }}"
                             data-bs-toggle="collapse" href="#collapse{{ $post->id }}" role="button"
@@ -138,19 +153,20 @@
                             {{-- <span class="bx bx-error ml-1"></span> --}}
                         </button>
                     </div>
-                    <ul class="collapse multi-collapse" data-id="{{ $post->id }}" id="collapse{{ $post->id }}"
-                        style="max-height: 250px; overflow: auto;">
+                    <div class="collapse multi-collapse" data-id="{{ $post->id }}" id="collapse{{ $post->id }}">
+                        <ul id="append{{ $post->id }}" style="max-height: 250px; overflow: auto;">
 
-                    </ul>
-                    <form action="" id="commentForm">
-                        @csrf
-                        <div id="commentField{{ $post->id }}" data-id="{{ $post->id }}" class="">
-                            <div class="input-group mt-8 mb-3">
-                                <textarea class="form-control" aria-label="With textarea" name="comment" placeholder="Something you want to say..."></textarea>
-                                <span class="input-group-text send-btn text-sm btn btn-primary">Send!</span>
+                        </ul>
+                        <form action="" id="commentForm">
+                            @csrf
+                            <div id="commentField{{ $post->id }}" data-id="{{ $post->id }}" class="">
+                                <div class="input-group mt-8 mb-3">
+                                    <textarea class="form-control" aria-label="With textarea" name="comment" placeholder="Something you want to say..."></textarea>
+                                    <span class="input-group-text send-btn text-sm btn btn-primary">Send!</span>
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         @endforeach
@@ -160,14 +176,38 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            $('.heart').change(function() {
-                if ($(this).prop('checked')) {
-                    console.log($(this).attr('data-id'));
-                } else {
-                    console.log('unchecked');
-                }
+            var post_id = {{ $post->id }};
+            // Post Reactions
+            $(document).on('click', '.post-react-btn', function(e) {
+                var id = $(this).attr('id');
+                var userId = {{ $auth->id }};
+
+                $('#heart' + id).prop('checked', function(i, currentValue) {
+                    $.ajax({
+                        url: "{{ route('posts.store') }}",
+                        method: "POST",
+                        data: {
+                            id: id,
+                            value: !currentValue,
+                            data: 'react',
+                            userId: userId,
+                        },
+                        success: function(response) {
+                            if (response.status == 200) {
+                                $('#post_reaction_count' + id).html(response
+                                    .reactCount);
+                            }
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        }
+                    });
+
+                    return !currentValue;
+                });
             });
 
+            // Comment Show
             $(document).on('show.bs.collapse', '.collapse', function() {
                 var id = $(this).data('id'); // Get the data-id attribute value
 
@@ -180,7 +220,6 @@
                     success: function(response) {
                         if (response.comments.length > 0) {
                             response.comments.forEach(comment => {
-                                console.log(comment)
                                 let commentHtml = `
                                     <li class="d-grid p-3 mt-2">
                                         <div class="flex align-items-center">
@@ -190,7 +229,7 @@
                                         <span class="mt-3">${comment.comments}</span>
 
                                         <div class="btn-group flex justify-content-between mt-4" role="group" aria-label="Basic example">
-                                            <button type="button" class="btn btn-outline-primary label-btn" id="${comment.id}" style="max-width: 50%;">
+                                            <button type="button" class="btn btn-outline-primary comment-react-btn" id="${comment.id}" style="max-width: 50%;">
                                                 <input type="checkbox" class="heart" id="comment${comment.id}" />
                                                 <label class="react text-sm" for="comment${comment.id}">Lorem</label>
                                             </button>
@@ -198,7 +237,7 @@
                                         </div>
                                     </li>`;
                                 // Append the comment HTML to the comment_group element
-                                $('#collapse' + id).append(commentHtml);
+                                $('#append' + id).append(commentHtml);
                             });
 
                             $('#commentField' + id).html(`
@@ -208,7 +247,7 @@
                                 </div>
                             `);
                         } else {
-                            $('#collapse' + id).html(
+                            $('#append' + id).html(
                                 '<li class="d-flex justify-center p-3 mt-4 alert alert-success"><span class="bx bx-loader mr-2"></span>No Comments.</li>'
                             );
                         }
@@ -218,34 +257,51 @@
                     }
                 });
             });
-
-
-            $(document).on('click', '.label-btn', function(e) {
-                var id = $(this).attr('id');
-
-                $('#comment' + id).prop('checked', function(i, currentValue) {
-                    return !currentValue;
-                });
-
-            });
-
+            // Comment Creation
             $(document).on('click', '.send-btn', function(e) {
                 e.preventDefault();
                 var id = $(this).parent().parent().data('id');
                 var comment = $(this).parent().parent().parent().find('textarea').val();
-
-                console.log(id, comment);
+                var textarea = $(this).closest('.input-group').find('textarea');
 
                 $.ajax({
                     url: "{{ route('comments.store') }}",
                     method: "POST",
                     data: {
                         post_id: id,
-                        comment: comment
+                        comment: comment,
+                        data: 'comment'
                     },
                     success: function(response) {
-                        console.log(response);
+                        let commentHtml = `
+                            <li class="d-grid p-3 mt-2">
+                                <div class="flex align-items-center">
+                                    <img src="{{ URL::asset('${response.user.avatar}') }}" alt="collapse-image" class="me-4 mb-sm-0 mb-2" height="125" style="max-width: 10%; border-radius: 50%;" />
+                                    <span class="font-semibold">${response.user.name}</span>
+                                </div>
+                                <span class="mt-3">${response.comments.comments}</span>
 
+                                <div class="btn-group flex justify-content-between mt-4" role="group" aria-label="Basic example">
+                                    <button type="button" class="btn btn-outline-primary comment-react-btn" id="${response.comments.id}" style="max-width: 50%;">
+                                        <input type="checkbox" class="heart" id="comment${response.comments.id}" />
+                                        <label class="react text-sm" for="comment${response.comments.id}">Lorem</label>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-danger" style="max-width: 50%;">Report <span class="bx bx-error ml-1"></span></button>
+                                </div>
+                            </li>`;
+                        // Append the comment HTML to the comment_group element
+                        $('#append' + response.post_id).append(commentHtml);
+
+                        // Clear the textarea value
+                        textarea.val('');
+
+                        butterup.toast({
+                            title: 'Success!',
+                            message: 'Comment has been posted.',
+                            type: 'success',
+                            icon: true,
+                            dismissable: true,
+                        });
 
                     },
                     error: function(error) {
@@ -253,6 +309,37 @@
                     }
                 });
             })
+
+            // Comment Reactions
+            $(document).on('click', '.comment-react-btn', function(e) {
+                var id = $(this).attr('id');
+                var userId = {{ $auth->id }};
+
+                $('#comment' + id).prop('checked', function(i, currentValue) {
+
+                    $.ajax({
+                        url: "{{ route('comments.store') }}",
+                        method: "POST",
+                        data: {
+                            id: id,
+                            value: !currentValue,
+                            data: 'react',
+                            userId: userId,
+                        },
+                        success: function(response) {
+                            if (response.status == 200) {
+                                $('#post_reaction_count' + id).html(response
+                                    .reactCount);
+                            }
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        }
+                    });
+
+                    return !currentValue;
+                });
+            });
         });
     </script>
 @endpush

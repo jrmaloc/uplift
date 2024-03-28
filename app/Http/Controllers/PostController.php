@@ -50,6 +50,46 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //
+
+        if ($request->ajax() && $request->data == 'react') {
+
+            $post = Post::findOrFail($request->id);
+            $user_id = $request->userId;
+
+            $reactions = json_decode($post->reaction_count, true);
+
+            if ($reactions == null) {
+                $reactions = [];
+            }
+
+            if ($request->value === "true") {
+
+                array_push($reactions, $user_id);
+                $count = count($reactions);
+                $json = json_encode($reactions);
+                $post->reaction_count = $json;
+                $post->save();
+
+                return response()->json([
+                    'status' => 200,
+                    'reactCount' => $count,
+                ]);
+
+            } elseif ($request->value === "false") {
+
+                $index = array_search($user_id, $reactions);
+                unset($reactions[$index]);
+                $count = count($reactions);
+                $json = json_encode($reactions);
+                $post->reaction_count = $json;
+                $post->save();
+
+                return response()->json([
+                    'status' => 200,
+                    'reactCount' => $count,
+                ]);
+            }
+        }
     }
 
     /**

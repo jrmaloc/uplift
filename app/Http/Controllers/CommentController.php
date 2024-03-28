@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,7 +31,7 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         //
-        if ($request->ajax()) {
+        if ($request->ajax() && $request->data == 'comment') {
             $request->validate([
                 'comment' => 'required',
             ]);
@@ -44,18 +45,57 @@ class CommentController extends Controller
             ]);
 
             if ($comment) {
+                $user = User::findOrFail($comment->user_id);
                 return response()->json([
-                   'success' => true,
-                   'status' => 200,
-                    'comment' => $comment,
-                    'user_id' => $user_id,
+                    'success' => true,
+                    'status' => 200,
+                    'comments' => $comment,
+                    'user' => $user,
+                    'post_id' => $request->post_id,
                 ]);
             } else {
                 return response()->json([
-                   'success' => false,
-                   'status' => 500,
-                   'message' => 'Something went wrong. Please try again',
+                    'success' => false,
+                    'status' => 500,
+                    'message' => 'Something went wrong. Please try again',
                 ], 500);
+            }
+        } else if ($request->ajax() && $request->data == 'react') {
+            $comment = Comment::findOrFail($request->id);
+            $user_id = $request->userId;
+
+            $reactions = json_decode($comment->reaction_count, true);
+
+            if ($reactions == null) {
+                $reactions = [];
+            }
+
+            if ($request->value === "true") {
+
+                array_push($reactions, $user_id);
+                $count = count($reactions);
+                $json = json_encode($reactions);
+                $comment->reaction_count = $json;
+                $comment->save();
+
+                return response()->json([
+                    'status' => 200,
+                    'reactCount' => $count,
+                ]);
+
+            } elseif ($request->value === "false") {
+
+                $index = array_search($user_id, $reactions);
+                unset($reactions[$index]);
+                $count = count($reactions);
+                $json = json_encode($reactions);
+                $comment->reaction_count = $json;
+                $comment->save();
+
+                return response()->json([
+                    'status' => 200,
+                    'reactCount' => $count,
+                ]);
             }
         }
     }
