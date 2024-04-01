@@ -32,6 +32,7 @@ class CommentController extends Controller
     {
         //
         if ($request->ajax() && $request->data == 'comment') {
+            dd('wewew');
             $request->validate([
                 'comment' => 'required',
             ]);
@@ -75,7 +76,7 @@ class CommentController extends Controller
                 array_push($reactions, $user_id);
                 $count = count($reactions);
                 $json = json_encode($reactions);
-                $comment->reaction_count = $json;
+                $comment->reactions = $json;
                 $comment->save();
 
                 return response()->json([
@@ -89,7 +90,7 @@ class CommentController extends Controller
                 unset($reactions[$index]);
                 $count = count($reactions);
                 $json = json_encode($reactions);
-                $comment->reaction_count = $json;
+                $comment->reactions = $json;
                 $comment->save();
 
                 return response()->json([
@@ -97,6 +98,8 @@ class CommentController extends Controller
                     'reactCount' => $count,
                 ]);
             }
+        } else {
+            dd($request->all());
         }
     }
 
@@ -122,13 +125,56 @@ class CommentController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        if ($request->ajax() && $request->data == 'update') {
+
+            $comment = Comment::findOrFail($id);
+
+            if ($comment) {
+                $comment->comments = $request->comment;
+                $save = $comment->save();
+
+                if ($save) {
+                    return response()->json([
+                        'success' => true,
+                        'status' => 200,
+                        'message' => 'Comment updated successfully',
+                        'comment' => $request->comment,
+                        'id' => $id,
+                    ]);
+                } else {
+                    return response()->json([
+                       'success' => false,
+                       'status' => 500,
+                       'message' => 'Something went wrong. Please try again',
+                    ], 500);
+                }
+            } else {
+                return response()->json([
+                   'success' => false,
+                   'status' => 500,
+                   'message' => "Comment can't be found.",
+                ], 500);
+            }
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, string $id)
     {
         //
+        if ($request->ajax() && $request->data == 'delete') {
+            $comment = Comment::findOrFail($id);
+            $delete = $comment->delete();
+
+            if ($delete) {
+                return response()->json([
+                    'success' => true,
+                    'status' => 200,
+                    'message' => 'Comment deleted successfully',
+                ], 200);
+            }
+        }
     }
 }

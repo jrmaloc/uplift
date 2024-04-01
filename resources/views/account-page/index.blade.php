@@ -108,22 +108,28 @@
                         .react {
                             cursor: pointer;
                         }
+
+                        a.dropdown-item:hover {
+                            color: var(--bs-dropdown-link-hover-color) !important;
+                        }
+
+                        ul.dropdown-menu.show {
+                            transform: translate(-15px, 25px) !important;
+                        }
+
+                        .dropdown-item:not(.disabled).active,
+                        .dropdown-item:not(.disabled):active {
+                            background-color: var(--bs-dropdown-link-hover-bg);
+                            color: #8592a3 !important;
+                        }
+
+                        .dropdown-item.active,
+                        .dropdown-item:active {
+                            color: var(--bs-dropdown-link-active-color);
+                            text-decoration: none;
+                            background-color: var(--bs-dropdown-link-active-bg);
+                        }
                     </style>
-                    {{-- <div class="border-t-2"></div>
-                    <div class="flex justify-between mt-2 px-6">
-                        <div>
-                            <input type="checkbox" class="heart" data-id="{{ $post->id }}"
-                                id="heart{{ $post->id }}" />
-                            <label class="react text-sm" for="heart{{ $post->id }}">
-                                Lorem
-                            </label>
-                        </div>
-                        <a class="text-sm comment" id="{{ $post->id }}" data-bs-toggle="collapse"
-                            href="#collapse{{ $post->id }}" role="button" aria-expanded="false"
-                            aria-controls="collapse{{ $post->id }}">Comments
-                        </a>
-                    </div>
-                    <div class="border-t-2 mt-1"></div> --}}
                     @php
                         $id = $post->id;
                         $user_id = $auth->id;
@@ -218,20 +224,36 @@
                         id: id
                     },
                     success: function(response) {
+                        console.log();
                         if (response.comments.length > 0) {
                             response.comments.forEach(comment => {
+                                let showViewUser = comment.user.id ==
+                                    {{ $auth->id }};
                                 let commentHtml = `
                                     <li class="d-grid p-3 mt-2">
                                         <div class="flex align-items-center">
-                                            <img src="{{ URL::asset('${comment.user.avatar}') }}" alt="collapse-image" class="me-4 mb-sm-0 mb-2" height="125" style="max-width: 10%; border-radius: 50%;" />
+                                            <img src="{{ URL::asset('${comment.user.avatar}') }}" alt="collapse-image" class="me-4 mb-sm-0 mb-2" height="125" style="max-width: 10%; border-radius: 50%; aspect-ratio: 1/1;" />
                                             <span class="font-semibold">${comment.user.name}</span>
                                         </div>
-                                        <span class="mt-3">${comment.comments}</span>
+                                        <div class="flex justify-content-end relative" style="bottom: 43px;">
+                                            <button type="button" class="btn dropdown-toggle hide-arrow rounded-pill" data-bs-toggle="dropdown"
+                                                aria-expanded="false">
+                                                <i class="bx bx-dots-horizontal-rounded hover:text-indigo-400"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end" style="">
+                                                ${showViewUser ? '<li><a data-id="'+ comment.post_id +'" id="' + comment.id +'" class="dropdown-item edit-btn" href="javascript:void(0);">Edit</a></li><li><a id="' + comment.id +'" class="dropdown-item delete-btn" href="javascript:void(0);">Delete</a></li>' : '<li><a id="' + comment.user.id +'" class="dropdown-item view-btn" href="javascript:void(0);">View User</a></li>'}
+                                                <!--- <li>
+                                                    <hr class="dropdown-divider">
+                                                </li>
+                                                <li><a class="dropdown-item" href="javascript:void(0);">Separated link</a></li> -->
+                                            </ul>
+                                        </div>
+                                        <span id="commentbody${comment.id}">${comment.comments}</span>
 
                                         <div class="btn-group flex justify-content-between mt-4" role="group" aria-label="Basic example">
                                             <button type="button" class="btn btn-outline-primary comment-react-btn" id="${comment.id}" style="max-width: 50%;">
-                                                <input type="checkbox" class="heart" id="comment${comment.id}" />
-                                                <label class="react text-sm" for="comment${comment.id}">Lorem</label>
+                                                <input type="checkbox" class="heart" id="comment${comment.id}" ${comment.included ? 'checked' : ''}/>
+                                                <label class="react text-sm" id="comment_reaction_count${comment.id}" for="comment${comment.id}">${comment.reaction_count}</label>
                                             </button>
                                             <button type="button" class="btn btn-outline-danger" style="max-width: 50%;">Report <span class="bx bx-error ml-1"></span></button>
                                         </div>
@@ -242,7 +264,7 @@
 
                             $('#commentField' + id).html(`
                                 <div class="input-group mt-8 mb-3">
-                                    <textarea class="form-control" aria-label="With textarea" placeholder="Something you want to say..."></textarea>
+                                    <textarea class="form-control" id="textarea_${response.comments[0].post_id}" aria-label="With textarea" placeholder="Something you want to say..."></textarea>
                                     <span class="input-group-text send-btn text-sm btn btn-primary">Send!</span>
                                 </div>
                             `);
@@ -328,7 +350,7 @@
                         },
                         success: function(response) {
                             if (response.status == 200) {
-                                $('#post_reaction_count' + id).html(response
+                                $('#comment_reaction_count' + id).html(response
                                     .reactCount);
                             }
                         },
@@ -338,6 +360,110 @@
                     });
 
                     return !currentValue;
+                });
+            });
+
+            // Comment Delete
+            $(document).on('click', '.delete-btn', function(e) {
+                var target = $(this).parent().parent().parent().parent();
+                console.log();
+                var commentId = $(this).attr('id');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Delete Comment",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Delete'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "{{ route('comments.destroy', [':id']) }}".replace(':id',
+                                commentId),
+                            method: "DELETE",
+                            data: {
+                                data: 'delete'
+                            },
+                            success: function(response) {
+
+                                if (response.status) {
+                                    Swal.fire('Removed!', response.message, 'success')
+                                        .then(
+                                            result => {
+                                                if (result.isConfirmed) {
+                                                    target.addClass('d-none');
+                                                    butterup.toast({
+                                                        title: 'Success!',
+                                                        message: 'Your comment has been deleted.',
+                                                        type: 'success',
+                                                        icon: true,
+                                                        dismissable: true,
+                                                    });
+                                                }
+                                            })
+                                }
+                            },
+                            error: function(error) {
+                                console.log(error);
+                            }
+                        })
+                    }
+                });
+            });
+
+            // Comment Edit
+            $(document).on('click', '.edit-btn', function(e) {
+                // comment id
+                var id = $(this).attr('id');
+                var postId = $(this).data('id');
+
+                //span comment
+                var comment = $('#commentbody' + id).text();
+
+                // target the whole li for the comment then hide it
+                var target = $(this).parent().parent().parent().parent();
+                target.addClass('d-none');
+
+                $('#commentField' + postId + ' div.input-group').addClass('d-none');
+
+                $('#commentField' + postId).append(`
+                    <div class="input-group edit mt-8 mb-3">
+                        <textarea class="form-control" id="editComment" aria-label="With textarea" placeholder="Something you want to say..." required></textarea>
+                        <span class="input-group-text update-btn text-sm btn btn-primary">Send!</span>
+                    </div>
+                `);
+
+                // populate the comment field
+                $('#editComment').val(comment);
+                $('#editComment').focus();
+
+                $(document).on('click', '.update-btn', function(e) {
+                    var commentField = $('#editComment').val();
+                    console.log();
+
+                    $.ajax({
+                        url: "{{ route('comments.update', [':id']) }}".replace(':id', id),
+                        method: "PUT",
+                        data: {
+                            comment: commentField,
+                            data: 'update'
+                        },
+                        success: function(response) {
+
+                            target.removeClass('d-none');
+                            $('#commentField' + postId + ' div.input-group').removeClass('d-none');
+                            $('#textarea_' + postId).focus();
+                            $('#commentField' + postId + ' div.edit').addClass('d-none');
+                            $('#editComment').val('');
+
+                            $('#commentbody' + id).text(response.comment);
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        }
+                    });
                 });
             });
         });

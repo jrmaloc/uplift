@@ -23,20 +23,38 @@ class AccountPageController extends Controller
             if ($comments->isEmpty()) {
                 return response()->json([
                     'status' => 500,
-                    'comments' => 0
+                    'comments' => 0,
                 ]);
             } else {
                 // $comments has records
+                $commentData = [];
+                $user_id = Auth::user()->id;
+
                 foreach ($comments as $comment) {
-                    $user_id = $comment->user_id;
+                    // Decode reactions and count
+                    $reactions = json_decode($comment->reactions);
+
+                    if ($reactions == null) {
+                        $reactions = [];
+                    }
+
+                    $reactionCount = count($reactions);
+                    $included = in_array($user_id, $reactions);
+
+                    // Query comment data
+                    $query = Comment::where('id', $comment->id)
+                        ->with('user')
+                        ->whereHas('user', function ($q) use ($comment) {
+                            $q->where('id', $comment->user_id);
+                        });
+
+                    $data = $query->first();
+                    $data->reaction_count = $reactionCount;
+                    $data->included = $included;
+
+                    // Add comment data to the array
+                    $commentData[] = $data;
                 }
-
-                $query = Comment::where('post_id', $request->id)->with('user')
-                    ->whereHas('user', function ($q) use ($user_id) {
-                        $q->where('id', $user_id);
-                    });
-
-                $commentData = $query->get();
             }
 
             return response()->json([
