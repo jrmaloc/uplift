@@ -32,7 +32,6 @@ class CommentController extends Controller
     {
         //
         if ($request->ajax() && $request->data == 'comment') {
-            dd('wewew');
             $request->validate([
                 'comment' => 'required',
             ]);

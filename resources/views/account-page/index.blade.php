@@ -201,7 +201,8 @@
                         </button>
                     </div>
                     <div class="collapse multi-collapse" data-id="{{ $post->id }}" id="collapse{{ $post->id }}">
-                        <ul id="append{{ $post->id }}" style="max-height: 250px; overflow: auto;">
+                        <ul id="append{{ $post->id }}" class="bg-gray-50 mt-1 rounded-md"
+                            style="max-height: 420px; overflow: auto;">
 
                         </ul>
                         <form action="" id="commentForm">
@@ -213,11 +214,34 @@
                                 </div>
                             </div>
                         </form>
+                        <form action="" id="editCommentForm">
+                            @csrf
+                        </form>
                     </div>
                 </div>
             </div>
         @endforeach
     </div>
+
+    <style>
+        .cancel:hover {
+            color: rgb(209, 61, 61) !important;
+            pointer-events: auto !important;
+            cursor: pointer;
+        }
+
+        .commentDropdown {
+            position: absolute;
+            inset: -2.5rem auto auto 19rem !important;
+            margin: 0;
+        }
+
+        .x-btn {
+            position: relative;
+            left: 29rem;
+            bottom: 2.375rem;
+        }
+    </style>
 @endsection
 
 @push('scripts')
@@ -265,6 +289,8 @@
             // Comment Show
             $(document).on('show.bs.collapse', '.collapse', function() {
                 var id = $(this).data('id'); // Get the data-id attribute value
+                var ul = $('#append' + id);
+                ul.scrollTop(ul.prop("scrollHeight"));
 
                 $.ajax({
                     url: "{{ route('home.index') }}",
@@ -278,26 +304,59 @@
                             response.comments.forEach(comment => {
                                 let showViewUser = comment.user.id ==
                                     {{ $auth->id }};
+
+                                let createdAt = moment(comment.created_at);
+                                let timeAgo = createdAt.fromNow();
+
+                                var test = comment.user.avatar;
+
+                                let avatarUrl = test ? "{{ URL::asset(':avatar') }}".replace(':avatar', test) : "{{ URL::asset('assets/img/avatars/5.png') }}";
+
+                                console.log();
+
+
                                 let commentHtml = `
                                     <li class="d-grid p-3 mt-2">
                                         <div class="flex align-items-center">
-                                            <img src="{{ URL::asset('${comment.user.avatar}') }}" alt="collapse-image" class="me-4 mb-sm-0 mb-2" height="125" style="max-width: 10%; border-radius: 50%; aspect-ratio: 1/1;" />
-                                            <span class="font-semibold">${comment.user.name}</span>
+                                            <img src="${avatarUrl}" alt="collapse-image" class="me-4 mb-sm-0 mb-2" height="125"
+                                                style="max-width: 10%; border-radius: 50%; aspect-ratio: 1/1;" />
+                                            <div class="flex flex-col">
+                                                <span class="font-semibold">${comment.user.name}</span>
+                                                <span class="text-muted text-xs">${timeAgo}</span>
+                                            </div>
                                         </div>
-                                        <div class="flex justify-content-end relative" style="bottom: 43px;">
+
+                                        <div class="relative" id="btn-toggle${comment.id}">
+                                            <button id="${comment.id}" type="button">
+                                                <i class="x-btn${comment.id} bx bx-x cancel d-none" postId="${comment.post_id}" style="
+                                                        position: relative;
+                                                        left: 28.75rem;
+                                                        bottom: 2.5rem;">
+                                                </i>
+                                            </button>
                                             <button type="button" class="btn dropdown-toggle hide-arrow rounded-pill" data-bs-toggle="dropdown"
                                                 aria-expanded="false">
-                                                <i class="bx bx-dots-horizontal-rounded hover:text-indigo-400"></i>
+                                                <i class="burger${comment.id} bx bx-dots-horizontal-rounded hover:text-indigo-400"
+                                                    style="
+                                                        position: relative;
+                                                        left: 27.25rem;
+                                                        bottom: 2.5rem;">
+                                                </i>
                                             </button>
-                                            <ul class="dropdown-menu dropdown-menu-end" style="">
+
+                                            <ul class="dropdown-menu dropdown-menu-end commentDropdown">
                                                 ${showViewUser ? '<li><a data-id="'+ comment.post_id +'" id="' + comment.id +'" class="dropdown-item edit-btn" href="javascript:void(0);">Edit</a></li><li><a id="' + comment.id +'" class="dropdown-item delete-btn" href="javascript:void(0);">Delete</a></li>' : '<li><a id="' + comment.user.id +'" class="dropdown-item view-btn" href="javascript:void(0);">View User</a></li>'}
-                                                <!--- <li>
+                                            <!--- <li>
                                                     <hr class="dropdown-divider">
                                                 </li>
                                                 <li><a class="dropdown-item" href="javascript:void(0);">Separated link</a></li> -->
                                             </ul>
                                         </div>
-                                        <span id="commentbody${comment.id}">${comment.comments}</span>
+                                        <span class="spanEdit" id="commentbody${comment.id}">${comment.comments}</span>
+                                        <div class="input-group d-none" id="editInputGroup${comment.id}">
+                                            <input type="text" class="form-control" id="editInput${comment.id}" name="editInput" autofocus>
+                                            <button class="btn btn-primary update-btn" type="button" data-id="${comment.post_id}" id="${comment.id}">Save!</button>
+                                        </div>
 
                                         <div class="btn-group flex justify-content-between mt-4" role="group" aria-label="Basic example">
                                             <button type="button" class="btn btn-outline-primary comment-react-btn" id="${comment.id}" style="max-width: 50%;">
@@ -312,7 +371,7 @@
                             });
 
                             $('#commentField' + id).html(`
-                                <div class="input-group mt-8 mb-3">
+                                <div class="input-group mt-2 mb-3" id="createGroup">
                                     <textarea class="form-control" id="textarea_${response.comments[0].post_id}" aria-label="With textarea" placeholder="Something you want to say..."></textarea>
                                     <span class="input-group-text send-btn text-sm btn btn-primary">Send!</span>
                                 </div>
@@ -322,6 +381,8 @@
                                 '<li class="d-flex justify-center p-3 mt-4 alert alert-success"><span class="bx bx-loader mr-2"></span>No Comments.</li>'
                             );
                         }
+
+                        ul.scrollTop(ul.prop("scrollHeight"));
                     },
                     error: function(error) {
                         console.log(error);
@@ -334,6 +395,7 @@
                 var id = $(this).parent().parent().data('id');
                 var comment = $(this).parent().parent().parent().find('textarea').val();
                 var textarea = $(this).closest('.input-group').find('textarea');
+                var ul = $('#append' + id);
 
                 $.ajax({
                     url: "{{ route('comments.store') }}",
@@ -347,24 +409,66 @@
                         let commentHtml = `
                             <li class="d-grid p-3 mt-2">
                                 <div class="flex align-items-center">
-                                    <img src="{{ URL::asset('${response.user.avatar}') }}" alt="collapse-image" class="me-4 mb-sm-0 mb-2" height="125" style="max-width: 10%; border-radius: 50%;" />
+                                    <img src="{{ URL::asset('${response.user.avatar}') }}" alt="collapse-image" class="me-4 mb-sm-0 mb-2" height="125" style="max-width: 10%; border-radius: 50%; aspect-ratio: 1/1;" />
                                     <span class="font-semibold">${response.user.name}</span>
                                 </div>
-                                <span class="mt-3">${response.comments.comments}</span>
+
+                                <div class="relative" id="btn-toggle${response.comments.id}">
+                                    <button id="${response.comments.id}" type="button">
+                                        <i class="x-btn${response.comments.id} bx bx-x cancel d-none" postId="${comment.post_id}" style="
+                                                position: relative;
+                                                left: 28.75rem;
+                                                bottom: 2.5rem;">
+                                        </i>
+                                    </button>
+                                    <button type="button" class="btn dropdown-toggle hide-arrow rounded-pill" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        <i class="burger${response.comments.id} bx bx-dots-horizontal-rounded hover:text-indigo-400"
+                                            style="
+                                                position: relative;
+                                                left: 27.25rem;
+                                                bottom: 2.5rem;">
+                                        </i>
+                                    </button>
+
+                                    <ul class="dropdown-menu dropdown-menu-end commentDropdown">
+                                        <li>
+                                            <a data-id="${response.post_id}" id="${response.comments.id}" class="dropdown-item edit-btn"
+                                                href="javascript:void(0)">
+                                                    Edit
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a id="${response.comments.id}" class="dropdown-item delete-btn"
+                                            href="javascript:void(0);">
+                                                Delete
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <span class="spanEdit" id="commentbody${response.comments.id}">${response.comments.comments}</span>
+                                <div class="input-group d-none" id="editInputGroup${response.comments.id}">
+                                    <input type="text" class="form-control" id="editInput${response.comments.id}" name="editInput" autofocus>
+                                    <button class="btn btn-primary update-btn" type="button" data-id="${response.post_id}" id="${response.comments.id}">Save!</button>
+                                </div>
 
                                 <div class="btn-group flex justify-content-between mt-4" role="group" aria-label="Basic example">
                                     <button type="button" class="btn btn-outline-primary comment-react-btn" id="${response.comments.id}" style="max-width: 50%;">
-                                        <input type="checkbox" class="heart" id="comment${response.comments.id}" />
-                                        <label class="react text-sm" for="comment${response.comments.id}">Lorem</label>
+                                        <input type="checkbox" class="heart" id="comment${response.comments.id}"/>
+                                        <label class="react text-sm" id="comment_reaction_count${response.comments.id}" for="comment${response.comments.id}">0</label>
                                     </button>
                                     <button type="button" class="btn btn-outline-danger" style="max-width: 50%;">Report <span class="bx bx-error ml-1"></span></button>
                                 </div>
                             </li>`;
+
                         // Append the comment HTML to the comment_group element
                         $('#append' + response.post_id).append(commentHtml);
 
                         // Clear the textarea value
                         textarea.val('');
+
+                        // scroll to the bottom of the comments
+                        ul.scrollTop(ul.prop("scrollHeight"));
 
                         butterup.toast({
                             title: 'Success!',
@@ -415,7 +519,6 @@
             // Comment Delete
             $(document).on('click', '.delete-btn', function(e) {
                 var target = $(this).parent().parent().parent().parent();
-                console.log();
                 var commentId = $(this).attr('id');
 
                 Swal.fire({
@@ -468,53 +571,61 @@
                 var id = $(this).attr('id');
                 var postId = $(this).data('id');
 
-                //span comment
+                console.log(id, postId);
+
+                // span comment
                 var comment = $('#commentbody' + id).text();
 
-                // target the whole li for the comment then hide it
-                var target = $(this).parent().parent().parent().parent();
-                target.addClass('d-none');
+                $('.spanEdit').removeClass('d-none');
+                $('.cancel').addClass('d-none');
+                $('.bx-dots-horizontal-rounded').removeClass('d-none');
+                $('.input-group').addClass('d-none');
+                $('#createGroup').removeClass('d-none');
 
-                $('#commentField' + postId + ' div.input-group').addClass('d-none');
 
-                $('#commentField' + postId).append(`
-                    <div class="input-group edit mt-8 mb-3">
-                        <textarea class="form-control" id="editComment" aria-label="With textarea" placeholder="Something you want to say..." required></textarea>
-                        <span class="input-group-text update-btn text-sm btn btn-primary">Send!</span>
-                    </div>
-                `);
+                $('.burger' + id).addClass('d-none');
+                $('.x-btn' + id).removeClass('d-none');
+                $('#commentbody' + id).addClass('d-none');
+                $('#editInputGroup' + id).removeClass('d-none');
+                $('#editInput' + id).val(comment);
+                $('#editInput' + id).focus();
+            });
 
-                // populate the comment field
-                $('#editComment').val(comment);
-                $('#editComment').focus();
+            $(document).on('click', '.cancel', function(e) {
+                var postId = $(this).attr('postId');
+                console.log();
 
-                $(document).on('click', '.update-btn', function(e) {
-                    var commentField = $('#editComment').val();
-                    console.log();
+                $('.bx-dots-horizontal-rounded').removeClass('d-none');
+                $('.input-group').addClass('d-none');
+                $('.spanEdit').removeClass('d-none');
+                $('.cancel').addClass('d-none');
+                $('.burger').removeClass('d-none');
+                $('#createGroup').removeClass('d-none');
+            });
 
-                    $.ajax({
-                        url: "{{ route('comments.update', [':id']) }}".replace(':id', id),
-                        method: "PUT",
-                        data: {
-                            comment: commentField,
-                            data: 'update'
-                        },
-                        success: function(response) {
+            $(document).on('click', '.update-btn', function(e) {
+                var id = $(this).attr('id');
+                var postId = $(this).attr('data-id');
+                var comment = $('#editInput' + id).val();
 
-                            target.removeClass('d-none');
-                            $('#commentField' + postId + ' div.input-group')
-                                .removeClass('d-none');
-                            $('#textarea_' + postId).focus();
-                            $('#commentField' + postId + ' div.edit').addClass(
-                                'd-none');
-                            $('#editComment').val('');
+                $.ajax({
+                    url: "{{ route('comments.update', [':id']) }}".replace(':id', id),
+                    method: "PUT",
+                    data: {
+                        comment: comment,
+                        data: 'update'
+                    },
+                    success: function(response) {
 
-                            $('#commentbody' + id).text(response.comment);
-                        },
-                        error: function(error) {
-                            console.log(error);
-                        }
-                    });
+                        $('.burger' + id).removeClass('d-none');
+                        $('.x-btn' + id).addClass('d-none');
+                        $('#commentbody' + id).removeClass('d-none');
+                        $('#editInputGroup' + id).addClass('d-none');
+                        $('#commentbody' + id).text(response.comment);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
                 });
             });
         });
