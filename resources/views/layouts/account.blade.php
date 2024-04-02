@@ -331,6 +331,7 @@
 
     <!-- Page JS -->
     <script src="{{ URL::asset('/assets/js/dashboards-analytics.js') }}"></script>
+    <script src="{{ URL::asset('/assets/js/ui-popover.js') }}"></script>
 
     <!-- Additional JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

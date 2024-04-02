@@ -11,22 +11,23 @@
 @endsection
 
 @section('content')
-    <h3 class="h3 ml-4 mt-4 fw-bolder">Activity Feed</h3>
-
-    <div class="w-50 mx-auto">
-        <div class="flex">
-            <span class="input-group-text border-0"
-                style="
+    <div class="row mt-5">
+        <div class="col-5 ml-auto">
+            <h3 class="h3 ml-4 mt-4 fw-bolder">Activity Feed</h3>
+            <div class="mx-auto">
+                <div class="flex">
+                    <span class="input-group-text border-0"
+                        style="
                     border-bottom-left-radius: 0px;
                     border-top: 1px solid #d9dee3 !important;
                     border-left: 1px solid #d9dee3 !important;
                     border-top-right-radius: 0px;
                     ">
-                <img src="{{ URL::asset('assets/img/avatars/1.png') }}" alt="" class="rounded-full"
-                    style="width: 70px; aspect-ration: 1;"></span>
-            <div class="w-100">
-                <input type="text" class="form-control input-field border-0 pt-4" placeholder="Caption..."
-                    style="
+                        <img src="{{ URL::asset('assets/img/avatars/1.png') }}" alt="" class="rounded-full"
+                            style="width: 70px; aspect-ration: 1;"></span>
+                    <div class="w-100">
+                        <input type="text" class="form-control input-field border-0 pt-4" placeholder="Caption..."
+                            style="
                     border-top: 1px solid #d9dee3 !important;
                     border-right: 1px solid #d9dee3 !important;
                     border-bottom: 0px !important;
@@ -34,193 +35,225 @@
                     border-bottom-right-radius: 0px;
                     font-weight: bold;
                     font-size: 20px;">
-                <div class="input-overlay"></div>
-                <textarea class="form-control pt-4 input-field rounded-0 border-0" rows="4" aria-label="With textarea"
-                    placeholder="Lorem Ipsum..."
-                    style="
+                        <div class="input-overlay"></div>
+                        <textarea class="form-control pt-4 input-field rounded-0 border-0" rows="4" aria-label="With textarea"
+                            placeholder="Lorem Ipsum..."
+                            style="
                     border-right: 1px solid #d9dee3 !important;
                     min-height: 150px;"></textarea>
-            </div>
-        </div>
-        <div class="bg-indigo-100 px-2 py-3"
-            style="border-bottom-left-radius: 0.375rem; border-bottom-right-radius: 0.375rem;">
-            <div class="flex justify-end">
-                <button class="btn btn-primary">Post!</button>
-            </div>
-        </div>
-    </div>
-    <div class="mt-4">
-        @foreach ($posts as $post)
-            <div class="card px-8 pt-6 pb-4 mb-4 w-50 mx-auto">
-                <div class="flex flex-col items-start mb-4">
-                    <h2 class="text-xl font-bold text-gray-700">
-                        {{ $post->caption }}
-                    </h2>
-                    <h5>
-                        @php
-                            $user = App\Models\User::findOrFail($post->user_id);
-                        @endphp
-                        {{ $user->name }}
-                    </h5>
-                </div>
-                <div>
-                    <p class="text-gray-700 text-base">
-                        {{ $post->description }}
-                    </p>
-                </div>
-                <div class="mt-4 px-2">
-                    <style>
-                        .heart {
-                            display: none;
-                        }
-
-
-                        .heart+label {
-                            position: relative;
-                            padding-left: 35px;
-                            display: inline-block;
-                            font-size: 14px;
-                        }
-
-                        .heart+label:before {
-                            content: "\1F5A4";
-                            top: -11px;
-                            left: -8px;
-                            border: 1px solid transparent;
-                            padding: 10px;
-                            border-radius: 3px;
-                            display: block;
-                            position: absolute;
-                            transition: .5s ease;
-                        }
-
-
-
-                        .heart:checked+label:before {
-                            border: 1px solid transparent;
-                            background-color: transparent;
-                        }
-
-                        .heart:checked+label:after {
-                            content: '\1F49C';
-                            font-size: 18px;
-                            position: absolute;
-                            top: -1px;
-                            left: 1px;
-                            color: rgb(130, 97, 252);
-                            transition: .5s ease;
-                        }
-
-                        .heart:checked+label {
-                            color: rgb(130, 97, 252);
-                        }
-
-                        .btn-outline-primary:hover {
-                            color: #5f61e6 !important;
-                            background-color: #fff !important;
-                            border-color: #5f61e6 !important;
-                            box-shadow: 0 0.125rem 0.25rem 0 rgba(105, 108, 255, 0.4) !important;
-                            transform: translateY(-1px) !important;
-                        }
-
-                        .btn-outline-info:hover {
-                            color: #03b0d4 !important;
-                            background-color: #fff !important;
-                            border-color: #03b0d4 !important;
-                            box-shadow: 0 0.125rem 0.25rem 0 rgba(3, 195, 236, 0.4) !important;
-                            transform: translateY(-1px) !important;
-                        }
-
-                        .btn-check:focus+.btn-outline-primary,
-                        .btn-outline-primary:focus {
-                            color: #595cd9 !important;
-                            background-color: #fff !important;
-                            border-color: #595cd9 !important;
-                        }
-
-                        .btn-check:focus+.btn-outline-info,
-                        .btn-outline-info:focus {
-                            color: #03b0d4 !important;
-                            background-color: #fff !important;
-                            border-color: #03b0d4 !important;
-                        }
-
-                        .heart,
-                        .react {
-                            cursor: pointer;
-                        }
-
-                        a.dropdown-item:hover {
-                            color: var(--bs-dropdown-link-hover-color) !important;
-                        }
-
-                        ul.dropdown-menu.show {
-                            transform: translate(-15px, 25px) !important;
-                        }
-
-                        .dropdown-item:not(.disabled).active,
-                        .dropdown-item:not(.disabled):active {
-                            background-color: var(--bs-dropdown-link-hover-bg);
-                            color: #8592a3 !important;
-                        }
-
-                        .dropdown-item.active,
-                        .dropdown-item:active {
-                            color: var(--bs-dropdown-link-active-color);
-                            text-decoration: none;
-                            background-color: var(--bs-dropdown-link-active-bg);
-                        }
-                    </style>
-                    @php
-                        $id = $post->id;
-                        $user_id = $auth->id;
-                        $reactions = json_decode($post->reaction_count, true);
-
-                        if ($reactions == null) {
-                            $reactions = [];
-                        }
-
-                        $included = in_array($user_id, $reactions);
-
-                        $reactCount = count($reactions);
-                    @endphp
-
-                    <div class="btn-group flex justify-content-between mt-4" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-outline-primary post-react-btn" id="{{ $post->id }}"
-                            style="max-width: 50%;">
-                            <input type="checkbox" class="heart" {{ $included ? 'checked' : '' }}
-                                id="heart{{ $post->id }}" />
-                            <label class="react text-sm" for="heart{{ $post->id }}"><span
-                                    id="post_reaction_count{{ $post->id }}">{{ $reactCount }}</span></label>
-                        </button>
-                        <button type="button" class="btn btn-outline-info" id="{{ $post->id }}"
-                            data-bs-toggle="collapse" href="#collapse{{ $post->id }}" role="button"
-                            aria-expanded="false" aria-controls="collapse{{ $post->id }}" style="max-width: 50%;">
-                            Comment
-                            {{-- <span class="bx bx-error ml-1"></span> --}}
-                        </button>
                     </div>
-                    <div class="collapse multi-collapse" data-id="{{ $post->id }}" id="collapse{{ $post->id }}">
-                        <ul id="append{{ $post->id }}" class="bg-gray-50 mt-1 rounded-md"
-                            style="max-height: 420px; overflow: auto;">
-
-                        </ul>
-                        <form action="" id="commentForm">
-                            @csrf
-                            <div id="commentField{{ $post->id }}" data-id="{{ $post->id }}" class="">
-                                <div class="input-group mt-8 mb-3">
-                                    <textarea class="form-control" aria-label="With textarea" name="comment" placeholder="Something you want to say..."></textarea>
-                                    <span class="input-group-text send-btn text-sm btn btn-primary">Send!</span>
+                </div>
+                <div class="bg-indigo-100 px-2 py-3"
+                    style="border-bottom-left-radius: 0.375rem; border-bottom-right-radius: 0.375rem;">
+                    <div class="flex justify-end">
+                        <button class="btn btn-primary post-btn">Post!</button>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                @foreach ($posts as $post)
+                    <div class="card px-8 pt-6 pb-4 mb-4 mx-auto">
+                        <div class="flex flex-col items-start mb-4">
+                            <div class="flex justify-between align-items-center w-100">
+                                <h2 class="text-xl font-bold text-gray-700">
+                                    {{ $post->caption }}
+                                </h2>
+                                <div class="btn-group">
+                                    <button type="button" class="btn-icon dropdown-toggle hide-arrow"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bx bx-dots-vertical-rounded"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end mt-1" style="">
+                                        <li><a class="dropdown-item" href="javascript:void(0);">Edit</a></li>
+                                        <li><a class="dropdown-item" href="javascript:void(0);">Delete</a></li>
+                                    </ul>
                                 </div>
                             </div>
-                        </form>
-                        <form action="" id="editCommentForm">
-                            @csrf
-                        </form>
+                            <h5>
+                                @php
+                                    $user = App\Models\User::findOrFail($post->user_id);
+                                @endphp
+                                {{ $user->name }}
+                            </h5>
+                        </div>
+                        <div>
+                            <p class="text-gray-700 text-base">
+                                {{ $post->description }}
+                            </p>
+                        </div>
+                        <div class="mt-4 px-2">
+                            <style>
+                                .heart {
+                                    display: none;
+                                }
+
+
+                                .heart+label {
+                                    position: relative;
+                                    padding-left: 35px;
+                                    display: inline-block;
+                                    font-size: 14px;
+                                }
+
+                                .heart+label:before {
+                                    content: "\1F5A4";
+                                    top: -11px;
+                                    left: -8px;
+                                    border: 1px solid transparent;
+                                    padding: 10px;
+                                    border-radius: 3px;
+                                    display: block;
+                                    position: absolute;
+                                    transition: .5s ease;
+                                }
+
+
+
+                                .heart:checked+label:before {
+                                    border: 1px solid transparent;
+                                    background-color: transparent;
+                                }
+
+                                .heart:checked+label:after {
+                                    content: '\1F49C';
+                                    font-size: 18px;
+                                    position: absolute;
+                                    top: -1px;
+                                    left: 1px;
+                                    color: rgb(130, 97, 252);
+                                    transition: .5s ease;
+                                }
+
+                                .heart:checked+label {
+                                    color: rgb(130, 97, 252);
+                                }
+
+                                .btn-outline-primary:hover {
+                                    color: #5f61e6 !important;
+                                    background-color: #fff !important;
+                                    border-color: #5f61e6 !important;
+                                    box-shadow: 0 0.125rem 0.25rem 0 rgba(105, 108, 255, 0.4) !important;
+                                    transform: translateY(-1px) !important;
+                                }
+
+                                .btn-outline-info:hover {
+                                    color: #03b0d4 !important;
+                                    background-color: #fff !important;
+                                    border-color: #03b0d4 !important;
+                                    box-shadow: 0 0.125rem 0.25rem 0 rgba(3, 195, 236, 0.4) !important;
+                                    transform: translateY(-1px) !important;
+                                }
+
+                                .btn-check:focus+.btn-outline-primary,
+                                .btn-outline-primary:focus {
+                                    color: #595cd9 !important;
+                                    background-color: #fff !important;
+                                    border-color: #595cd9 !important;
+                                }
+
+                                .btn-check:focus+.btn-outline-info,
+                                .btn-outline-info:focus {
+                                    color: #03b0d4 !important;
+                                    background-color: #fff !important;
+                                    border-color: #03b0d4 !important;
+                                }
+
+                                .heart,
+                                .react {
+                                    cursor: pointer;
+                                }
+
+                                a.dropdown-item:hover {
+                                    color: var(--bs-dropdown-link-hover-color) !important;
+                                }
+
+                                ul.dropdown-menu.show {
+                                    transform: translate(-15px, 25px) !important;
+                                }
+
+                                .dropdown-item:not(.disabled).active,
+                                .dropdown-item:not(.disabled):active {
+                                    background-color: var(--bs-dropdown-link-hover-bg);
+                                    color: #8592a3 !important;
+                                }
+
+                                .dropdown-item.active,
+                                .dropdown-item:active {
+                                    color: var(--bs-dropdown-link-active-color);
+                                    text-decoration: none;
+                                    background-color: var(--bs-dropdown-link-active-bg);
+                                }
+                            </style>
+                            @php
+                                $id = $post->id;
+                                $user_id = $auth->id;
+                                $reactions = json_decode($post->reaction_count, true);
+
+                                if ($reactions == null) {
+                                    $reactions = [];
+                                }
+
+                                $included = in_array($user_id, $reactions);
+
+                                $reactCount = count($reactions);
+                            @endphp
+
+                            <div class="btn-group flex justify-content-between mt-4" role="group"
+                                aria-label="Basic example">
+                                <button type="button" class="btn btn-outline-primary post-react-btn"
+                                    id="{{ $post->id }}" style="max-width: 50%;">
+                                    <input type="checkbox" class="heart" {{ $included ? 'checked' : '' }}
+                                        id="heart{{ $post->id }}" />
+                                    <label class="react text-sm" for="heart{{ $post->id }}"><span
+                                            id="post_reaction_count{{ $post->id }}">{{ $reactCount }}</span></label>
+                                </button>
+                                <button type="button" class="btn btn-outline-info" id="{{ $post->id }}"
+                                    data-bs-toggle="collapse" href="#collapse{{ $post->id }}" role="button"
+                                    aria-expanded="false" aria-controls="collapse{{ $post->id }}"
+                                    style="max-width: 50%;">
+                                    Comment
+                                    {{-- <span class="bx bx-error ml-1"></span> --}}
+                                </button>
+                            </div>
+
+                            <div class="flex justify-end mt-4 gap-1">
+                                <span class="badge rounded-pill bg-label-primary">Primary</span>
+                                <span class="badge rounded-pill bg-label-info">Danger</span>
+                                <span class="badge rounded-pill bg-label-warning">Info</span>
+                            </div>
+
+                            {{-- Comment Drawer --}}
+                            <div class="collapse multi-collapse" data-id="{{ $post->id }}"
+                                id="collapse{{ $post->id }}">
+                                <ul id="append{{ $post->id }}" class="bg-gray-50 mt-1 rounded-md"
+                                    style="max-height: 420px; overflow: auto;">
+
+                                </ul>
+                                <form action="" id="commentForm">
+                                    @csrf
+                                    <div id="commentField{{ $post->id }}" data-id="{{ $post->id }}"
+                                        class="">
+                                        <div class="input-group mt-8 mb-3">
+                                            <textarea class="form-control" aria-label="With textarea" name="comment" placeholder="Something you want to say..."></textarea>
+                                            <span class="input-group-text send-btn text-sm btn btn-primary">Send!</span>
+                                        </div>
+                                    </div>
+                                </form>
+                                <form action="" id="editCommentForm">
+                                    @csrf
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                @endforeach
             </div>
-        @endforeach
+        </div>
+
+        <div class="col-3 mr-20">
+            <div class="card">
+                <h3 class="card-header h3">Hello World</h3>
+            </div>
+        </div>
     </div>
 
     <style>
@@ -231,15 +264,21 @@
         }
 
         .commentDropdown {
-            position: absolute;
-            inset: -2.5rem auto auto 19rem !important;
-            margin: 0;
+            inset: -2.5rem auto auto 17rem !important;
         }
 
         .x-btn {
             position: relative;
-            left: 29rem;
+            left: 27rem;
             bottom: 2.375rem;
+        }
+
+        .report-btn:focus {
+            color: #e6381a;
+            background-color: #fff;
+            border-color: #e6381a;
+            box-shadow: none;
+            transform: translateY(0);
         }
     </style>
 @endsection
@@ -310,7 +349,9 @@
 
                                 var test = comment.user.avatar;
 
-                                let avatarUrl = test ? "{{ URL::asset(':avatar') }}".replace(':avatar', test) : "{{ URL::asset('assets/img/avatars/5.png') }}";
+                                let avatarUrl = test ? "{{ URL::asset(':avatar') }}"
+                                    .replace(':avatar', test) :
+                                    "{{ URL::asset('assets/img/avatars/5.png') }}";
 
                                 console.log();
 
@@ -330,7 +371,7 @@
                                             <button id="${comment.id}" type="button">
                                                 <i class="x-btn${comment.id} bx bx-x cancel d-none" postId="${comment.post_id}" style="
                                                         position: relative;
-                                                        left: 28.75rem;
+                                                        left: 26.75rem;
                                                         bottom: 2.5rem;">
                                                 </i>
                                             </button>
@@ -339,7 +380,7 @@
                                                 <i class="burger${comment.id} bx bx-dots-horizontal-rounded hover:text-indigo-400"
                                                     style="
                                                         position: relative;
-                                                        left: 27.25rem;
+                                                        left: 25.25rem;
                                                         bottom: 2.5rem;">
                                                 </i>
                                             </button>
@@ -363,7 +404,7 @@
                                                 <input type="checkbox" class="heart" id="comment${comment.id}" ${comment.included ? 'checked' : ''}/>
                                                 <label class="react text-sm" id="comment_reaction_count${comment.id}" for="comment${comment.id}">${comment.reaction_count}</label>
                                             </button>
-                                            <button type="button" class="btn btn-outline-danger" style="max-width: 50%;">Report <span class="bx bx-error ml-1"></span></button>
+                                            <button type="button" class="btn btn-outline-danger report-btn" style="max-width: 50%;">Report <span class="bx bx-error ml-1"></span></button>
                                         </div>
                                     </li>`;
                                 // Append the comment HTML to the comment_group element
@@ -591,6 +632,7 @@
                 $('#editInput' + id).focus();
             });
 
+            // Comment Update Cancel
             $(document).on('click', '.cancel', function(e) {
                 var postId = $(this).attr('postId');
                 console.log();
@@ -603,6 +645,7 @@
                 $('#createGroup').removeClass('d-none');
             });
 
+            // Comment Update
             $(document).on('click', '.update-btn', function(e) {
                 var id = $(this).attr('id');
                 var postId = $(this).attr('data-id');
@@ -627,6 +670,17 @@
                         console.log(error);
                     }
                 });
+            });
+
+            // Comment Report
+            $(document).on('click', '.report-btn', function(e) {
+                butterup.toast({
+                    title: 'Report Submitted!',
+                    message: 'We will now review your report. Thank you for making this platform safe.',
+                    type: 'info',
+                    icon: true,
+                    dismissable: true,
+                })
             });
         });
     </script>
