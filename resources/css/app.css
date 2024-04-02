@@ -575,6 +575,10 @@ button.select2-selection__choice__remove {
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
+#fr-logo {
+    display: none !important;
+}
+
 ul {
     --sb-track-color: #e8e8ff;
     --sb-thumb-color: #696bff;

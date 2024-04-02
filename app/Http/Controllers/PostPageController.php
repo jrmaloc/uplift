@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostPageController extends Controller
 {
@@ -12,6 +14,13 @@ class PostPageController extends Controller
     public function index()
     {
         //
+        $authId = Auth::user()->id;
+
+        $posts = Post::where('user_id', $authId)->with('comments')->get();
+
+        return view('my-posts.index', [
+            'posts' => $posts,
+        ]);
     }
 
     /**

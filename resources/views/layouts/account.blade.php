@@ -101,6 +101,9 @@
                     <li class="menu-header small text-uppercase">
                         <span class="menu-header-text">MANAGEMENT</span>
                     </li>
+                    {{-- <li class="menu-item divider text-start-center my-3">
+                        <span class="divider-text uppercase">management</span>
+                    </li> --}}
                     <!-- Apps -->
                     {{-- <li
                         class="menu-item {{ preg_match('/dashboard\/users$/', Request::path()) || preg_match('/dashboard\/users\/\d+\/edit$/', Request::path()) ? 'active' : null }}">
@@ -110,8 +113,8 @@
                         </a>
                     </li> --}}
                     <li
-                        class="menu-item {{ preg_match('/dashboard\/posts$/', Request::path()) || preg_match('/dashboard\/posts\/\d+\/edit$/', Request::path()) ? 'active' : null }}">
-                        <a href="{{-- route('posts.index') --}} #" class="menu-link">
+                        class="menu-item {{ preg_match('/account\/posts_page$/', Request::path()) || preg_match('/account\/posts_page\/\d+\/edit$/', Request::path()) ? 'active' : null }}">
+                        <a href="{{ route('posts_page.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-clipboard"></i>
                             <div data-i18n="Users">My Posts</div>
                         </a>
