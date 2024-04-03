@@ -518,12 +518,16 @@ button.select2-selection__choice__remove {
     pointer-events: none !important;
     display: flex !important;
     justify-content: center !important;
+    font-size: larger;
+    font-weight: 500;
 }
 
 .notification-footer {
     background-color: transparent;
     display: flex !important;
     justify-content: center !important;
+    font-size:medium;
+    font-weight: 500;
 }
 
 .vw-25 {

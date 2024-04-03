@@ -15,7 +15,7 @@ class AccountPageController extends Controller
     public function index(Request $request)
     {
         //
-        $posts = Post::all();
+        $posts = Post::with('user')->get();
 
         if ($request->ajax()) {
             $comments = Comment::where('post_id', $request->id)->get();

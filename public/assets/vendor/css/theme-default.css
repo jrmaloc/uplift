@@ -176,9 +176,9 @@ button.list-group-item-primary.active {
 }
 
 .list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
-  border-color: #696cff;
-  background-color: #696cff;
-  color: #fff;
+  border-color: #e8e8ff;
+  background-color: rgba(67, 89, 113, 0.06);
+  color: #696cff;
 }
 
 .alert-primary {
@@ -301,7 +301,7 @@ button.list-group-item-primary.active {
 .dropdown-item:not(.disabled).active,
 .dropdown-item:not(.disabled):active {
   background-color: rgba(105, 108, 255, 0.08);
-  color: #696cff !important;
+  color: #696cff;
 }
 
 .dropdown-menu > li:not(.disabled) > a:not(.dropdown-item):active,

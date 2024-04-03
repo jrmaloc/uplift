@@ -7,6 +7,20 @@
             border-radius: 0.375rem;
             border: 1px solid #696bff !important;
         }
+
+        .list-group {
+            --bs-list-group-border-color: transparent;
+        }
+
+        .list-group-item,
+        .list-group-item:first-child,
+        .list-group-item:last-child {
+            border-radius: 0;
+        }
+
+        .dropdown-menu1 {
+            --bs-dropdown-min-width: 10rem !important;
+        }
     </style>
 @endsection
 
@@ -53,30 +67,91 @@
             <div class="mt-4">
                 @foreach ($posts as $post)
                     <div class="card px-8 pt-6 pb-4 mb-4 mx-auto">
-                        <div class="flex flex-col items-start mb-4">
-                            <div class="flex justify-between align-items-center w-100">
-                                <h2 class="text-xl font-bold text-gray-700">
-                                    {{ $post->caption }}
-                                </h2>
-                                <div class="btn-group">
-                                    <button type="button" class="btn-icon dropdown-toggle hide-arrow"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="bx bx-dots-vertical-rounded"></i>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-end mt-1" style="">
-                                        <li><a class="dropdown-item" href="javascript:void(0);">Edit</a></li>
-                                        <li><a class="dropdown-item" href="javascript:void(0);">Delete</a></li>
-                                    </ul>
+                        <div class="flex justify-between align-items-center w-100 mb-4">
+                            <div class="flex align-items-center gap-2">
+                                <img src="{{ $post->privacy == 'public' ? URL::asset($post->user->avatar) : URL::asset('avatars/172626_user_male_icon.png') }}"
+                                    class="rounded-full" style="width: 50px; aspect-ratio: 1;">
+                                <div class="gap-0 flex flex-col">
+                                    <h5 id="test2" class="font-semibold">
+                                        @php
+                                            $user = App\Models\User::findOrFail($post->user_id);
+                                        @endphp
+                                        {{ $post->privacy == 'public' ? $user->name : 'Anonymous' }}
+                                    </h5>
+                                    <div class="flex align-items-center">
+                                        @php
+                                            $date = Carbon\Carbon::parse($post->created_at);
+                                            $created_at = $date->diffForHumans();
+                                        @endphp
+                                        <small id="post" class="muted created_at">{{ $created_at }}</small>
+                                        {{-- dot --}}
+                                        <?xml version="1.0" ?><svg class="bi bi-dot text-slate-400" fill="currentColor"
+                                            height="16" viewBox="0 0 16 16" width="16"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                                        </svg>
+                                        @if ($post->privacy == 'public')
+                                            {{-- world --}}
+                                            <span>
+                                                <?xml version="1.0" ?><svg viewBox="0 0 496 512" width="13"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill="#878787"
+                                                        d="M248 8C111.03 8 0 119.03 0 256s111.03 248 248 248 248-111.03 248-248S384.97 8 248 8zm82.29 357.6c-3.9 3.88-7.99 7.95-11.31 11.28-2.99 3-5.1 6.7-6.17 10.71-1.51 5.66-2.73 11.38-4.77 16.87l-17.39 46.85c-13.76 3-28 4.69-42.65 4.69v-27.38c1.69-12.62-7.64-36.26-22.63-51.25-6-6-9.37-14.14-9.37-22.63v-32.01c0-11.64-6.27-22.34-16.46-27.97-14.37-7.95-34.81-19.06-48.81-26.11-11.48-5.78-22.1-13.14-31.65-21.75l-.8-.72a114.792 114.792 0 0 1-18.06-20.74c-9.38-13.77-24.66-36.42-34.59-51.14 20.47-45.5 57.36-82.04 103.2-101.89l24.01 12.01C203.48 89.74 216 82.01 216 70.11v-11.3c7.99-1.29 16.12-2.11 24.39-2.42l28.3 28.3c6.25 6.25 6.25 16.38 0 22.63L264 112l-10.34 10.34c-3.12 3.12-3.12 8.19 0 11.31l4.69 4.69c3.12 3.12 3.12 8.19 0 11.31l-8 8a8.008 8.008 0 0 1-5.66 2.34h-8.99c-2.08 0-4.08.81-5.58 2.27l-9.92 9.65a8.008 8.008 0 0 0-1.58 9.31l15.59 31.19c2.66 5.32-1.21 11.58-7.15 11.58h-5.64c-1.93 0-3.79-.7-5.24-1.96l-9.28-8.06a16.017 16.017 0 0 0-15.55-3.1l-31.17 10.39a11.95 11.95 0 0 0-8.17 11.34c0 4.53 2.56 8.66 6.61 10.69l11.08 5.54c9.41 4.71 19.79 7.16 30.31 7.16s22.59 27.29 32 32h66.75c8.49 0 16.62 3.37 22.63 9.37l13.69 13.69a30.503 30.503 0 0 1 8.93 21.57 46.536 46.536 0 0 1-13.72 32.98zM417 274.25c-5.79-1.45-10.84-5-14.15-9.97l-17.98-26.97a23.97 23.97 0 0 1 0-26.62l19.59-29.38c2.32-3.47 5.5-6.29 9.24-8.15l12.98-6.49C440.2 193.59 448 223.87 448 256c0 8.67-.74 17.16-1.82 25.54L417 274.25z" />
+                                                </svg>
+                                            </span>
+                                        @else
+                                            <span>
+                                                <?xml version="1.0" ?><svg fill="none" height="24"
+                                                    viewBox="0 0 24 24" width="15" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M17.5 11.75C20.1233 11.75 22.25 13.8766 22.25 16.5C22.25 19.1234 20.1233
+                                                                    21.25 17.5 21.25C15.402 21.25 13.6216 19.8898 12.9927 18.0032H11.0072C10.3783
+                                                                    19.8898 8.59799 21.25 6.49998 21.25C3.87663 21.25 1.74998 19.1234 1.74998
+                                                                    16.5C1.74998 13.8766 3.87663 11.75 6.49998 11.75C8.95456 11.75 10.9743 13.6118
+                                                                    11.224 16.0003H12.776C13.0257 13.6118 15.0454 11.75 17.5 11.75ZM6.49998
+                                                                    13.75C4.9812 13.75 3.74998 14.9812 3.74998 16.5C3.74998 18.0188 4.9812 19.25
+                                                                    6.49998 19.25C8.01876 19.25 9.24998 18.0188 9.24998 16.5C9.24998 14.9812 8.01876
+                                                                    13.75 6.49998 13.75ZM17.5 13.75C15.9812 13.75 14.75 14.9812 14.75 16.5C14.75
+                                                                    18.0188 15.9812 19.25 17.5 19.25C19.0188 19.25 20.25 18.0188 20.25 16.5C20.25
+                                                                    14.9812 19.0188 13.75 17.5 13.75ZM15.5119 3C16.7263 3 17.797 3.79659 18.1459
+                                                                    4.95979L19.1521 8.31093C19.9446 8.44285 20.7203 8.59805 21.479 8.77658C22.0166
+                                                                    8.90308 22.3499 9.44144 22.2234 9.97904C22.0969 10.5166 21.5585 10.8499 21.0209
+                                                                    10.7234C18.2654 10.0751 15.2586 9.75 12 9.75C8.74132 9.75 5.73456 10.0751 2.97902
+                                                                    10.7234C2.44142 10.8499 1.90306 10.5166 1.77656 9.97904C1.65007 9.44144 1.98334
+                                                                    8.90308 2.52094 8.77658C3.27938 8.59813 4.05471 8.44298 4.84691 8.3111L5.85402
+                                                                    4.95979C6.20298 3.79659 7.27362 3 8.48804 3H15.5119Z"
+                                                        fill="#878787" />
+                                                </svg>
+                                            </span>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
-                            <h5>
-                                @php
-                                    $user = App\Models\User::findOrFail($post->user_id);
-                                @endphp
-                                {{ $user->name }}
-                            </h5>
+
+                            <div class="btn-group">
+                                <button type="button" class="btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu1 dropdown-menu-end mt-1" style="">
+                                    @if ($post->privacy == 'public' && $post->user_id == auth()->id())
+                                        <li><a class="dropdown-item text-info hover:text-info active:text-info"
+                                                href="javascript:void(0);">Edit <i class='bx bx-edit'></i></a></li>
+                                        <li><a class="dropdown-item text-danger hover:text-danger active:text-danger"
+                                                href="javascript:void(0);">Delete <i class='bx bx-trash'></i></a></li>
+                                    @elseif ($post->privacy == 'public' && $post->user_id != auth()->id())
+                                        <li><a class="dropdown-item" href="javascript:void(0);">View User <i
+                                                    class='bx bx-user-pin'></i></a></li>
+                                    @else
+                                        <li><a class="dropdown-item text-danger hover:text-danger active:text-danger px-auto"
+                                                href="javascript:void(0);">Report <i class='bx bx-error'></i></a></li>
+                                    @endif
+                                </ul>
+                            </div>
                         </div>
                         <div>
+                            <h2 class="text-xl h2 font-bold text-gray-700">
+                                {{ $post->caption }}
+                            </h2>
                             <p class="text-gray-700 text-base">
                                 {{ $post->description }}
                             </p>
@@ -164,7 +239,7 @@
                                 }
 
                                 a.dropdown-item:hover {
-                                    color: var(--bs-dropdown-link-hover-color) !important;
+                                    color: var(--bs-dropdown-link-hover-color);
                                 }
 
                                 ul.dropdown-menu.show {
@@ -174,7 +249,7 @@
                                 .dropdown-item:not(.disabled).active,
                                 .dropdown-item:not(.disabled):active {
                                     background-color: var(--bs-dropdown-link-hover-bg);
-                                    color: #8592a3 !important;
+                                    color: #8592a3;
                                 }
 
                                 .dropdown-item.active,
@@ -211,7 +286,7 @@
                                     data-bs-toggle="collapse" href="#collapse{{ $post->id }}" role="button"
                                     aria-expanded="false" aria-controls="collapse{{ $post->id }}"
                                     style="max-width: 50%;">
-                                    Comment
+                                    <i class='bx bx-comment mr-1'></i>Comment
                                     {{-- <span class="bx bx-error ml-1"></span> --}}
                                 </button>
                             </div>
@@ -251,7 +326,44 @@
 
         <div class="col-3 mr-20">
             <div class="card">
-                <h3 class="card-header h3">Hello World</h3>
+                <h3 class="card-header pb-0 h3">Latest Updates</h3>
+                <div class="mt-2">
+                    <div class="list-group border-b-0 border-transparent">
+                        <a href="javascript:void(0);"
+                            class="list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex justify-content-between w-100">
+                                <h6 class="h6">List group item heading</h6>
+                            </div>
+                            <p class="mb-1">
+                                Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
+                                blandit.
+                            </p>
+                            <small>3 days ago</small>
+                        </a>
+                        <a href="javascript:void(0);"
+                            class="list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex justify-content-between w-100">
+                                <h6 class="h6">List group item heading</h6>
+                            </div>
+                            <p class="mb-1">
+                                Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
+                                blandit.
+                            </p>
+                            <small class="text-muted">3 days ago</small>
+                        </a>
+                        <a href="javascript:void(0);"
+                            class="list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex justify-content-between w-100">
+                                <h6 class="h6">List group item heading</h6>
+                            </div>
+                            <p class="mb-1">
+                                Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
+                                blandit.
+                            </p>
+                            <small class="text-muted">3 days ago</small>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -264,7 +376,7 @@
         }
 
         .commentDropdown {
-            inset: -2.5rem auto auto 17rem !important;
+            inset: -2.5rem auto auto 12rem !important;
         }
 
         .x-btn {
@@ -286,12 +398,17 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+
             $('.input-field').focus(function() {
                 $(this).closest('.flex').addClass('focused');
             });
 
             $('.input-field').blur(function() {
                 $(this).closest('.flex').removeClass('focused');
+            });
+
+            $('.here').mouseenter(function() {
+                $(this).removeClass('active');
             });
 
             var post_id = {{ $post->id }};
@@ -380,7 +497,7 @@
                                                 <i class="burger${comment.id} bx bx-dots-horizontal-rounded hover:text-indigo-400"
                                                     style="
                                                         position: relative;
-                                                        left: 25.25rem;
+                                                        left: 20.25rem;
                                                         bottom: 2.5rem;">
                                                 </i>
                                             </button>

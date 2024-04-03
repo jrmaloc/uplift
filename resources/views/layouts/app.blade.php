@@ -65,9 +65,9 @@
 <body>
     <!-- Layout wrapper -->
     <x-off-canvas id="settingsOffcanvas" title="Settings" class="m-auto">
-            <h2 class="h1 flex justify-center">UNDER</h2>
-            <h2 class="h1 flex justify-center">MAINTENANCE</h2>
-            <h2 class="h1 flex justify-center">🚧⚠️</h2>
+        <h2 class="h1 flex justify-center">UNDER</h2>
+        <h2 class="h1 flex justify-center">MAINTENANCE</h2>
+        <h2 class="h1 flex justify-center">🚧⚠️</h2>
     </x-off-canvas>
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
@@ -117,7 +117,8 @@
                         </a>
                     </li>
                     <!-- Pages -->
-                    <li class="menu-item {{ preg_match('/dashboard\/roles$/', Request::path()) || preg_match('/dashboard\/permissions$/', Request::path()) ? 'open active' : '' }}">
+                    <li
+                        class="menu-item {{ preg_match('/dashboard\/roles$/', Request::path()) || preg_match('/dashboard\/permissions$/', Request::path()) ? 'open active' : '' }}">
                         <a href="{{ route('roles.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-cog"></i>
                             <div data-i18n="Account Settings">Roles &amp; Permissions</div>
@@ -206,8 +207,10 @@
                                         <li>
                                             <hr class="dropdown-divider" />
                                         </li>
-                                        <li><a class="dropdown-item notification-footer"
-                                                href="javascript:void(0);">See All</a>
+                                        <li>
+                                            <a class="dropdown-item notification-footer" href="javascript:void(0);">
+                                                See All
+                                            </a>
                                         </li>
                                     </ul>
                                 </div>
@@ -231,7 +234,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <span class="fw-medium d-block">{{ $auth->name != null ? $auth->name : $auth->username }}</span>
+                                                    <span
+                                                        class="fw-medium d-block">{{ $auth->name != null ? $auth->name : $auth->username }}</span>
                                                     <small class="text-muted">Admin</small>
                                                 </div>
                                             </div>
@@ -247,7 +251,8 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" data-bs-toggle="offcanvas" href="#settingsOffcanvas" role="button" aria-controls="settingsOffcanvas">
+                                        <a class="dropdown-item" data-bs-toggle="offcanvas" href="#settingsOffcanvas"
+                                            role="button" aria-controls="settingsOffcanvas">
                                             <i class="bx bx-cog me-2"></i>
                                             <span class="align-middle">Settings</span>
                                         </a>
