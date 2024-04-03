@@ -52,7 +52,6 @@ class PostController extends Controller
         //
 
         if ($request->ajax() && $request->data == 'react') {
-
             $post = Post::findOrFail($request->id);
             $user_id = $request->userId;
 
@@ -73,6 +72,7 @@ class PostController extends Controller
                 return response()->json([
                     'status' => 200,
                     'reactCount' => $count,
+                    'value' => 'true',
                 ]);
 
             } elseif ($request->value === "false") {
@@ -87,6 +87,7 @@ class PostController extends Controller
                 return response()->json([
                     'status' => 200,
                     'reactCount' => $count,
+                    'value' => 'false',
                 ]);
             }
         }

@@ -21,6 +21,20 @@
         .dropdown-menu1 {
             --bs-dropdown-min-width: 10rem !important;
         }
+
+        a.underlineHover {
+            padding-bottom: 10px;
+            background-image: linear-gradient(#696bff, #696bff), linear-gradient(rgb(255, 255, 255), rgb(255, 255, 255));
+            background-size: 0 2px, auto;
+            background-repeat: no-repeat;
+            background-position: center bottom;
+            transition: all .2s ease-out;
+            cursor: pointer;
+        }
+
+        a.underlineHover:hover {
+            background-size: 100% 2px, auto;
+        }
     </style>
 @endsection
 
@@ -103,22 +117,23 @@
                                             <span>
                                                 <?xml version="1.0" ?><svg fill="none" height="24"
                                                     viewBox="0 0 24 24" width="15" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M17.5 11.75C20.1233 11.75 22.25 13.8766 22.25 16.5C22.25 19.1234 20.1233
-                                                                    21.25 17.5 21.25C15.402 21.25 13.6216 19.8898 12.9927 18.0032H11.0072C10.3783
-                                                                    19.8898 8.59799 21.25 6.49998 21.25C3.87663 21.25 1.74998 19.1234 1.74998
-                                                                    16.5C1.74998 13.8766 3.87663 11.75 6.49998 11.75C8.95456 11.75 10.9743 13.6118
-                                                                    11.224 16.0003H12.776C13.0257 13.6118 15.0454 11.75 17.5 11.75ZM6.49998
-                                                                    13.75C4.9812 13.75 3.74998 14.9812 3.74998 16.5C3.74998 18.0188 4.9812 19.25
-                                                                    6.49998 19.25C8.01876 19.25 9.24998 18.0188 9.24998 16.5C9.24998 14.9812 8.01876
-                                                                    13.75 6.49998 13.75ZM17.5 13.75C15.9812 13.75 14.75 14.9812 14.75 16.5C14.75
-                                                                    18.0188 15.9812 19.25 17.5 19.25C19.0188 19.25 20.25 18.0188 20.25 16.5C20.25
-                                                                    14.9812 19.0188 13.75 17.5 13.75ZM15.5119 3C16.7263 3 17.797 3.79659 18.1459
-                                                                    4.95979L19.1521 8.31093C19.9446 8.44285 20.7203 8.59805 21.479 8.77658C22.0166
-                                                                    8.90308 22.3499 9.44144 22.2234 9.97904C22.0969 10.5166 21.5585 10.8499 21.0209
-                                                                    10.7234C18.2654 10.0751 15.2586 9.75 12 9.75C8.74132 9.75 5.73456 10.0751 2.97902
-                                                                    10.7234C2.44142 10.8499 1.90306 10.5166 1.77656 9.97904C1.65007 9.44144 1.98334
-                                                                    8.90308 2.52094 8.77658C3.27938 8.59813 4.05471 8.44298 4.84691 8.3111L5.85402
-                                                                    4.95979C6.20298 3.79659 7.27362 3 8.48804 3H15.5119Z"
+                                                    <path
+                                                        d="M17.5 11.75C20.1233 11.75 22.25 13.8766 22.25 16.5C22.25 19.1234 20.1233
+                                                                                                                21.25 17.5 21.25C15.402 21.25 13.6216 19.8898 12.9927 18.0032H11.0072C10.3783
+                                                                                                                19.8898 8.59799 21.25 6.49998 21.25C3.87663 21.25 1.74998 19.1234 1.74998
+                                                                                                                16.5C1.74998 13.8766 3.87663 11.75 6.49998 11.75C8.95456 11.75 10.9743 13.6118
+                                                                                                                11.224 16.0003H12.776C13.0257 13.6118 15.0454 11.75 17.5 11.75ZM6.49998
+                                                                                                                13.75C4.9812 13.75 3.74998 14.9812 3.74998 16.5C3.74998 18.0188 4.9812 19.25
+                                                                                                                6.49998 19.25C8.01876 19.25 9.24998 18.0188 9.24998 16.5C9.24998 14.9812 8.01876
+                                                                                                                13.75 6.49998 13.75ZM17.5 13.75C15.9812 13.75 14.75 14.9812 14.75 16.5C14.75
+                                                                                                                18.0188 15.9812 19.25 17.5 19.25C19.0188 19.25 20.25 18.0188 20.25 16.5C20.25
+                                                                                                                14.9812 19.0188 13.75 17.5 13.75ZM15.5119 3C16.7263 3 17.797 3.79659 18.1459
+                                                                                                                4.95979L19.1521 8.31093C19.9446 8.44285 20.7203 8.59805 21.479 8.77658C22.0166
+                                                                                                                8.90308 22.3499 9.44144 22.2234 9.97904C22.0969 10.5166 21.5585 10.8499 21.0209
+                                                                                                                10.7234C18.2654 10.0751 15.2586 9.75 12 9.75C8.74132 9.75 5.73456 10.0751 2.97902
+                                                                                                                10.7234C2.44142 10.8499 1.90306 10.5166 1.77656 9.97904C1.65007 9.44144 1.98334
+                                                                                                                8.90308 2.52094 8.77658C3.27938 8.59813 4.05471 8.44298 4.84691 8.3111L5.85402
+                                                                                                                4.95979C6.20298 3.79659 7.27362 3 8.48804 3H15.5119Z"
                                                         fill="#878787" />
                                                 </svg>
                                             </span>
@@ -139,70 +154,35 @@
                                         <li><a class="dropdown-item text-danger hover:text-danger active:text-danger"
                                                 href="javascript:void(0);">Delete <i class='bx bx-trash'></i></a></li>
                                     @elseif ($post->privacy == 'public' && $post->user_id != auth()->id())
-                                        <li><a class="dropdown-item" href="javascript:void(0);">View User <i
-                                                    class='bx bx-user-pin'></i></a></li>
+                                        <li><a class="dropdown-item text-secondary hover:text-secondary active:text-secondary"
+                                                href="javascript:void(0);">View User <i class='bx bx-user-pin'></i></a></li>
+                                        <li><a class="dropdown-item text-danger hover:text-danger active:text-danger"
+                                                href="javascript:void(0);">Report <i class='bx bx-error'></i></a></li>
                                     @else
-                                        <li><a class="dropdown-item text-danger hover:text-danger active:text-danger px-auto"
+                                        <li><a class="dropdown-item text-danger hover:text-danger active:text-danger"
                                                 href="javascript:void(0);">Report <i class='bx bx-error'></i></a></li>
                                     @endif
                                 </ul>
                             </div>
                         </div>
-                        <div>
+                        <div class="mb-4">
                             <h2 class="text-xl h2 font-bold text-gray-700">
                                 {{ $post->caption }}
                             </h2>
-                            <p class="text-gray-700 text-base">
+                            <p class="text-gray-700 text-sm text-pretty">
                                 {{ $post->description }}
                             </p>
                         </div>
+                        <div class="flex justify-end cursor-default">
+                            <div class="flex justify-end gap-1">
+                                <span class="badge rounded bg-label-secondary">Primary</span>
+                                <span class="badge rounded bg-label-secondary">Danger</span>
+                                <span class="badge rounded bg-label-secondary">Info</span>
+                                <span class="badge rounded bg-label-secondary">Primary</span>
+                            </div>
+                        </div>
                         <div class="mt-4 px-2">
                             <style>
-                                .heart {
-                                    display: none;
-                                }
-
-
-                                .heart+label {
-                                    position: relative;
-                                    padding-left: 35px;
-                                    display: inline-block;
-                                    font-size: 14px;
-                                }
-
-                                .heart+label:before {
-                                    content: "\1F5A4";
-                                    top: -11px;
-                                    left: -8px;
-                                    border: 1px solid transparent;
-                                    padding: 10px;
-                                    border-radius: 3px;
-                                    display: block;
-                                    position: absolute;
-                                    transition: .5s ease;
-                                }
-
-
-
-                                .heart:checked+label:before {
-                                    border: 1px solid transparent;
-                                    background-color: transparent;
-                                }
-
-                                .heart:checked+label:after {
-                                    content: '\1F49C';
-                                    font-size: 18px;
-                                    position: absolute;
-                                    top: -1px;
-                                    left: 1px;
-                                    color: rgb(130, 97, 252);
-                                    transition: .5s ease;
-                                }
-
-                                .heart:checked+label {
-                                    color: rgb(130, 97, 252);
-                                }
-
                                 .btn-outline-primary:hover {
                                     color: #5f61e6 !important;
                                     background-color: #fff !important;
@@ -273,7 +253,7 @@
                                 $reactCount = count($reactions);
                             @endphp
 
-                            <div class="btn-group flex justify-content-between mt-4" role="group"
+                            {{-- <div class="btn-group flex justify-content-between mt-4" role="group"
                                 aria-label="Basic example">
                                 <button type="button" class="btn btn-outline-primary post-react-btn"
                                     id="{{ $post->id }}" style="max-width: 50%;">
@@ -287,14 +267,19 @@
                                     aria-expanded="false" aria-controls="collapse{{ $post->id }}"
                                     style="max-width: 50%;">
                                     <i class='bx bx-comment mr-1'></i>Comment
-                                    {{-- <span class="bx bx-error ml-1"></span> --}}
                                 </button>
-                            </div>
+                            </div> --}}
 
-                            <div class="flex justify-end mt-4 gap-1">
-                                <span class="badge rounded-pill bg-label-primary">Primary</span>
-                                <span class="badge rounded-pill bg-label-info">Danger</span>
-                                <span class="badge rounded-pill bg-label-warning">Info</span>
+                            <div class="flex gap-4">
+                                <input type="checkbox" id="heart{{ $post->id }}" hidden {{ $included ? 'checked' : '' }}>
+                                <a class="text-secondary heart" id="{{ $post->id }}" style="cursor: pointer; height:max-content;">
+                                    <i class='bx {{ $included ? 'bxs-heart' : 'bx-heart' }} text-primary heartIcon{{ $post->id }} ease-in-out duration-300' style="margin-bottom: 3px;"></i>
+                                    <span class="post-react-count{{ $post->id }}">{{ $reactCount }}</span>
+                                </a>
+                                <a class="text-secondary underlineHover px-3" data-bs-toggle="collapse"
+                                    href="#collapse{{ $post->id }}" aria-controls="collapse{{ $post->id }}"><i
+                                        class='bx bx-comment mr-2 text-primary'></i>Comment <span
+                                        class="ml-1">0</span></a>
                             </div>
 
                             {{-- Comment Drawer --}}
@@ -403,19 +388,28 @@
                 $(this).closest('.flex').addClass('focused');
             });
 
+            $('.heart').mouseenter(function() {
+                var id = $(this).attr('id');
+                $('.heartIcon' + id).addClass('scale-125');
+            });
+
+            $('.heart').mouseleave(function() {
+                var id = $(this).attr('id');
+                $('.heartIcon' + id).removeClass('scale-125');
+            });
+
             $('.input-field').blur(function() {
                 $(this).closest('.flex').removeClass('focused');
             });
 
-            $('.here').mouseenter(function() {
-                $(this).removeClass('active');
-            });
-
             var post_id = {{ $post->id }};
             // Post Reactions
-            $(document).on('click', '.post-react-btn', function(e) {
+            $(document).on('click', '.heart', function(e) {
                 var id = $(this).attr('id');
                 var userId = {{ $auth->id }};
+
+                var heart = $('.heartIcon' + id);
+                console.log();
 
                 $('#heart' + id).prop('checked', function(i, currentValue) {
                     $.ajax({
@@ -428,9 +422,18 @@
                             userId: userId,
                         },
                         success: function(response) {
-                            if (response.status == 200) {
-                                $('#post_reaction_count' + id).html(response
-                                    .reactCount);
+                            if (response.status == 200 && response.value == 'true') {
+
+                                heart.removeClass('bx-heart');
+                                heart.addClass('bxs-heart');
+
+                                $('.post-react-count' + id).html(response.reactCount);
+                            } else if (response.status == 200 && response.value == 'false') {
+
+                                heart.removeClass('bxs-heart');
+                                heart.addClass('bx-heart');
+
+                                $('.post-react-count' + id).html(response.reactCount);
                             }
                         },
                         error: function(error) {
@@ -442,11 +445,19 @@
                 });
             });
 
+            // Comment Close
+            $(document).on('hide.bs.collapse', '.collapse', function() {
+                $('.underlineHover').css('background-size', '0% 2px, auto');
+                $('.underlineHover').css('background-size', '');
+            });
             // Comment Show
             $(document).on('show.bs.collapse', '.collapse', function() {
                 var id = $(this).data('id'); // Get the data-id attribute value
                 var ul = $('#append' + id);
+
                 ul.scrollTop(ul.prop("scrollHeight"));
+
+                $('.underlineHover').css('background-size', '100% 2px, auto');
 
                 $.ajax({
                     url: "{{ route('home.index') }}",
