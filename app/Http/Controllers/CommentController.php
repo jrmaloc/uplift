@@ -81,6 +81,7 @@ class CommentController extends Controller
                 return response()->json([
                     'status' => 200,
                     'reactCount' => $count,
+                    'value' => 'true',
                 ]);
 
             } elseif ($request->value === "false") {
@@ -95,6 +96,7 @@ class CommentController extends Controller
                 return response()->json([
                     'status' => 200,
                     'reactCount' => $count,
+                    'value' => 'false',
                 ]);
             }
         } else {

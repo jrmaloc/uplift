@@ -15,10 +15,11 @@ class AccountPageController extends Controller
     public function index(Request $request)
     {
         //
-        $posts = Post::with('user')->get();
+        $posts = Post::with(['user', 'comments'])->get();
 
         if ($request->ajax()) {
             $comments = Comment::where('post_id', $request->id)->get();
+            $commentCount = $comments->count();
 
             if ($comments->isEmpty()) {
                 return response()->json([
@@ -59,6 +60,7 @@ class AccountPageController extends Controller
 
             return response()->json([
                 'comments' => $commentData,
+                'commentCount' => $commentCount,
             ]);
         }
 
