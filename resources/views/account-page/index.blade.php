@@ -119,21 +119,21 @@
                                                     viewBox="0 0 24 24" width="15" xmlns="http://www.w3.org/2000/svg">
                                                     <path
                                                         d="M17.5 11.75C20.1233 11.75 22.25 13.8766 22.25 16.5C22.25 19.1234 20.1233
-                                                                                                                    21.25 17.5 21.25C15.402 21.25 13.6216 19.8898 12.9927 18.0032H11.0072C10.3783
-                                                                                                                    19.8898 8.59799 21.25 6.49998 21.25C3.87663 21.25 1.74998 19.1234 1.74998
-                                                                                                                    16.5C1.74998 13.8766 3.87663 11.75 6.49998 11.75C8.95456 11.75 10.9743 13.6118
-                                                                                                                    11.224 16.0003H12.776C13.0257 13.6118 15.0454 11.75 17.5 11.75ZM6.49998
-                                                                                                                    13.75C4.9812 13.75 3.74998 14.9812 3.74998 16.5C3.74998 18.0188 4.9812 19.25
-                                                                                                                    6.49998 19.25C8.01876 19.25 9.24998 18.0188 9.24998 16.5C9.24998 14.9812 8.01876
-                                                                                                                    13.75 6.49998 13.75ZM17.5 13.75C15.9812 13.75 14.75 14.9812 14.75 16.5C14.75
-                                                                                                                    18.0188 15.9812 19.25 17.5 19.25C19.0188 19.25 20.25 18.0188 20.25 16.5C20.25
-                                                                                                                    14.9812 19.0188 13.75 17.5 13.75ZM15.5119 3C16.7263 3 17.797 3.79659 18.1459
-                                                                                                                    4.95979L19.1521 8.31093C19.9446 8.44285 20.7203 8.59805 21.479 8.77658C22.0166
-                                                                                                                    8.90308 22.3499 9.44144 22.2234 9.97904C22.0969 10.5166 21.5585 10.8499 21.0209
-                                                                                                                    10.7234C18.2654 10.0751 15.2586 9.75 12 9.75C8.74132 9.75 5.73456 10.0751 2.97902
-                                                                                                                    10.7234C2.44142 10.8499 1.90306 10.5166 1.77656 9.97904C1.65007 9.44144 1.98334
-                                                                                                                    8.90308 2.52094 8.77658C3.27938 8.59813 4.05471 8.44298 4.84691 8.3111L5.85402
-                                                                                                                    4.95979C6.20298 3.79659 7.27362 3 8.48804 3H15.5119Z"
+                                                                                                                                21.25 17.5 21.25C15.402 21.25 13.6216 19.8898 12.9927 18.0032H11.0072C10.3783
+                                                                                                                                19.8898 8.59799 21.25 6.49998 21.25C3.87663 21.25 1.74998 19.1234 1.74998
+                                                                                                                                16.5C1.74998 13.8766 3.87663 11.75 6.49998 11.75C8.95456 11.75 10.9743 13.6118
+                                                                                                                                11.224 16.0003H12.776C13.0257 13.6118 15.0454 11.75 17.5 11.75ZM6.49998
+                                                                                                                                13.75C4.9812 13.75 3.74998 14.9812 3.74998 16.5C3.74998 18.0188 4.9812 19.25
+                                                                                                                                6.49998 19.25C8.01876 19.25 9.24998 18.0188 9.24998 16.5C9.24998 14.9812 8.01876
+                                                                                                                                13.75 6.49998 13.75ZM17.5 13.75C15.9812 13.75 14.75 14.9812 14.75 16.5C14.75
+                                                                                                                                18.0188 15.9812 19.25 17.5 19.25C19.0188 19.25 20.25 18.0188 20.25 16.5C20.25
+                                                                                                                                14.9812 19.0188 13.75 17.5 13.75ZM15.5119 3C16.7263 3 17.797 3.79659 18.1459
+                                                                                                                                4.95979L19.1521 8.31093C19.9446 8.44285 20.7203 8.59805 21.479 8.77658C22.0166
+                                                                                                                                8.90308 22.3499 9.44144 22.2234 9.97904C22.0969 10.5166 21.5585 10.8499 21.0209
+                                                                                                                                10.7234C18.2654 10.0751 15.2586 9.75 12 9.75C8.74132 9.75 5.73456 10.0751 2.97902
+                                                                                                                                10.7234C2.44142 10.8499 1.90306 10.5166 1.77656 9.97904C1.65007 9.44144 1.98334
+                                                                                                                                8.90308 2.52094 8.77658C3.27938 8.59813 4.05471 8.44298 4.84691 8.3111L5.85402
+                                                                                                                                4.95979C6.20298 3.79659 7.27362 3 8.48804 3H15.5119Z"
                                                         fill="#878787" />
                                                 </svg>
                                             </span>
@@ -272,17 +272,25 @@
                                 </button>
                             </div> --}}
 
+                            {{-- <img src="{{ URL::asset('avatars/pray.png') }}" alt=""
+                                style="height: 25px; aspect-ratio: 1;"> --}}
+
+
+
                             <div class="flex gap-4">
                                 <input type="checkbox" id="heart{{ $post->id }}" hidden
                                     {{ $included ? 'checked' : '' }}>
-                                <a class="text-secondary heart" id="{{ $post->id }}"
-                                    style="cursor: pointer; height:max-content;">
-                                    <i class='bx {{ $included ? 'bxs-heart' : 'bx-heart' }} text-primary heartIcon{{ $post->id }} ease-in-out duration-300'
-                                        style="margin-bottom: 3px;"></i>
+
+                                <a class="flex gap-2 cursor-default">
+                                    <img src="{{ $included ? URL::asset('avatars/pray.png') : URL::asset('avatars/pray-outline.png') }}"
+                                        alt="" id="{{ $post->id }}" style="height: 25px; aspect-ratio:1;"
+                                        class="heartIcon{{ $post->id }} heart cursor-pointer ease-in-out duration-300 hover:scale-125">
                                     <span class="post-react-count{{ $post->id }}">{{ $reactCount }}</span>
                                 </a>
-                                <a class="text-secondary underlineHover comment{{ $post->id }} px-3" data-bs-toggle="collapse"
-                                    href="#collapse{{ $post->id }}" aria-controls="collapse{{ $post->id }}"><i
+
+                                <a class="text-secondary underlineHover comment{{ $post->id }} px-3"
+                                    data-bs-toggle="collapse" href="#collapse{{ $post->id }}"
+                                    aria-controls="collapse{{ $post->id }}"><i
                                         class='bx bx-comment mr-2 text-primary'></i>Comment <span class="ml-1"
                                         id="commentCount{{ $post->id }}"
                                         postId="{{ $post->id }}">{{ $commentCount }}</span></a>
@@ -430,15 +438,15 @@
                         success: function(response) {
                             if (response.status == 200 && response.value == 'true') {
 
-                                heart.removeClass('bx-heart');
-                                heart.addClass('bxs-heart');
-
+                                heart.attr('src',
+                                    "{{ URL::asset('avatars/pray.png') }}");
                                 $('.post-react-count' + id).html(response.reactCount);
+
                             } else if (response.status == 200 && response.value ==
                                 'false') {
 
-                                heart.removeClass('bxs-heart');
-                                heart.addClass('bx-heart');
+                                heart.attr('src',
+                                    "{{ URL::asset('avatars/pray-outline.png') }}");
 
                                 $('.post-react-count' + id).html(response.reactCount);
                             }
@@ -482,83 +490,49 @@
                                 let createdAt = moment(comment.created_at);
                                 let timeAgo = createdAt.fromNow();
 
-                                var test = comment.user.avatar;
+                                var avatar = comment.user.avatar;
 
-                                let avatarUrl = test ? "{{ URL::asset(':avatar') }}"
-                                    .replace(':avatar', test) :
+                                let avatarUrl = avatar ? "{{ URL::asset(':avatar') }}"
+                                    .replace(':avatar', avatar) :
                                     "{{ URL::asset('assets/img/avatars/5.png') }}";
+
+                                var included = comment.included;
+
+                                var checked = included ? 'checked' : '';
+                                var imgSrc = included ?
+                                    `{{ URL::asset('avatars/pray.png') }}` :
+                                    `{{ URL::asset('avatars/pray-outline.png') }}`;
 
                                 console.log();
 
-
                                 let commentHtml = `
                                     <li class="d-grid p-3 mt-2">
-                                        <div class="flex flex-col row align-items-center">
+                                        <div class="row">
                                             <div class ="col-2">
                                                 <img src="${avatarUrl}" alt="collapse-image" class="me-4 mb-sm-0 mb-2" height="125"
-                                                style="max-width: 10%; border-radius: 50%; aspect-ratio: 1/1;" />
+                                                style="max-width: 100%; border-radius: 50%; aspect-ratio: 1/1;" />
                                             </div>
-                                            <div class="flex flex-col gap-2 w-80 col-10">
+                                            <div class="flex flex-col gap-2 col-8">
                                                 <div class="flex align-items-center gap-2">
                                                     <span class="font-semibold">${comment.user.name}</span>
                                                     <span class="text-muted text-xs">${timeAgo}</span>
                                                 </div>
-                                                <span class="spanEdit mb-3" id="commentbody${comment.id}">${comment.comments}</span>
+                                                <span class="spanEdit" id="commentbody${comment.id}">${comment.comments}</span>
+                                                <div class="flex align-items-center gap-4">
+                                                    <input type="checkbox" id="comment${comment.id}" hidden ${checked}>
 
-                                                <div class="flex gap-4">
-                                                    <input type="checkbox" id="heart{{ $post->id }}" hidden
-                                                        {{ $included ? 'checked' : '' }}>
-                                                    <a class="text-secondary heart" id="{{ $post->id }}"
-                                                        style="cursor: pointer; height:max-content;">
-                                                        <i class='bx {{ $included ? 'bxs-heart' : 'bx-heart' }} text-primary heartIcon{{ $post->id }} ease-in-out duration-300'
-                                                            style="margin-bottom: 3px;"></i>
-                                                        <span class="post-react-count{{ $post->id }}">{{ $reactCount }}</span>
+                                                    <a class="flex gap-2 cursor-default">
+                                                        <img src="${imgSrc}" id="${comment.id}"
+                                                            style="height: 25px; aspect-ratio:1;"
+                                                            class="heartIcon${comment.id} comment-react-btn cursor-pointer
+                                                                    ease-in-out duration-300 hover:scale-125">
+                                                        <span class="comment_reaction_count${comment.id}">${comment.reaction_count}</span>
                                                     </a>
-                                                    <a class="text-secondary underlineHover comment{{ $post->id }} px-3" data-bs-toggle="collapse"
-                                                        href="#" aria-controls="collapse{{ $post->id }}"><i
-                                                            class='bx bx-comment mr-2 text-primary'></i>Reply <span class="ml-1"
-                                                            id="commentCount{{ $post->id }}"
-                                                            postId="{{ $post->id }}">{{-- $commentCount --}}</span></a>
                                                 </div>
-                                            </div>
                                         </div>
-
-                                        <!-- <div class="relative h-5" id="btn-toggle${comment.id}">
-                                            <button id="${comment.id}" type="button">
-                                                <i class="x-btn${comment.id} bx bx-x cancel d-none" postId="${comment.post_id}" style="
-                                                        position: relative;
-                                                        left: 26.75rem;
-                                                        bottom: 2.5rem;">
-                                                </i>
-                                            </button>
-                                            <button type="button" class="btn dropdown-toggle hide-arrow rounded-pill" data-bs-toggle="dropdown"
-                                                aria-expanded="false">
-                                                <i class="burger${comment.id} bx bx-dots-horizontal-rounded text-slate-400 hover:text-indigo-400"
-                                                    style="
-                                                        position: relative;
-                                                        left: 20.25rem;
-                                                        bottom: 2.5rem;">
-                                                </i>
-                                            </button>
-
-                                            <ul class="dropdown-menu dropdown-menu-end commentDropdown">
-                                                ${showViewUser ? '<li><a data-id="'+ comment.post_id +'" id="' + comment.id +'" class="dropdown-item edit-btn" href="javascript:void(0);">Edit</a></li><li><a id="' + comment.id +'" class="dropdown-item delete-btn" href="javascript:void(0);">Delete</a></li>' : '<li><a id="' + comment.user.id +'" class="dropdown-item view-btn" href="javascript:void(0);">View User</a></li>'}
-                                            </ul>
+                                        <div class="col-2">
+                                            <a href="javascript:void(0);" class="hover:text-indigo-700 w-max"><i class='bx bx-dots-horizontal-rounded' ></i></a>
                                         </div>
-
-
-                                        <div class="input-group d-none" id="editInputGroup${comment.id}">
-                                            <input type="text" class="form-control" id="editInput${comment.id}" name="editInput" autofocus>
-                                            <button class="btn btn-primary update-btn" type="button" data-id="${comment.post_id}" id="${comment.id}">Save!</button>
-                                        </div>
-
-                                        <div class="btn-group flex justify-content-between mt-4" role="group" aria-label="Basic example">
-                                            <button type="button" class="btn btn-outline-primary comment-react-btn" id="${comment.id}" style="max-width: 50%;">
-                                                <input type="checkbox" class="heart" id="comment${comment.id}" ${comment.included ? 'checked' : ''}/>
-                                                <label class="react text-sm" id="comment_reaction_count${comment.id}" for="comment${comment.id}">${comment.reaction_count}</label>
-                                            </button>
-                                            <button type="button" class="btn btn-outline-danger report-btn" style="max-width: 50%;">Report <span class="bx bx-error ml-1"></span></button>
-                                        </div> -->
                                     </li>`;
                                 // Append the comment HTML to the comment_group element
                                 $('#append' + id).append(commentHtml);
@@ -684,6 +658,9 @@
                 var id = $(this).attr('id');
                 var userId = {{ $auth->id }};
 
+                var heart = $('.heartIcon' + id);
+                console.log(heart);
+
                 $('#comment' + id).prop('checked', function(i, currentValue) {
 
                     $.ajax({
@@ -697,11 +674,19 @@
                         },
                         success: function(response) {
                             if (response.status == 200 && response.value == 'true') {
-                                $('#comment_reaction_count' + id).html(response
+
+                                $('.comment_reaction_count' + id).html(response
                                     .reactCount);
-                            } else if (response.status == 200 && response.value == 'false') {
-                                $('#comment_reaction_count' + id).html(response
+                                heart.attr('src',
+                                    "{{ URL::asset('avatars/pray.png') }}");
+
+                            } else if (response.status == 200 && response.value ==
+                                'false') {
+
+                                $('.comment_reaction_count' + id).html(response
                                     .reactCount);
+                                heart.attr('src',
+                                    "{{ URL::asset('avatars/pray-outline.png') }}");
                             }
                         },
                         error: function(error) {
