@@ -20,6 +20,7 @@
 
         .dropdown-menu1 {
             --bs-dropdown-min-width: 10rem !important;
+            inset: -.5rem -.5rem auto auto !important;
         }
 
         a.underlineHover {
@@ -39,51 +40,207 @@
 @endsection
 
 @section('content')
-    <div class="row mt-5">
-        <div class="col-5 ml-auto">
-            <h3 class="h3 ml-4 mt-4 fw-bolder">Activity Feed</h3>
+    <div class="row">
+        <h3 class="h3 ml-4 mt-4 fw-bolder">Activity Feed</h3>
+        <!-- feed -->
+        <div class="col-7 ml-auto">
+            <!-- create post -->
             <div class="mx-auto">
-                <div class="flex">
-                    <span class="input-group-text border-0"
-                        style="
-                    border-bottom-left-radius: 0px;
-                    border-top: 1px solid #d9dee3 !important;
-                    border-left: 1px solid #d9dee3 !important;
-                    border-top-right-radius: 0px;
-                    ">
-                        <img src="{{ URL::asset('assets/img/avatars/1.png') }}" alt="" class="rounded-full"
-                            style="width: 70px; aspect-ration: 1;"></span>
-                    <div class="w-100">
-                        <input type="text" class="form-control input-field border-0 pt-4" placeholder="Caption..."
+                <form action="{{ route('posts_page.store') }}" method="POST">
+                    @csrf
+                    @method('POST')
+                    <div class="flex bg-white">
+                        <span class="input-group-text border-0"
                             style="
-                    border-top: 1px solid #d9dee3 !important;
-                    border-right: 1px solid #d9dee3 !important;
-                    border-bottom: 0px !important;
-                    border-top-left-radius: 0px;
-                    border-bottom-right-radius: 0px;
-                    font-weight: bold;
-                    font-size: 20px;">
-                        <div class="input-overlay"></div>
-                        <textarea class="form-control pt-4 input-field rounded-0 border-0" rows="4" aria-label="With textarea"
-                            placeholder="Lorem Ipsum..."
-                            style="
-                    border-right: 1px solid #d9dee3 !important;
-                    min-height: 150px;"></textarea>
+                            border-bottom-left-radius: 0px;
+                            border-top: 1px solid #d9dee3 !important;
+                            border-left: 1px solid #d9dee3 !important;
+                            border-top-right-radius: 0px;
+                            ">
+                            @php
+                                $avatar = $auth->avatar ? $auth->avatar : URL::asset('avatars/user.png');
+                            @endphp
+                            <img src="{{ URL::asset($auth->avatar) }}" alt="" class="rounded-full"
+                                style="width: 70px; aspect-ratio: 1/1;"></span>
+                        <div class="w-100">
+                            <input type="text" class="form-control input-field border-0 pt-4" placeholder="Caption..."
+                                id="caption" name="caption"
+                                style="
+                                border-top: 1px solid #d9dee3 !important;
+                                border-right: 1px solid #d9dee3 !important;
+                                border-bottom: 0px !important;
+                                border-top-left-radius: 0px;
+                                border-bottom-right-radius: 0px;
+                                font-weight: bold;
+                                font-size: 20px;">
+                            <textarea class="form-control pt-4 input-field rounded-0 border-0" rows="4" aria-label="With textarea"
+                                placeholder="Lorem Ipsum..." id="content" name="content"
+                                style="
+                                border-right: 1px solid #d9dee3 !important;
+                                min-height: 150px;"></textarea>
+                        </div>
                     </div>
-                </div>
-                <div class="bg-indigo-100 px-2 py-3"
-                    style="border-bottom-left-radius: 0.375rem; border-bottom-right-radius: 0.375rem;">
-                    <div class="flex justify-end">
-                        <button class="btn btn-primary post-btn">Post!</button>
+                    <div class="bg-indigo-100 px-2 py-3 flex justify-around"
+                        style="border-bottom-left-radius: 0.375rem; border-bottom-right-radius: 0.375rem;">
+                        <div class="" style="width: 550px;">
+                            <label for="tags" style="width: 550px;" class="mb-2" class="form-label"> tags:
+                                <select class="form-control mb-2 mr-2" id="tags" name="tags[]" multiple="multiple">
+                                    <option value="Faith">Faith</option>
+                                    <option value="Family">Family</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="Health">Health</option>
+                                    <option value="Studies">Studies</option>
+                                    <option value="Work">Work</option>
+                                </select>
+                            </label>
+                            <style>
+                                .checkbox-wrapper-34 {
+                                    --blue: #0D7EFF;
+                                    --g08: #E1E5EB;
+                                    --g04: #848ea1;
+                                }
+
+                                .checkbox-wrapper-34 .tgl {
+                                    display: none;
+                                }
+
+                                .checkbox-wrapper-34 .tgl,
+                                .checkbox-wrapper-34 .tgl:after,
+                                .checkbox-wrapper-34 .tgl:before,
+                                .checkbox-wrapper-34 .tgl *,
+                                .checkbox-wrapper-34 .tgl *:after,
+                                .checkbox-wrapper-34 .tgl *:before,
+                                .checkbox-wrapper-34 .tgl+.tgl-btn {
+                                    box-sizing: border-box;
+                                }
+
+                                .checkbox-wrapper-34 .tgl::selection,
+                                .checkbox-wrapper-34 .tgl:after::selection,
+                                .checkbox-wrapper-34 .tgl:before::selection,
+                                .checkbox-wrapper-34 .tgl *::selection,
+                                .checkbox-wrapper-34 .tgl *:after::selection,
+                                .checkbox-wrapper-34 .tgl *:before::selection,
+                                .checkbox-wrapper-34 .tgl+.tgl-btn::selection {
+                                    background: none;
+                                }
+
+                                .checkbox-wrapper-34 .tgl+.tgl-btn {
+                                    outline: 0;
+                                    display: block;
+                                    width: 57px;
+                                    height: 27px;
+                                    position: relative;
+                                    cursor: pointer;
+                                    user-select: none;
+                                    font-size: 12px;
+                                    font-weight: 400;
+                                    color: #fff;
+                                }
+
+                                .checkbox-wrapper-34 .tgl+.tgl-btn:after,
+                                .checkbox-wrapper-34 .tgl+.tgl-btn:before {
+                                    position: relative;
+                                    display: block;
+                                    content: "";
+                                    width: 44%;
+                                    height: 100%;
+                                }
+
+                                .checkbox-wrapper-34 .tgl+.tgl-btn:after {
+                                    left: 0;
+                                }
+
+                                .checkbox-wrapper-34 .tgl+.tgl-btn:before {
+                                    display: inline;
+                                    position: absolute;
+                                    top: 7px;
+                                }
+
+                                .checkbox-wrapper-34 .tgl:checked+.tgl-btn:after {
+                                    left: 56.5%;
+                                }
+
+                                .checkbox-wrapper-34 .tgl-ios+.tgl-btn {
+                                    background: var(--g08);
+                                    border-radius: 20rem;
+                                    padding: 2px;
+                                    transition: all 0.4s ease;
+                                    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+                                }
+
+                                .checkbox-wrapper-34 .tgl-ios+.tgl-btn:after {
+                                    border-radius: 2em;
+                                    background: #fff;
+                                    transition: left 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), padding 0.3s ease, margin 0.3s ease;
+                                    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+                                }
+
+                                .checkbox-wrapper-34 .tgl-ios+.tgl-btn:before {
+                                    content: "No";
+                                    left: 30px;
+                                    top: 5px;
+                                    color: var(--g04);
+                                    transition: left 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                                }
+
+                                .checkbox-wrapper-34 .tgl-ios+.tgl-btn:active {
+                                    box-shadow: inset 0 0 0 30px rgba(0, 0, 0, 0.1);
+                                }
+
+                                .checkbox-wrapper-34 .tgl-ios+.tgl-btn:active:after {
+                                    padding-right: 0.4em;
+                                }
+
+                                .checkbox-wrapper-34 .tgl-ios:checked+.tgl-btn {
+                                    background: #5c5c5c;
+                                }
+
+                                .checkbox-wrapper-34 .tgl-ios:checked+.tgl-btn:active {
+                                    box-shadow: inset 0 0 0 30px rgba(0, 0, 0, 0.1);
+                                }
+
+                                .checkbox-wrapper-34 .tgl-ios:checked+.tgl-btn:active:after {
+                                    margin-left: -0.4em;
+                                }
+
+                                .checkbox-wrapper-34 .tgl-ios:checked+.tgl-btn:before {
+                                    content: "Yes";
+                                    left: 8px;
+                                    top: 5px;
+                                    color: #fff;
+                                }
+                            </style>
+                            <div class="flex align-items-center gap-2 mt-3">
+                                <label for="anonymous" class="form-label mt-1">Post Anonymmously?</label>
+                                <div class="checkbox-wrapper-34">
+                                    <input class="tgl tgl-ios" name="privacy" id="anonymous" type="checkbox">
+                                    <label class="tgl-btn" for="anonymous"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-7">
+                            <button type="submit" class="btn btn-primary post-btn h-max">Post!</button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
+
+            <!-- posts -->
             <div class="mt-4">
                 @foreach ($posts as $post)
-                    <div class="card px-8 pt-6 pb-4 mb-4 mx-auto">
+                    <div class="card px-8 pt-6 pb-4 mb-4">
+                        <!-- post header -->
                         <div class="flex justify-between align-items-center w-100 mb-4">
+                            @php
+                                $avatar = '';
+                                if ($post->user->avatar == null) {
+                                    $avatar = URL::asset('avatars/user.png');
+                                } else {
+                                    $avatar = URL::asset($post->user->avatar);
+                                }
+                            @endphp
                             <div class="flex align-items-center gap-2">
-                                <img src="{{ $post->privacy == 'public' ? URL::asset($post->user->avatar) : URL::asset('avatars/172626_user_male_icon.png') }}"
+                                <img src="{{ $post->privacy == 'public' ? $avatar : URL::asset('avatars/172626_user_male_icon.png') }}"
                                     class="rounded-full" style="width: 50px; aspect-ratio: 1;">
                                 <div class="gap-0 flex flex-col">
                                     <h5 id="test2" class="font-semibold">
@@ -117,23 +274,22 @@
                                             <span>
                                                 <?xml version="1.0" ?><svg fill="none" height="24"
                                                     viewBox="0 0 24 24" width="15" xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M17.5 11.75C20.1233 11.75 22.25 13.8766 22.25 16.5C22.25 19.1234 20.1233
-                                                                                                                                21.25 17.5 21.25C15.402 21.25 13.6216 19.8898 12.9927 18.0032H11.0072C10.3783
-                                                                                                                                19.8898 8.59799 21.25 6.49998 21.25C3.87663 21.25 1.74998 19.1234 1.74998
-                                                                                                                                16.5C1.74998 13.8766 3.87663 11.75 6.49998 11.75C8.95456 11.75 10.9743 13.6118
-                                                                                                                                11.224 16.0003H12.776C13.0257 13.6118 15.0454 11.75 17.5 11.75ZM6.49998
-                                                                                                                                13.75C4.9812 13.75 3.74998 14.9812 3.74998 16.5C3.74998 18.0188 4.9812 19.25
-                                                                                                                                6.49998 19.25C8.01876 19.25 9.24998 18.0188 9.24998 16.5C9.24998 14.9812 8.01876
-                                                                                                                                13.75 6.49998 13.75ZM17.5 13.75C15.9812 13.75 14.75 14.9812 14.75 16.5C14.75
-                                                                                                                                18.0188 15.9812 19.25 17.5 19.25C19.0188 19.25 20.25 18.0188 20.25 16.5C20.25
-                                                                                                                                14.9812 19.0188 13.75 17.5 13.75ZM15.5119 3C16.7263 3 17.797 3.79659 18.1459
-                                                                                                                                4.95979L19.1521 8.31093C19.9446 8.44285 20.7203 8.59805 21.479 8.77658C22.0166
-                                                                                                                                8.90308 22.3499 9.44144 22.2234 9.97904C22.0969 10.5166 21.5585 10.8499 21.0209
-                                                                                                                                10.7234C18.2654 10.0751 15.2586 9.75 12 9.75C8.74132 9.75 5.73456 10.0751 2.97902
-                                                                                                                                10.7234C2.44142 10.8499 1.90306 10.5166 1.77656 9.97904C1.65007 9.44144 1.98334
-                                                                                                                                8.90308 2.52094 8.77658C3.27938 8.59813 4.05471 8.44298 4.84691 8.3111L5.85402
-                                                                                                                                4.95979C6.20298 3.79659 7.27362 3 8.48804 3H15.5119Z"
+                                                    <path d="M17.5 11.75C20.1233 11.75 22.25 13.8766 22.25 16.5C22.25 19.1234 20.1233
+                                                                    21.25 17.5 21.25C15.402 21.25 13.6216 19.8898 12.9927 18.0032H11.0072C10.3783
+                                                                    19.8898 8.59799 21.25 6.49998 21.25C3.87663 21.25 1.74998 19.1234 1.74998
+                                                                    16.5C1.74998 13.8766 3.87663 11.75 6.49998 11.75C8.95456 11.75 10.9743 13.6118
+                                                                    11.224 16.0003H12.776C13.0257 13.6118 15.0454 11.75 17.5 11.75ZM6.49998
+                                                                    13.75C4.9812 13.75 3.74998 14.9812 3.74998 16.5C3.74998 18.0188 4.9812 19.25
+                                                                    6.49998 19.25C8.01876 19.25 9.24998 18.0188 9.24998 16.5C9.24998 14.9812 8.01876
+                                                                    13.75 6.49998 13.75ZM17.5 13.75C15.9812 13.75 14.75 14.9812 14.75 16.5C14.75
+                                                                    18.0188 15.9812 19.25 17.5 19.25C19.0188 19.25 20.25 18.0188 20.25 16.5C20.25
+                                                                    14.9812 19.0188 13.75 17.5 13.75ZM15.5119 3C16.7263 3 17.797 3.79659 18.1459
+                                                                    4.95979L19.1521 8.31093C19.9446 8.44285 20.7203 8.59805 21.479 8.77658C22.0166
+                                                                    8.90308 22.3499 9.44144 22.2234 9.97904C22.0969 10.5166 21.5585 10.8499 21.0209
+                                                                    10.7234C18.2654 10.0751 15.2586 9.75 12 9.75C8.74132 9.75 5.73456 10.0751 2.97902
+                                                                    10.7234C2.44142 10.8499 1.90306 10.5166 1.77656 9.97904C1.65007 9.44144 1.98334
+                                                                    8.90308 2.52094 8.77658C3.27938 8.59813 4.05471 8.44298 4.84691 8.3111L5.85402
+                                                                    4.95979C6.20298 3.79659 7.27362 3 8.48804 3H15.5119Z"
                                                         fill="#878787" />
                                                 </svg>
                                             </span>
@@ -143,11 +299,14 @@
                             </div>
 
                             <div class="btn-group">
-                                <button type="button" class="btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
+                                <button type="button"
+                                    class="dropdown-toggle hide-arrow hover:text-indigo-500 hover:scale-125 postDDtrigger" data-id="{{ $post->id }}"
+                                    id="postDDtrigger{{ $post->id }}" data-bs-toggle="dropdown" aria-expanded="false"  data-bs-auto-close="false">
                                     <i class="bx bx-dots-vertical-rounded"></i>
                                 </button>
-                                <ul class="dropdown-menu dropdown-menu1 dropdown-menu-end mt-1" style="">
+
+                                <ul class="dropdown-menu dropdown-menu1 dropdown-menu-end mt-1" id="postDD"
+                                    data-id="{{ $post->id }}">
                                     @if ($post->privacy == 'public' && $post->user_id == auth()->id())
                                         <li><a class="dropdown-item text-info hover:text-info active:text-info"
                                                 href="javascript:void(0);">Edit <i class='bx bx-edit'></i></a></li>
@@ -155,7 +314,8 @@
                                                 href="javascript:void(0);">Delete <i class='bx bx-trash'></i></a></li>
                                     @elseif ($post->privacy == 'public' && $post->user_id != auth()->id())
                                         <li><a class="dropdown-item text-secondary hover:text-secondary active:text-secondary"
-                                                href="javascript:void(0);">View User <i class='bx bx-user-pin'></i></a></li>
+                                                href="javascript:void(0);">View User <i class='bx bx-user-pin'></i></a>
+                                        </li>
                                         <li><a class="dropdown-item text-danger hover:text-danger active:text-danger"
                                                 href="javascript:void(0);">Report <i class='bx bx-error'></i></a></li>
                                     @else
@@ -165,6 +325,7 @@
                                 </ul>
                             </div>
                         </div>
+                        <!-- post body -->
                         <div class="mb-4">
                             <h2 class="text-xl h2 font-bold text-gray-700">
                                 {{ $post->caption }}
@@ -173,15 +334,20 @@
                                 {{ $post->description }}
                             </p>
                         </div>
+                        <!-- tags -->
+                        @php
+                            $tags = json_decode($post->tags);
+                        @endphp
+
                         <div class="flex justify-end cursor-default">
                             <div class="flex justify-end gap-1">
-                                <span class="badge rounded bg-label-secondary">Primary</span>
-                                <span class="badge rounded bg-label-secondary">Danger</span>
-                                <span class="badge rounded bg-label-secondary">Info</span>
-                                <span class="badge rounded bg-label-secondary">Primary</span>
+                                @foreach ($tags as $tag)
+                                    <span class="badge rounded bg-label-secondary">{{ $tag }}</span>
+                                @endforeach
                             </div>
                         </div>
-                        <div class="mt-4 px-2">
+                        <!-- comment and reaction -->
+                        <div class="mt-4 px-2" id="{{ $post->id }}">
                             <style>
                                 .btn-outline-primary:hover {
                                     color: #5f61e6 !important;
@@ -254,30 +420,8 @@
 
                                 $commentCount = $post->comments->count();
                             @endphp
-
-                            {{-- <div class="btn-group flex justify-content-between mt-4" role="group"
-                                aria-label="Basic example">
-                                <button type="button" class="btn btn-outline-primary post-react-btn"
-                                    id="{{ $post->id }}" style="max-width: 50%;">
-                                    <input type="checkbox" class="heart" {{ $included ? 'checked' : '' }}
-                                        id="heart{{ $post->id }}" />
-                                    <label class="react text-sm" for="heart{{ $post->id }}"><span
-                                            id="post_reaction_count{{ $post->id }}">{{ $reactCount }}</span></label>
-                                </button>
-                                <button type="button" class="btn btn-outline-info" id="{{ $post->id }}"
-                                    data-bs-toggle="collapse" href="#collapse{{ $post->id }}" role="button"
-                                    aria-expanded="false" aria-controls="collapse{{ $post->id }}"
-                                    style="max-width: 50%;">
-                                    <i class='bx bx-comment mr-1'></i>Comment
-                                </button>
-                            </div> --}}
-
-                            {{-- <img src="{{ URL::asset('avatars/pray.png') }}" alt=""
-                                style="height: 25px; aspect-ratio: 1;"> --}}
-
-
-
                             <div class="flex gap-4">
+                                <!-- reaction -->
                                 <input type="checkbox" id="heart{{ $post->id }}" hidden
                                     {{ $included ? 'checked' : '' }}>
 
@@ -287,10 +431,10 @@
                                         class="heartIcon{{ $post->id }} heart cursor-pointer ease-in-out duration-300 hover:scale-125">
                                     <span class="post-react-count{{ $post->id }}">{{ $reactCount }}</span>
                                 </a>
-
+                                <!-- comment -->
                                 <a class="text-secondary underlineHover comment{{ $post->id }} px-3"
                                     data-bs-toggle="collapse" href="#collapse{{ $post->id }}"
-                                    aria-controls="collapse{{ $post->id }}"><i
+                                    id="{{ $post->id }}" aria-controls="collapse{{ $post->id }}"><i
                                         class='bx bx-comment mr-2 text-primary'></i>Comment <span class="ml-1"
                                         id="commentCount{{ $post->id }}"
                                         postId="{{ $post->id }}">{{ $commentCount }}</span></a>
@@ -323,7 +467,8 @@
             </div>
         </div>
 
-        <div class="col-3 mr-20">
+        <!-- latest updates -->
+        <div class="col-3 mr-auto">
             <div class="card">
                 <h3 class="card-header pb-0 h3">Latest Updates</h3>
                 <div class="mt-2">
@@ -374,14 +519,14 @@
             cursor: pointer;
         }
 
-        .commentDropdown {
-            inset: -2.5rem auto auto 12rem !important;
-        }
-
         .x-btn {
             position: relative;
             left: 27rem;
             bottom: 2.375rem;
+        }
+
+        .commentDropdown {
+            inset: -.5rem -1rem auto auto !important;
         }
 
         .report-btn:focus {
@@ -397,6 +542,22 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+
+            $(document).on('click', '.postDDtrigger', function() {
+                var id = $(this).data('id');
+                var dropdown = $(this).parent().find('.dropdown-menu');
+                if (dropdown.hasClass('show')) {
+                    $('#postDDtrigger' + id).addClass('scale-125');
+                    $('#postDDtrigger' + id).addClass('text-indigo-500');
+                } else {
+                    $('#postDDtrigger' + id).removeClass('scale-125');
+                    $('#postDDtrigger' + id).removeClass('text-indigo-500');
+                }
+            });
+
+            $('#tags').select2({
+                tags: true,
+            });
 
             $('.input-field').focus(function() {
                 $(this).closest('.flex').addClass('focused');
@@ -416,7 +577,41 @@
                 $(this).closest('.flex').removeClass('focused');
             });
 
-            var post_id = {{ $post->id }};
+            // Post Create
+            // $(document).on('click', '.post-btn', function(e) {
+            //     e.preventDefault();
+
+            //     console.log('submit');
+            //     var userId = {{ $auth->id }};
+            //     var caption = $('#caption').val();
+            //     var content = $('#content').val();
+            //     var tags = $('#tags').val();
+            //     var url = '{{ route('posts.store') }}';
+            //     var data = 'create';
+            //     var anonymous = $('#anonymous').prop('checked');
+
+            //     $.ajax({
+            //         url: url,
+            //         method: "POST",
+            //         data: {
+            //             userId: userId,
+            //             caption: caption,
+            //             content: content,
+            //             tags: tags,
+            //             anonymous: anonymous,
+            //             data: data,
+            //         },
+            //         success: function(response) {
+            //             Swal.fire("SweetAlert2 is working!").then((result) => {
+            //                 window.location.reload();
+            //             });
+            //         },
+            //         error: function(error) {
+            //             console.log(error);
+            //         }
+            //     })
+            // })
+
             // Post Reactions
             $(document).on('click', '.heart', function(e) {
                 var id = $(this).attr('id');
@@ -462,9 +657,14 @@
 
             // Comment Close
             $(document).on('hide.bs.collapse', '.collapse', function() {
-                $('.underlineHover').css('background-size', '0% 2px, auto');
-                $('.underlineHover').css('background-size', '');
+                var id = $(this).parent().attr('id');
+
+                $('.comment' + id).css('background-size', '0% 2px, auto');
+                $('.comment' + id).css('background-size', '');
+
+                console.log(id);
             });
+
             // Comment Show
             $(document).on('show.bs.collapse', '.collapse', function() {
                 var id = $(this).data('id'); // Get the data-id attribute value
@@ -484,8 +684,10 @@
                         console.log();
                         if (response.comments.length > 0) {
                             response.comments.forEach(comment => {
-                                let showViewUser = comment.user.id ==
+                                var showViewUser = comment.user.id !=
                                     {{ $auth->id }};
+
+                                console.log();
 
                                 let createdAt = moment(comment.created_at);
                                 let timeAgo = createdAt.fromNow();
@@ -503,11 +705,32 @@
                                     `{{ URL::asset('avatars/pray.png') }}` :
                                     `{{ URL::asset('avatars/pray-outline.png') }}`;
 
+                                var dropdownOptions = showViewUser ?
+                                    `<li>
+                                        <a class="dropdown-item text-primary view-btn hover:text-info active:text-info"
+                                            href="javascript:void(0);"><i class='bx bx-user mr-1'></i>
+                                            View User
+                                        </a>
+                                    </li>` :
+                                    `<li>
+                                        <a class="dropdown-item text-info edit-btn hover:text-info active:text-info"
+                                            href="javascript:void(0);"><i class='bx bx-edit mr-1'></i>
+                                            Edit
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item text-danger delete-btn hover:text-info active:text-info"
+                                            href="javascript:void(0);"><i class='bx bx-trash mr-1'></i>
+                                            Delete
+                                        </a>
+                                    </li>`;
+
                                 console.log();
 
                                 let commentHtml = `
                                     <li class="d-grid p-3 mt-2">
                                         <div class="row">
+                                            <!-- comment header -->
                                             <div class ="col-2">
                                                 <img src="${avatarUrl}" alt="collapse-image" class="me-4 mb-sm-0 mb-2" height="125"
                                                 style="max-width: 100%; border-radius: 50%; aspect-ratio: 1/1;" />
@@ -524,14 +747,23 @@
                                                     <a class="flex gap-2 cursor-default">
                                                         <img src="${imgSrc}" id="${comment.id}"
                                                             style="height: 25px; aspect-ratio:1;"
-                                                            class="heartIcon${comment.id} comment-react-btn cursor-pointer
+                                                            class="heart${comment.id} comment-react-btn cursor-pointer
                                                                     ease-in-out duration-300 hover:scale-125">
                                                         <span class="comment_reaction_count${comment.id}">${comment.reaction_count}</span>
                                                     </a>
                                                 </div>
                                         </div>
                                         <div class="col-2">
-                                            <a href="javascript:void(0);" class="hover:text-indigo-700 w-max"><i class='bx bx-dots-horizontal-rounded' ></i></a>
+
+                                            <div class="btn-group">
+                                                <a href="javascript:void(O);" class="dropdown-toggle hide-arrow cursor-pointer hover:text-indigo-500 hover:scale-125" data-bs-toggle="dropdown"
+                                                    aria-expanded="false">
+                                                    <i class="bx bx-dots-horizontal-rounded"></i>
+                                                </a>
+                                                <ul class="dropdown-menu dropdown-menu1 commentDropdown dropdown-menu-end mt-1" style="">
+                                                    ${dropdownOptions}
+                                                </ul>
+                                            </div>
                                         </div>
                                     </li>`;
                                 // Append the comment HTML to the comment_group element
@@ -658,8 +890,8 @@
                 var id = $(this).attr('id');
                 var userId = {{ $auth->id }};
 
-                var heart = $('.heartIcon' + id);
-                console.log(heart);
+                var heart = $('.heart' + id);
+                console.log();
 
                 $('#comment' + id).prop('checked', function(i, currentValue) {
 

@@ -37,6 +37,25 @@ class PostPageController extends Controller
     public function store(Request $request)
     {
         //
+        $tags = json_encode($request->tags);
+
+        $request->privacy == null ? $privacy = 'public' : $privacy = 'private';
+
+        $newPost = Post::create([
+            'caption' => $request->caption,
+            'description' => $request->content,
+            'tags' => $tags,
+            'privacy' => $privacy,
+            'user_id' => Auth::user()->id,
+        ]);
+
+        if ($newPost) {
+            return redirect(route('home.index'))->with([
+                'status' == 200,
+                'message' == 'Post Created Successfully'
+            ]);
+        }
+
     }
 
     /**
