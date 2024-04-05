@@ -37,6 +37,9 @@ class PostPageController extends Controller
     public function store(Request $request)
     {
         //
+
+        dd($request->all());
+
         $tags = json_encode($request->tags);
 
         $request->privacy == null ? $privacy = 'public' : $privacy = 'private';

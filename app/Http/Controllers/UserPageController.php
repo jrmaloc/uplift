@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class UserPageController extends Controller
@@ -36,6 +37,11 @@ class UserPageController extends Controller
     public function show(string $id)
     {
         //
+        $posts = Post::where('user_id', $id)->with('comments.user')->get();
+
+        return view('account.user.show', [
+            'posts' => $posts
+        ]);
     }
 
     /**
