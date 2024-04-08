@@ -609,6 +609,10 @@ ul::-webkit-scrollbar-thumb {
     }
 }
 
+body{
+    overflow-x: hidden !important;
+}
+
 body {
     --sb-track-color: #bbbbbb;
     --sb-thumb-color: #6b6b6b;
@@ -617,6 +621,7 @@ body {
 
 body::-webkit-scrollbar {
     width: var(--sb-size);
+    height: var(--sb-size);
 }
 
 body::-webkit-scrollbar-track {

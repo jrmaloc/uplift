@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\Post;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,12 +48,24 @@ class CommentController extends Controller
 
             if ($comment) {
                 $user = User::findOrFail($comment->user_id);
+                $avatar = $user->avatar == null ? 'avatars/user.png' : $user->avatar;
+
+                $post = Post::findOrFail($comment->post_id);
+
+                $commentCount = $post->comments->count();
+
+                $date = Carbon::parse($comment->created_at);
+                $created_at = $date->diffForHumans();
+
                 return response()->json([
                     'success' => true,
                     'status' => 200,
                     'comments' => $comment,
                     'user' => $user,
                     'post_id' => $request->post_id,
+                    'created_at' => $created_at,
+                    'avatar' => $avatar,
+                    'commentCount' => $commentCount,
                 ]);
             } else {
                 return response()->json([
@@ -144,16 +158,16 @@ class CommentController extends Controller
                     ]);
                 } else {
                     return response()->json([
-                       'success' => false,
-                       'status' => 500,
-                       'message' => 'Something went wrong. Please try again',
+                        'success' => false,
+                        'status' => 500,
+                        'message' => 'Something went wrong. Please try again',
                     ], 500);
                 }
             } else {
                 return response()->json([
-                   'success' => false,
-                   'status' => 500,
-                   'message' => "Comment can't be found.",
+                    'success' => false,
+                    'status' => 500,
+                    'message' => "Comment can't be found.",
                 ], 500);
             }
         }
@@ -169,11 +183,17 @@ class CommentController extends Controller
             $comment = Comment::findOrFail($id);
             $delete = $comment->delete();
 
+            $post = Post::findOrFail($request->postId);
+            $commentCount = $post->comments->count();
+
             if ($delete) {
                 return response()->json([
                     'success' => true,
                     'status' => 200,
                     'message' => 'Comment deleted successfully',
+                    'id' => $id,
+                    'postId' => $request->postId,
+                    'commentCount' => $commentCount,
                 ], 200);
             }
         }

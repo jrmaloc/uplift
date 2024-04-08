@@ -21,10 +21,63 @@
 @endsection
 
 @section('content')
-    <div class="row gap-3 mt-4">
-        <div class="col-3 card" style="max-height: 400px;">
-            <div class="card-body">
+    {{-- MODALS --}}
 
+    {{-- delete comment --}}
+    <div class="modal fade" id="commentDeleteModal" tabindex="-1" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <label for="nameSmall" class="form-label flex justify-center">You want to delete your
+                                comment?</label>
+                            <div class="flex justify-center gap-2">
+                                <button class="btn uppercase btn-info" data-bs-dismiss="modal">cancel</button>
+                                <button class="btn uppercase btn-danger delete-btn">delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- report modal hindi pa tapooooos --}}
+    <x-modal id="reportModal" formID="reportModalForm">
+        <x-slot name="title">Do you mind telling us why?</x-slot>
+        <div class="col-10 mx-auto">
+            <label for="reason" class="form-label">Reason <span class="text-danger">*</span></label>
+            <textarea id="reason" name="reason" class="form-control" required autofocus rows="4"></textarea>
+        </div>
+        <x-slot name="footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-danger report-btn">Report <i class="bx bx-error ml-1"></i></button>
+        </x-slot>
+    </x-modal>
+    {{-- /MODALS --}}
+    <div class="row gap-3 mt-4 mx-auto">
+        <div class="col-3 card" style="max-height: 400px;">
+            <div class="card-header">
+                <div class="flex flex-col justify-between align-items-center">
+                    <img src="{{ $user->avatar == null ? URL::asset('avatars/user.png') : URL::asset($user->avatar) }}"
+                        alt="profile_pic" class=" aspect-square w-36">
+                    <div class="flex gap-12 mt-2">
+                        <span
+                            class="badge flex align-items-center gap-1 bg-label-primary cursor-pointer hover:scale-125 ease-in-out duration-300"
+                            id="follow_user_{{ $user->id }}" userId="{{ $user->id }}">
+                            <i class='bx {{ $followed == 1 ? 'bxs-heart' : 'bx-heart' }}' id="follow"></i>follow</span>
+                        <span
+                            class="badge flex align-items-center gap-1 bg-label-danger cursor-pointer hover:scale-125 ease-in-out duration-300"
+                            id="report_user_{{ $user->id }}" userId="{{ $user->id }}">Report<i
+                                class='bx bx-error'></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body flex flex-col align-items-center">
+                <span class="h4">{{ $user->name }}</span>
+                <span class="small">Member since: {{ $dateVerified }}</span>
+                <i class="p mt-1">"{{ $user->bio == null ? 'Lorem Ipsum Dolor' : $user->bio }}"</i>
             </div>
         </div>
         <div class="col-7" style="margin-top: 1rem;">
@@ -74,25 +127,25 @@
                                         </span>
                                     @else
                                         <span>
-                                            <?xml version="1.0" ?><svg fill="none" height="24" viewBox="0 0 24 24"
-                                                width="15" xmlns="http://www.w3.org/2000/svg">
+                                            <?xml version="1.0" ?><svg fill="none" height="24"
+                                                viewBox="0 0 24 24" width="15" xmlns="http://www.w3.org/2000/svg">
                                                 <path
                                                     d="M17.5 11.75C20.1233 11.75 22.25 13.8766 22.25 16.5C22.25 19.1234 20.1233
-                                                                            21.25 17.5 21.25C15.402 21.25 13.6216 19.8898 12.9927 18.0032H11.0072C10.3783
-                                                                            19.8898 8.59799 21.25 6.49998 21.25C3.87663 21.25 1.74998 19.1234 1.74998
-                                                                            16.5C1.74998 13.8766 3.87663 11.75 6.49998 11.75C8.95456 11.75 10.9743 13.6118
-                                                                            11.224 16.0003H12.776C13.0257 13.6118 15.0454 11.75 17.5 11.75ZM6.49998
-                                                                            13.75C4.9812 13.75 3.74998 14.9812 3.74998 16.5C3.74998 18.0188 4.9812 19.25
-                                                                            6.49998 19.25C8.01876 19.25 9.24998 18.0188 9.24998 16.5C9.24998 14.9812 8.01876
-                                                                            13.75 6.49998 13.75ZM17.5 13.75C15.9812 13.75 14.75 14.9812 14.75 16.5C14.75
-                                                                            18.0188 15.9812 19.25 17.5 19.25C19.0188 19.25 20.25 18.0188 20.25 16.5C20.25
-                                                                            14.9812 19.0188 13.75 17.5 13.75ZM15.5119 3C16.7263 3 17.797 3.79659 18.1459
-                                                                            4.95979L19.1521 8.31093C19.9446 8.44285 20.7203 8.59805 21.479 8.77658C22.0166
-                                                                            8.90308 22.3499 9.44144 22.2234 9.97904C22.0969 10.5166 21.5585 10.8499 21.0209
-                                                                            10.7234C18.2654 10.0751 15.2586 9.75 12 9.75C8.74132 9.75 5.73456 10.0751 2.97902
-                                                                            10.7234C2.44142 10.8499 1.90306 10.5166 1.77656 9.97904C1.65007 9.44144 1.98334
-                                                                            8.90308 2.52094 8.77658C3.27938 8.59813 4.05471 8.44298 4.84691 8.3111L5.85402
-                                                                            4.95979C6.20298 3.79659 7.27362 3 8.48804 3H15.5119Z"
+                                                                                21.25 17.5 21.25C15.402 21.25 13.6216 19.8898 12.9927 18.0032H11.0072C10.3783
+                                                                                19.8898 8.59799 21.25 6.49998 21.25C3.87663 21.25 1.74998 19.1234 1.74998
+                                                                                16.5C1.74998 13.8766 3.87663 11.75 6.49998 11.75C8.95456 11.75 10.9743 13.6118
+                                                                                11.224 16.0003H12.776C13.0257 13.6118 15.0454 11.75 17.5 11.75ZM6.49998
+                                                                                13.75C4.9812 13.75 3.74998 14.9812 3.74998 16.5C3.74998 18.0188 4.9812 19.25
+                                                                                6.49998 19.25C8.01876 19.25 9.24998 18.0188 9.24998 16.5C9.24998 14.9812 8.01876
+                                                                                13.75 6.49998 13.75ZM17.5 13.75C15.9812 13.75 14.75 14.9812 14.75 16.5C14.75
+                                                                                18.0188 15.9812 19.25 17.5 19.25C19.0188 19.25 20.25 18.0188 20.25 16.5C20.25
+                                                                                14.9812 19.0188 13.75 17.5 13.75ZM15.5119 3C16.7263 3 17.797 3.79659 18.1459
+                                                                                4.95979L19.1521 8.31093C19.9446 8.44285 20.7203 8.59805 21.479 8.77658C22.0166
+                                                                                8.90308 22.3499 9.44144 22.2234 9.97904C22.0969 10.5166 21.5585 10.8499 21.0209
+                                                                                10.7234C18.2654 10.0751 15.2586 9.75 12 9.75C8.74132 9.75 5.73456 10.0751 2.97902
+                                                                                10.7234C2.44142 10.8499 1.90306 10.5166 1.77656 9.97904C1.65007 9.44144 1.98334
+                                                                                8.90308 2.52094 8.77658C3.27938 8.59813 4.05471 8.44298 4.84691 8.3111L5.85402
+                                                                                4.95979C6.20298 3.79659 7.27362 3 8.48804 3H15.5119Z"
                                                     fill="#878787" />
                                             </svg>
                                         </span>
@@ -105,7 +158,7 @@
                             <button type="button" title="options"
                                 class="dropdown-toggle hide-arrow hover:text-indigo-500 hover:scale-125 postDDtrigger"
                                 data-id="{{ $post->id }}" id="postDDtrigger{{ $post->id }}"
-                                data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="false">
+                                data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bx bx-dots-vertical-rounded"></i>
                             </button>
 
@@ -178,7 +231,8 @@
                         @endphp
                         <div class="flex gap-4 mb-2">
                             <!-- reaction -->
-                            <input type="checkbox" id="heart{{ $post->id }}" hidden {{ $included ? 'checked' : '' }}>
+                            <input type="checkbox" id="heart{{ $post->id }}" hidden
+                                {{ $included ? 'checked' : '' }}>
 
                             <a class="flex gap-2 cursor-default">
                                 <img src="{{ $included ? URL::asset('avatars/pray.png') : URL::asset('avatars/pray-outline.png') }}"
@@ -208,7 +262,7 @@
 
                                         $array = is_array($array) ? $array : [];
                                     @endphp
-                                    <li class="d-grid p-3 mt-2">
+                                    <li class="d-grid p-3 mt-2 commentList{{ $comment->id }}">
                                         <div class="row">
                                             <!-- comment header -->
                                             <div class ="col-2">
@@ -222,13 +276,13 @@
                                                     {{-- dot --}}
                                                     <i class='bx bxs-circle' style="font-size: 4px;"></i>
                                                     @php
-                                                        $date = Carbon\Carbon::parse($post->created_at);
+                                                        $date = Carbon\Carbon::parse($comment->created_at);
                                                         $created_at = $date->diffForHumans();
                                                     @endphp
                                                     <small id="post"
                                                         class="muted created_at">{{ $created_at }}</small>
                                                 </div>
-                                                <span class="spanEdit"
+                                                <span class="spanEdit" commentId="{{ $comment->id }}"
                                                     id="commentbody{{ $comment->id }}">{{ $comment->comments }}</span>
 
                                                 {{-- editComment form --}}
@@ -238,7 +292,9 @@
                                                             post_id="{{ $post->id }}" rows="2" class="form-control" autofocus></textarea>
 
                                                         <div class="flex gap-2 mt-2 h-max justify-end">
-                                                            <button class="btn btn-primary">Save</button>
+                                                            <button class="btn btn-primary save-btn"
+                                                                commentId="{{ $comment->id }}"
+                                                                postId="{{ $post->id }}">Save</button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -259,27 +315,34 @@
                                             {{-- options --}}
                                             <div class="col-2 h-max relative bottom-1">
                                                 <div class="btn-group mb-4">
-                                                    <a href="javascript:void(O);"
+                                                    <a href="javascript:void(0);"
                                                         class="dropdown-toggle commentDD hide-arrow cursor-pointer hover:text-indigo-500 hover:scale-125"
                                                         data-bs-toggle="dropdown" aria-expanded="false"
                                                         id="burger{{ $comment->id }}">
                                                         <i class="bx bx-dots-horizontal-rounded"></i>
                                                     </a>
 
-                                                    <a href="javascript:void(O);"
+                                                    <a href="javascript:void(0);"
                                                         class="dropdown-toggle d-none cancelEdit hide-arrow cursor-pointer hover:text-indigo-500 hover:scale-125"
-                                                        data-bs-toggle="dropdown" aria-expanded="false"
-                                                        id="cancel{{ $comment->id }}">
+                                                        id="cancel{{ $comment->id }}" commentId="{{ $comment->id }}"
+                                                        postId="{{ $post->id }}">
                                                         <i class="bx bx-x"></i>
                                                     </a>
                                                     <ul class="dropdown-menu dropdown-menu1 commentDropdown dropdown-menu-end mt-1"
                                                         style="">
                                                         @if ($comment->user_id != $auth->id)
                                                             <li>
-                                                                <a class="dropdown-item text-primary view-btn hover:text-info active:text-info"
+                                                                <a class="dropdown-item text-primary view-btn"
                                                                     href="{{ route('user_page.show', ['user_page' => $comment->user_id]) }}"><i
                                                                         class="bx bx-user mr-1"></i>
                                                                     View User
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item text-danger report-btn"
+                                                                    href="javascript:void(0);"><i
+                                                                        class="bx bx-user mr-1"></i>
+                                                                    Report
                                                                 </a>
                                                             </li>
                                                         @else
@@ -293,8 +356,11 @@
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a class="dropdown-item text-danger delete-btn hover:text-info active:text-info"
-                                                                    href="javascript:void(0);"><i
+                                                                <a class="dropdown-item text-danger delete-dd"
+                                                                    href="javascript:void(0);" data-bs-toggle="modal"
+                                                                    data-bs-target="#commentDeleteModal"
+                                                                    id="{{ $comment->id }}"
+                                                                    data-id="{{ $post->id }}"><i
                                                                         class="bx bx-trash mr-1"></i>
                                                                     Delete
                                                                 </a>
@@ -312,12 +378,13 @@
                             </ul>
                         </div>
 
-                        <form id="">
+                        <form>
                             @csrf
                             <div class="input-group mb-3" id="createGroup">
                                 <textarea class="form-control" id="textarea_{{ $post->id }}" aria-label="With textarea"
                                     placeholder="Something you want to say..."></textarea>
-                                <span class="input-group-text send-btn text-sm btn btn-primary">Send!</span>
+                                <span class="input-group-text send-btn text-sm btn btn-primary"
+                                    id="{{ $post->id }}">Send!</span>
                             </div>
                         </form>
                     </div>
@@ -371,7 +438,7 @@
                             userId: userId,
                         },
                         success: function(response) {
-                            console.log(response);
+                            console.log();
                             if (response.status == 200 && response.value == 'true') {
 
                                 $('.comment_reaction_count' + id).html(response
@@ -408,14 +475,253 @@
 
                 $('.spanEdit').removeClass('d-none');
                 $('.commentDD').removeClass('d-none');
+                $('.editComment').addClass('d-none');
+                $('.cancelEdit').addClass('d-none');
 
 
                 $('#editComment' + commentId).removeClass('d-none');
                 $('#commentbody' + commentId).addClass('d-none');
-                $('#burger'+  commentId).addClass('d-none');
+                $('#burger' + commentId).addClass('d-none');
                 $('#cancel' + commentId).removeClass('d-none');
+            });
 
-                console.log(comment);
+            // comment edit cancel
+            $(document).on('click', '.cancelEdit', function(e) {
+                var commentId = $(this).attr('commentId');
+                var postId = $(this).attr('postId');
+
+                $('.spanEdit').removeClass('d-none');
+                $('.commentDD').removeClass('d-none');
+
+
+                $('#editComment' + commentId).addClass('d-none');
+                $('#commentbody' + commentId).removeClass('d-none');
+                $('#burger' + commentId).removeClass('d-none');
+                $('#cancel' + commentId).addClass('d-none');
+
+                console.log();
+            });
+
+            // coment save
+            $(document).on('click', '.save-btn', function(e) {
+                e.preventDefault();
+                var commentId = $(this).attr('commentId');
+                var postId = $(this).attr('postId');
+                var newComment = $('#editCommentInput' + commentId).val();
+
+                $.ajax({
+                    url: "{{ route('comments.update', [':id']) }}".replace(':id', commentId),
+                    method: "PUT",
+                    data: {
+                        comment: newComment,
+                        data: 'update',
+                        postId: postId,
+                    },
+                    success: function(response) {
+                        $('.spanEdit').removeClass('d-none');
+                        $('.commentDD').removeClass('d-none');
+
+
+                        $('#editComment' + commentId).addClass('d-none');
+                        $('#commentbody' + commentId).removeClass('d-none');
+                        $('#commentbody' + commentId).text(response.comment);
+                        $('#burger' + commentId).removeClass('d-none');
+                        $('#cancel' + commentId).addClass('d-none');
+
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            });
+
+            // comment delete
+            $(document).on('click', '.delete-dd', function() {
+                var id = $(this).attr('id');
+                var postId = $(this).data('id');
+                console.log(id);
+
+                $('.delete-btn').click(function() {
+                    $('#commentDeleteModal').modal('hide');
+
+                    $.ajax({
+                        url: "{{ route('comments.destroy', [':id']) }}".replace(':id', id),
+                        method: "DELETE",
+                        data: {
+                            data: 'delete',
+                            postId: postId
+                        },
+                        success: function(response) {
+                            $('.commentList' + response.id).fadeOut('slow');
+                            setTimeout(function() {
+                                $('.commentList' + response.id).addClass(
+                                    'd-none');
+                            }, 500);
+
+                            $('#commentCount' + response.postId).text(response
+                                .commentCount);
+
+                            butterup.toast({
+                                title: 'Delete',
+                                message: response.message,
+                                type: 'success',
+                                icon: true,
+                                dismissable: true
+                            });
+                        },
+                        error: function(error) {
+                            butterup.toast({
+                                title: 'Error!',
+                                message: response.message,
+                                type: 'error',
+                                icon: true,
+                                dismissable: true
+                            });
+                        }
+                    });
+                });
+            });
+
+            // comment create
+            $(document).on('click', '.send-btn', function(e) {
+                var id = $(this).attr('id');
+
+                $('#collapse' + id).addClass('show');
+                $('.comment' + id).css('background-size', '100% 2px, auto');
+
+                $.ajax({
+                    url: "{{ route('comments.store') }}",
+                    method: "POST",
+                    data: {
+                        post_id: id,
+                        comment: $('#textarea_' + id).val(),
+                        data: 'comment',
+                    },
+                    success: function(response) {
+                        let newComment = `<li class="d-grid p-3 mt-2 commentList${response.comments.id}">
+                            <div class="row">
+                                <!-- comment header -->
+                                <div class ="col-2">
+                                    <img src="http://127.0.0.1:8000/${response.avatar}"
+                                        alt="profile_pic" class="ml-3 mb-sm-0 mb-2" height="125"
+                                        style="max-width: 90%; border-radius: 50%; aspect-ratio: 1/1;" />
+                                </div>
+                                <div class="flex flex-col gap-2 col-8">
+                                    <div class="flex align-items-center gap-1">
+                                        <span class="font-semibold">${response.user.name}</span>
+                                        {{-- dot --}}
+                                        <i class='bx bxs-circle' style="font-size: 4px;"></i>
+                                        <small id="post"
+                                            class="muted created_at">${response.created_at}</small>
+                                    </div>
+                                    <span class="spanEdit" commentId="${response.comments.id}"
+                                        id="commentbody${response.comments.id}">${response.comments.comments}</span>
+
+                                    {{-- editComment form --}}
+                                    <form class="my-2" action="" id="editCommentForm">
+                                        <div class="d-none editComment" id="editComment${response.comments.id}">
+                                            <textarea name="editComment" id="editCommentInput${response.comments.id}" comment_id="${response.comments.id}"
+                                                post_id="${response.post_id}" rows="2" class="form-control" autofocus></textarea>
+
+                                            <div class="flex gap-2 mt-2 h-max justify-end">
+                                                <button class="btn btn-primary save-btn"
+                                                    commentId="${response.comments.id}"
+                                                    postId="${response.post_id}">Save</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div class="flex align-items-center gap-4">
+                                        <input type="checkbox" id="comment${response.comments.id}" hidden>
+
+                                        <a class="flex gap-2 cursor-default">
+                                            <img src="{{ in_array($auth->id, $array) ? URL::asset('avatars/pray.png') : URL::asset('avatars/pray-outline.png') }}"
+                                                id="${response.comments.id}"
+                                                style="height: 25px; aspect-ratio:1;"
+                                                class="heart${response.comments.id} comment-react-btn cursor-pointer
+                                                        ease-in-out duration-300 hover:scale-125">
+                                            <span
+                                                class="comment_reaction_count${response.comments.id}">0</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                {{-- options --}}
+                                <div class="col-2 h-max relative bottom-1">
+                                    <div class="btn-group mb-4">
+                                        <a href="javascript:void(0);"
+                                            class="dropdown-toggle commentDD hide-arrow cursor-pointer hover:text-indigo-500 hover:scale-125"
+                                            data-bs-toggle="dropdown" aria-expanded="false"
+                                            id="burger${response.comments.id}">
+                                            <i class="bx bx-dots-horizontal-rounded"></i>
+                                        </a>
+
+                                        <a href="javascript:void(0);"
+                                            class="dropdown-toggle d-none cancelEdit hide-arrow cursor-pointer hover:text-indigo-500 hover:scale-125"
+                                            id="cancel${response.comments.id}" commentId="${response.comments.id}"
+                                            postId="${response.post_id}">
+                                            <i class="bx bx-x"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu1 commentDropdown dropdown-menu-end mt-1"
+                                            style="">
+                                            @if ($comment->user_id != $auth->id)
+                                                <li>
+                                                    <a class="dropdown-item text-primary view-btn"
+                                                        href="{{ route('user_page.show', ['user_page' => $comment->user_id]) }}"><i
+                                                            class="bx bx-user mr-1"></i>
+                                                        View User
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item text-danger report-btn"
+                                                        href="javascript:void(0);"><i
+                                                            class="bx bx-user mr-1"></i>
+                                                        Report
+                                                    </a>
+                                                </li>
+                                            @else
+                                                <li>
+                                                    <a class="dropdown-item text-info edit-btn hover:text-info active:text-info"
+                                                        id="${response.comments.id}"
+                                                        data-id="${response.post_id}"
+                                                        href="javascript:void(0);"><i
+                                                            class="bx bx-edit mr-1"></i>
+                                                        Edit
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item text-danger delete-dd"
+                                                        href="javascript:void(0);" data-bs-toggle="modal"
+                                                        data-bs-target="#commentDeleteModal"
+                                                        id="${response.comments.id}" data-id="${response.post_id}"><i
+                                                            class="bx bx-trash mr-1"></i>
+                                                        Delete
+                                                    </a>
+                                                </li>
+                                            @endif
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>`;
+
+                        var ul = $('#append' + response.post_id);
+
+                        ul.append(newComment);
+                        ul.scrollTop(ul.prop("scrollHeight"));
+
+                        $('.commentList' + response.comments.id).fadeOut('slow');
+
+                        $('#commentCount' + response.post_id).text(response.commentCount);
+
+                        $('#textarea_' + response.post_id).val('');
+
+                        console.log();
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+
+                console.log();
             });
 
             //post react
@@ -459,7 +765,61 @@
 
                     return !currentValue;
                 });
-            })
+            });
+
+            // follow user
+            $('#follow_user_' + {{ $user->id }}).click(function() {
+                var id = $(this).attr('userId');
+
+                if ($('#follow').hasClass('bx-heart')) {
+                    $('#follow').removeClass('bx-heart');
+                    $('#follow').addClass('bxs-heart');
+                    var follow = {{ $auth->id }};
+
+                } else {
+                    $('#follow').addClass('bx-heart');
+                    $('#follow').removeClass('bxs-heart');
+                    var follow = {{ $auth->id }};
+                };
+
+                $.ajax({
+                    url: "{{ route('user_page.update', [':id']) }}".replace(':id', id),
+                    method: "PUT",
+                    data: {
+                        follow: follow,
+                        data: 'follow',
+                    },
+                    success: function(response) {
+                        if (response.status == 200) {
+                            butterup.toast({
+                                title: 'Followed',
+                                message: response.message,
+                                type: 'success',
+                                dismissable: true,
+                                icon: true
+                            })
+                        } else if (response.status == 201) {
+                            butterup.toast({
+                                title: 'Unfollowed',
+                                message: response.message,
+                                type: 'success',
+                                dismissable: true,
+                                icon: true
+                            })
+                        }
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            });
+
+            // report user
+            $('#report_user_' + {{ $user->id }}).click(function() {
+                var id = $(this).attr('userId');
+                $('.btn-close').addClass('d-none');
+                $('#reportModal').modal('show');
+            });
         });
     </script>
 @endpush

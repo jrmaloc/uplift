@@ -38,11 +38,9 @@ class PostPageController extends Controller
     {
         //
 
-        dd($request->all());
-
         $tags = json_encode($request->tags);
 
-        $request->privacy == null ? $privacy = 'public' : $privacy = 'private';
+        $privacy = $request->privacy == null ? 'public' : 'private';
 
         $newPost = Post::create([
             'caption' => $request->caption,
@@ -55,7 +53,7 @@ class PostPageController extends Controller
         if ($newPost) {
             return redirect(route('home.index'))->with([
                 'status' == 200,
-                'message' == 'Post Created Successfully'
+                'message' == 'Post Created Successfully',
             ]);
         }
 
@@ -75,6 +73,13 @@ class PostPageController extends Controller
     public function edit(string $id)
     {
         //
+
+        $post = Post::findOrFail($id);
+
+        $tags = json_decode($post->tags, true);
+        $options = array_diff($tags, array('Faith', 'Family', 'Finance', 'Health', 'Studies', 'Work'));
+
+        return view('account.post.edit', compact('post', 'tags', 'options'));
     }
 
     /**
@@ -83,6 +88,24 @@ class PostPageController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        if ($request->ajax()) {
+
+            $post = Post::findOrFail($id);
+
+            $post->caption = $request->caption;
+            $post->description = $request->content;
+            $post->tags = json_encode($request->tags);
+            $post->privacy = $request->privacy;
+            $save = $post->save();
+
+            if ($save) {
+                return response()->json([
+                    'post' => $post,
+                    'status' => 200,
+                    'message' => 'Post Updated Successfully',
+                ]);
+            }
+        }
     }
 
     /**

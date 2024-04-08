@@ -4,7 +4,7 @@
     <title>Home | Uplift</title>
     <style>
         .focused {
-            border-radius: 0.375rem;
+            border-radius: 0.125rem;
             border: 1px solid #696bff !important;
         }
 
@@ -75,8 +75,7 @@
                                 font-size: 20px;">
                             <textarea class="form-control pt-4 input-field rounded-0 border-0" rows="2" aria-label="With textarea"
                                 placeholder="Lorem Ipsum..." id="content" name="content"
-                                style="
-                                border-right: 1px solid #d9dee3 !important;"></textarea>
+                                style="border-right: 1px solid #d9dee3 !important;"></textarea>
                         </div>
                     </div>
                     <div class="bg-indigo-100 px-2 py-3 flex justify-around gap-4"
@@ -257,7 +256,8 @@
 
                                     <span title="anonymous">
                                         <?xml version="1.0" ?><svg fill="none" width="18" viewBox="0 0 24 24"
-                                            id="incognito" class="d-none" width="24" xmlns="http://www.w3.org/2000/svg">
+                                            id="incognito" class="d-none" width="24"
+                                            xmlns="http://www.w3.org/2000/svg">
                                             <path
                                                 d="M17.5 11.75C20.1233 11.75 22.25 13.8766 22.25 16.5C22.25 19.1234 20.1233 21.25 17.5 21.25C15.402 21.25 13.6216 19.8898 12.9927 18.0032H11.0072C10.3783 19.8898 8.59799 21.25 6.49998 21.25C3.87663 21.25 1.74998 19.1234 1.74998 16.5C1.74998 13.8766 3.87663 11.75 6.49998 11.75C8.95456 11.75 10.9743 13.6118 11.224 16.0003H12.776C13.0257 13.6118 15.0454 11.75 17.5 11.75ZM6.49998 13.75C4.9812 13.75 3.74998 14.9812 3.74998 16.5C3.74998 18.0188 4.9812 19.25 6.49998 19.25C8.01876 19.25 9.24998 18.0188 9.24998 16.5C9.24998 14.9812 8.01876 13.75 6.49998 13.75ZM17.5 13.75C15.9812 13.75 14.75 14.9812 14.75 16.5C14.75 18.0188 15.9812 19.25 17.5 19.25C19.0188 19.25 20.25 18.0188 20.25 16.5C20.25 14.9812 19.0188 13.75 17.5 13.75ZM15.5119 3C16.7263 3 17.797 3.79659 18.1459 4.95979L19.1521 8.31093C19.9446 8.44285 20.7203 8.59805 21.479 8.77658C22.0166 8.90308 22.3499 9.44144 22.2234 9.97904C22.0969 10.5166 21.5585 10.8499 21.0209 10.7234C18.2654 10.0751 15.2586 9.75 12 9.75C8.74132 9.75 5.73456 10.0751 2.97902 10.7234C2.44142 10.8499 1.90306 10.5166 1.77656 9.97904C1.65007 9.44144 1.98334 8.90308 2.52094 8.77658C3.27938 8.59813 4.05471 8.44298 4.84691 8.3111L5.85402 4.95979C6.20298 3.79659 7.27362 3 8.48804 3H15.5119Z"
                                                 fill="#878787" />
@@ -276,7 +276,7 @@
             </div>
 
             <!-- posts -->
-            <div class="mt-4">
+            <div class="mt-4 postheader">
                 @foreach ($posts as $post)
                     <div class="card px-8 pt-6 pb-4 mb-4">
                         <!-- post header -->
@@ -325,22 +325,23 @@
                                                 <?xml version="1.0" ?><svg fill="none" height="24"
                                                     viewBox="0 0 24 24" width="15"
                                                     xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M17.5 11.75C20.1233 11.75 22.25 13.8766 22.25 16.5C22.25 19.1234 20.1233
-                                                                21.25 17.5 21.25C15.402 21.25 13.6216 19.8898 12.9927 18.0032H11.0072C10.3783
-                                                                19.8898 8.59799 21.25 6.49998 21.25C3.87663 21.25 1.74998 19.1234 1.74998
-                                                                16.5C1.74998 13.8766 3.87663 11.75 6.49998 11.75C8.95456 11.75 10.9743 13.6118
-                                                                11.224 16.0003H12.776C13.0257 13.6118 15.0454 11.75 17.5 11.75ZM6.49998
-                                                                13.75C4.9812 13.75 3.74998 14.9812 3.74998 16.5C3.74998 18.0188 4.9812 19.25
-                                                                6.49998 19.25C8.01876 19.25 9.24998 18.0188 9.24998 16.5C9.24998 14.9812 8.01876
-                                                                13.75 6.49998 13.75ZM17.5 13.75C15.9812 13.75 14.75 14.9812 14.75 16.5C14.75
-                                                                18.0188 15.9812 19.25 17.5 19.25C19.0188 19.25 20.25 18.0188 20.25 16.5C20.25
-                                                                14.9812 19.0188 13.75 17.5 13.75ZM15.5119 3C16.7263 3 17.797 3.79659 18.1459
-                                                                4.95979L19.1521 8.31093C19.9446 8.44285 20.7203 8.59805 21.479 8.77658C22.0166
-                                                                8.90308 22.3499 9.44144 22.2234 9.97904C22.0969 10.5166 21.5585 10.8499 21.0209
-                                                                10.7234C18.2654 10.0751 15.2586 9.75 12 9.75C8.74132 9.75 5.73456 10.0751 2.97902
-                                                                10.7234C2.44142 10.8499 1.90306 10.5166 1.77656 9.97904C1.65007 9.44144 1.98334
-                                                                8.90308 2.52094 8.77658C3.27938 8.59813 4.05471 8.44298 4.84691 8.3111L5.85402
-                                                                4.95979C6.20298 3.79659 7.27362 3 8.48804 3H15.5119Z"
+                                                    <path
+                                                        d="M17.5 11.75C20.1233 11.75 22.25 13.8766 22.25 16.5C22.25 19.1234 20.1233
+                                                        21.25 17.5 21.25C15.402 21.25 13.6216 19.8898 12.9927 18.0032H11.0072C10.3783
+                                                        19.8898 8.59799 21.25 6.49998 21.25C3.87663 21.25 1.74998 19.1234 1.74998
+                                                        16.5C1.74998 13.8766 3.87663 11.75 6.49998 11.75C8.95456 11.75 10.9743 13.6118
+                                                        11.224 16.0003H12.776C13.0257 13.6118 15.0454 11.75 17.5 11.75ZM6.49998
+                                                        13.75C4.9812 13.75 3.74998 14.9812 3.74998 16.5C3.74998 18.0188 4.9812 19.25
+                                                        6.49998 19.25C8.01876 19.25 9.24998 18.0188 9.24998 16.5C9.24998 14.9812 8.01876
+                                                        13.75 6.49998 13.75ZM17.5 13.75C15.9812 13.75 14.75 14.9812 14.75 16.5C14.75
+                                                        18.0188 15.9812 19.25 17.5 19.25C19.0188 19.25 20.25 18.0188 20.25 16.5C20.25
+                                                        14.9812 19.0188 13.75 17.5 13.75ZM15.5119 3C16.7263 3 17.797 3.79659 18.1459
+                                                        4.95979L19.1521 8.31093C19.9446 8.44285 20.7203 8.59805 21.479 8.77658C22.0166
+                                                        8.90308 22.3499 9.44144 22.2234 9.97904C22.0969 10.5166 21.5585 10.8499 21.0209
+                                                        10.7234C18.2654 10.0751 15.2586 9.75 12 9.75C8.74132 9.75 5.73456 10.0751 2.97902
+                                                        10.7234C2.44142 10.8499 1.90306 10.5166 1.77656 9.97904C1.65007 9.44144 1.98334
+                                                        8.90308 2.52094 8.77658C3.27938 8.59813 4.05471 8.44298 4.84691 8.3111L5.85402
+                                                        4.95979C6.20298 3.79659 7.27362 3 8.48804 3H15.5119Z"
                                                         fill="#878787" />
                                                 </svg>
                                             </span>
@@ -353,7 +354,7 @@
                                 <button type="button" title="options"
                                     class="dropdown-toggle hide-arrow hover:text-indigo-500 hover:scale-125 postDDtrigger"
                                     data-id="{{ $post->id }}" id="postDDtrigger{{ $post->id }}"
-                                    data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="false">
+                                    data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="bx bx-dots-vertical-rounded"></i>
                                 </button>
 
@@ -361,7 +362,8 @@
                                     data-id="{{ $post->id }}">
                                     @if ($post->privacy == 'public' && $post->user_id == auth()->id())
                                         <li><a class="dropdown-item text-info hover:text-info active:text-info"
-                                                href="javascript:void(0);">Edit <i class='bx bx-edit'></i></a></li>
+                                                href="{{ route('posts_page.edit', ['posts_page' => $post->id]) }}">Edit <i
+                                                    class='bx bx-edit'></i></a></li>
                                         <li><a class="dropdown-item text-danger hover:text-danger active:text-danger"
                                                 href="javascript:void(0);">Delete <i class='bx bx-trash'></i></a></li>
                                     @elseif ($post->privacy == 'public' && $post->user_id != auth()->id())
@@ -564,18 +566,8 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-
-            $(document).on('click', '.postDDtrigger', function() {
-                var id = $(this).data('id');
-                var dropdown = $(this).parent().find('.dropdown-menu');
-                if (dropdown.hasClass('show')) {
-                    $('#postDDtrigger' + id).addClass('scale-125');
-                    $('#postDDtrigger' + id).addClass('text-indigo-500');
-                } else {
-                    $('#postDDtrigger' + id).removeClass('scale-125');
-                    $('#postDDtrigger' + id).removeClass('text-indigo-500');
-                }
-            });
+            $('.postheader').fadeOut('slow');
+            $('.postheader').fadeIn('slow');
 
             $('#tags').select2({
                 tags: true,
@@ -590,6 +582,10 @@
                 $(this).closest('.flex').addClass('focused');
             });
 
+            $('.input-field').blur(function() {
+                $(this).closest('.flex').removeClass('focused');
+            });
+
             $('.heart').mouseenter(function() {
                 var id = $(this).attr('id');
                 $('.heartIcon' + id).addClass('scale-125');
@@ -598,10 +594,6 @@
             $('.heart').mouseleave(function() {
                 var id = $(this).attr('id');
                 $('.heartIcon' + id).removeClass('scale-125');
-            });
-
-            $('.input-field').blur(function() {
-                $(this).closest('.flex').removeClass('focused');
             });
 
             $('.tgl-btn').click(function() {
