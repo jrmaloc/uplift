@@ -13,15 +13,15 @@ return new class extends Migration
     {
         //
         Schema::table('users', function (Blueprint $table) {
-            $table->json('reported?')->nullable();
+            $table->json('reported')->nullable();
         });
 
         Schema::table('comments', function (Blueprint $table) {
-            $table->json('reported?')->nullable();
+            $table->json('reported')->nullable();
         });
 
         Schema::table('posts', function (Blueprint $table) {
-            $table->json('reported?')->nullable();
+            $table->json('reported')->nullable();
         });
     }
 

@@ -64,11 +64,11 @@
 
 <body>
     <!-- Layout wrapper -->
-    <x-off-canvas id="settingsOffcanvas" title="Settings" class="m-auto">
+    {{-- <x-off-canvas id="settingsOffcanvas" title="Settings" class="m-auto">
         <h2 class="h1 flex justify-center">UNDER</h2>
         <h2 class="h1 flex justify-center">MAINTENANCE</h2>
         <h2 class="h1 flex justify-center">🚧⚠️</h2>
-    </x-off-canvas>
+    </x-off-canvas> --}}
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
             <!-- Menu -->
@@ -113,10 +113,11 @@
                         </a>
                     </li> --}}
                     <li
-                        class="menu-item {{ preg_match('/account\/posts_page$/', Request::path()) || preg_match('/account\/posts_page\/\d+\/edit$/', Request::path()) ? 'active' : null }}">
+                        class="menu-item {{ preg_match('/account\/posts_page$/', Request::path()) || preg_match('/account\/posts_page\/\d+\/edit$/', Request::path())
+                        || preg_match('/account\/profile$/', Request::path()) ? 'active' : null }}">
                         <a href="{{ route('posts_page.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-clipboard"></i>
-                            <div data-i18n="Users">My Posts</div>
+                            <div data-i18n="Users">Profile</div>
                         </a>
                     </li>
                     <!-- Pages -->
@@ -246,14 +247,13 @@
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="{{ route('profile.index') }}">
+                                        <a class="dropdown-item" href="javascript:void(0);">
                                             <i class="bx bx-user me-2"></i>
                                             <span class="align-middle">My Profile</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" data-bs-toggle="offcanvas" href="#settingsOffcanvas"
-                                            role="button" aria-controls="settingsOffcanvas">
+                                        <a class="dropdown-item" href="{{ route('profile.index') }}">
                                             <i class="bx bx-cog me-2"></i>
                                             <span class="align-middle">Settings</span>
                                         </a>
@@ -354,7 +354,7 @@
         $(document).ready(function() {
             $.ajaxSetup({
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                 }
             });
         });

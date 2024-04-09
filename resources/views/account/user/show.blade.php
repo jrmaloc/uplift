@@ -52,7 +52,7 @@
         </div>
         <x-slot name="footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-danger report-btn">Report <i class="bx bx-error ml-1"></i></button>
+            <button type="button" class="btn btn-danger report-user-btn">Report <i class="bx bx-error ml-1"></i></button>
         </x-slot>
     </x-modal>
     {{-- /MODALS --}}
@@ -812,6 +812,56 @@
                         console.log(error);
                     }
                 });
+            });
+
+            // report user
+            $('.report-user-btn').click(function() {
+                var reason = $('#reason').val();
+                $('#reportModal').modal('hide');
+
+                $.ajax({
+                    url: "{{ route('user_page.store') }}",
+                    method: "POST",
+                    data: {
+                        id: '{{ $user->id }}',
+                        reporter: '{{ $auth->id }}',
+                        reason: reason,
+                        data:'report',
+                    }, success: function(response) {
+                        if(response.status == 200) {
+                            butterup.toast({
+                                title: 'Reported!',
+                                message: response.message,
+                                type:'info',
+                                dismissable: true,
+                                icon: true,
+                            })
+                        } else if(response.status == 400) {
+                            butterup.toast({
+                                title: 'Heads Up!',
+                                message: response.message,
+                                type: 'warning',
+                                icon: true,
+                                dismissable: true,
+                            });
+                        }
+                        console.log();
+                    }, error: function(error) {
+                        console.log(error);
+                    }
+                });
+
+                console.log();
+            });
+
+            $(document).on('show.bs.modal', '#reportModal', function() {
+                $('#reason').val('');
+                console.log('');
+            });
+
+            $(document).on('shown.bs.modal', '#reportModal', function() {
+                $('#reason').focus();
+                console.log('');
             });
 
             // report user

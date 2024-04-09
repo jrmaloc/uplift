@@ -37,10 +37,42 @@ class PostPageController extends Controller
     public function store(Request $request)
     {
         //
+        // dd($request->all());
 
+        // $data = [];
+        // $data[] = $request->photo_upload1;
+        // $data[] = $request->photo_upload2;
+        // $data[] = $request->photo_upload3;
+
+        // $photos = json_encode($data);
         $tags = json_encode($request->tags);
 
         $privacy = $request->privacy == null ? 'public' : 'private';
+        $data = [];
+        $photos = json_encode($data);
+
+        if (
+            ($request->hasFile('photo_upload1') && $request->file('photo_upload1')->isValid()) ||
+            ($request->hasFile('photo_upload2') && $request->file('photo_upload2')->isValid()) ||
+            ($request->hasFile('photo_upload3') && $request->file('photo_upload3')->isValid())) {
+
+            // Move the uploaded file to the desired location
+            $uploads = [];
+            for ($i = 1; $i <= 3; $i++) {
+                $fileKey = 'photo_upload' . $i;
+                if ($request->hasFile($fileKey)) {
+                    $file = $request->file($fileKey);
+                    // Generate a unique file name
+                    $fileName = 'avatars/' . time() . '_' . $i . '.' . $file->getClientOriginalExtension();
+                    // Move the uploaded file to the desired location
+                    $file->move(public_path('avatars'), $fileName);
+                    // Store the file name in the uploads array
+                    $uploads[] = $fileName;
+                }
+            }
+
+            $photos = json_encode($uploads);
+        }
 
         $newPost = Post::create([
             'caption' => $request->caption,
@@ -48,12 +80,13 @@ class PostPageController extends Controller
             'tags' => $tags,
             'privacy' => $privacy,
             'user_id' => Auth::user()->id,
+            'photos' => $photos,
         ]);
 
         if ($newPost) {
             return redirect(route('home.index'))->with([
-                'status' == 200,
-                'message' == 'Post Created Successfully',
+                'status' => 200,
+                'message' => 'Post Created Successfully',
             ]);
         }
 
@@ -77,6 +110,7 @@ class PostPageController extends Controller
         $post = Post::findOrFail($id);
 
         $tags = json_decode($post->tags, true);
+
         $options = array_diff($tags, array('Faith', 'Family', 'Finance', 'Health', 'Studies', 'Work'));
 
         return view('account.post.edit', compact('post', 'tags', 'options'));
@@ -88,14 +122,53 @@ class PostPageController extends Controller
     public function update(Request $request, string $id)
     {
         //
+
         if ($request->ajax()) {
 
+            // dd($request->all());
+            // dd($request->tags);
             $post = Post::findOrFail($id);
+            $photos = [];
+            if ($request->hasFile('uploads')) {
+                $files = $request->file('uploads');
+
+                foreach ($files as $file) {
+                    $uniqueId = uniqid();
+
+                    if ($file->isValid()) {
+                        $photo = 'avatars/' . time() . $uniqueId . '.' . $file->getClientOriginalExtension();
+                        $file->move(public_path('avatars'), $photo);
+
+                        $photos[] = $photo;
+                    } else {
+                        // File is not valid
+                        abort(500);
+                    }
+                }
+            }
+            $data = json_decode($post->photos, true);
+
+            foreach ($photos as $photo) {
+                $max_length = 3;
+
+                array_push($data, $photo);
+
+                if (count($data) > $max_length) {
+                    array_shift($data);
+                }
+            };
+
+            $uploads = json_encode($data);
+            $tags = json_encode($request->tags);
 
             $post->caption = $request->caption;
             $post->description = $request->content;
             $post->tags = json_encode($request->tags);
             $post->privacy = $request->privacy;
+            if ($uploads !== '[]') {
+                $post->photos = $uploads;
+            }
+            $post->tags = $tags;
             $save = $post->save();
 
             if ($save) {

@@ -6,7 +6,7 @@
 
 @section('content')
     <!-- Content -->
-    <h4 class="mb-2 flex justify-center">Welcome to Uplift! 👋</h4>
+    <h4 class="mb-2 h4 flex justify-center">Welcome to Uplift! 👋</h4>
     <p class="mb-4">Please sign-in to your account.</p>
 
     <form id="formAuthentication" class="mb-3" action="{{ route('auth.login') }}" method="POST">

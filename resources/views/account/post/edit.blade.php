@@ -39,19 +39,15 @@
         <div class="col-8 mx-auto mt-12">
             <div class="card">
                 <form id="editPostForm">
-                    <div class="flex bg-white">
-                        <span class="input-group-text border-0"
-                            style="
-                            border-bottom-left-radius: 0px;
-                            border-top: 1px solid #d9dee3 !important;
-                            border-left: 1px solid #d9dee3 !important;
-                            border-top-right-radius: 0px;
-                            ">
+                    @csrf
+                    <div class="flex bg-white" style="border: 1px solid #d9dee3;">
+                        <span class="input-group-text border-0 flex align-items-start mt-4">
                             @php
                                 $avatar = $auth->avatar ? $auth->avatar : URL::asset('avatars/user.png');
                             @endphp
                             <img src="{{ URL::asset($auth->avatar) }}" alt="" class="rounded-full"
-                                style="width: 70px; aspect-ratio: 1/1;"></span>
+                                style="width: 100px; aspect-ratio: 1/1;">
+                        </span>
                         <div class="w-100">
                             <input type="text" class="form-control input-field border-0 pt-4" placeholder="Caption..."
                                 id="caption" name="caption" value="{{ $post->caption }}"
@@ -64,9 +60,61 @@
                                 font-weight: bold;
                                 font-size: 20px;">
                             <textarea class="form-control pt-4 input-field rounded-0 border-0" rows="2" aria-label="With textarea"
-                                placeholder="Lorem Ipsum..." id="content" name="content"
-                                style="
-                                border-right: 1px solid #d9dee3 !important;">{{ $post->description }}</textarea>
+                                placeholder="Lorem Ipsum..." id="content" name="content" style="border-right: 1px solid #d9dee3 !important;">{{ $post->description }}</textarea>
+                            <div class="m-2 flex justify-end">
+                                <button class="badge bg-label-primary cursor-pointer upload-btn" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#uploadCollapse">Upload photos</i></button>
+                            </div>
+
+                            {{-- upload collapse --}}
+                            @php
+                                $photos = json_decode($post->photos, true);
+                            @endphp
+                            <div class="collapse {{ $post->photos != null ? 'show' : '' }}" id="uploadCollapse"
+                                style="">
+                                <div class="d-grid d-sm-flex p-3 row border-0">
+                                    <div class="flex flex-col justify-center gap-2 col-4">
+                                        @if (isset($photos[0]) && $photos[0] !== null)
+                                            <img src="{{ URL::asset($photos[0]) }}" alt="uploaded photo" accept="image/*"
+                                                class="mb-sm-0 mb-2 aspect-square rounded-md" id="img_1">
+                                        @else
+                                            <img src="{{ URL::asset('avatars/image.png') }}" alt="default photo"
+                                                class="mb-sm-0 mb-2 aspect-square rounded-md" id="img_1">
+                                        @endif
+                                        <input type="file" name="photo_upload1" id="photo_upload1" hidden
+                                            class="account-file-input">
+                                        <label for="photo_upload1"
+                                            class="badge bg-label-secondary cursor-pointer hover:scale-110 ease-in-out duration-300"
+                                            id="upload-btn1">{{ $post->photos != null ? 'Change' : 'Upload' }}</label>
+                                    </div>
+                                    <div class="flex flex-col justify-center gap-2 col-4">
+                                        @if (isset($photos[1]) && $photos[1] !== null)
+                                            <img src="{{ URL::asset($photos[1]) }}" alt="uploaded photo" accept="image/*"
+                                                class="mb-sm-0 mb-2 aspect-square rounded-md" id="img_2">
+                                        @else
+                                            <img src="{{ URL::asset('avatars/image.png') }}" alt="default photo"
+                                                class="mb-sm-0 mb-2 aspect-square rounded-md" id="img_2">
+                                        @endif
+                                        <input type="file" name="photo_upload2" id="photo_upload2" hidden>
+                                        <label for="photo_upload2"
+                                            class="badge bg-label-secondary cursor-pointer hover:scale-110 ease-in-out duration-300"
+                                            id="upload-btn2">{{ $post->photos != null ? 'Change' : 'Upload' }}</label>
+                                    </div>
+                                    <div class="flex flex-col justify-center gap-2 col-4">
+                                        @if (isset($photos[2]) && $photos[2] !== null)
+                                            <img src="{{ URL::asset($photos[2]) }}" alt="uploaded photo" accept="image/*"
+                                                class="mb-sm-0 mb-2 aspect-square rounded-md" id="img_3">
+                                        @else
+                                            <img src="{{ URL::asset('avatars/image.png') }}" alt="default photo"
+                                                class="mb-sm-0 mb-2 aspect-square rounded-md" id="img_3">
+                                        @endif
+                                        <input type="file" name="photo_upload3" id="photo_upload3" hidden>
+                                        <label for="photo_upload3"
+                                            class="badge bg-label-secondary cursor-pointer hover:scale-110 ease-in-out duration-300"
+                                            id="upload-btn3">{{ $post->photos != null ? 'Change' : 'Upload' }}</label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="bg-indigo-100 px-2 py-3 flex justify-around gap-4"
@@ -75,10 +123,12 @@
                             <label for="tags" class="form-label mb-2 w-100"> tags:
                                 <select class="form-control mb-2 mr-2" id="tags" name="tags[]" multiple="multiple">
                                     <option value="Faith" {{ in_array('Faith', $tags) ? 'selected' : '' }}>Faith</option>
-                                    <option value="Family" {{ in_array('Family', $tags) ? 'selected' : '' }}>Family</option>
+                                    <option value="Family" {{ in_array('Family', $tags) ? 'selected' : '' }}>Family
+                                    </option>
                                     <option value="Finance" {{ in_array('Finance', $tags) ? 'selected' : '' }}>Finance
                                     </option>
-                                    <option value="Health" {{ in_array('Health', $tags) ? 'selected' : '' }}>Health</option>
+                                    <option value="Health" {{ in_array('Health', $tags) ? 'selected' : '' }}>Health
+                                    </option>
                                     <option value="Studies" {{ in_array('Studies', $tags) ? 'selected' : '' }}>Studies
                                     </option>
                                     <option value="Work" {{ in_array('Work', $tags) ? 'selected' : '' }}>Work</option>
@@ -254,7 +304,8 @@
 
                                     <span title="anonymous">
                                         <?xml version="1.0" ?><svg fill="none" width="18" viewBox="0 0 24 24"
-                                            id="incognito" class="d-none" width="24" xmlns="http://www.w3.org/2000/svg">
+                                            id="incognito" class="d-none" width="24"
+                                            xmlns="http://www.w3.org/2000/svg">
                                             <path
                                                 d="M17.5 11.75C20.1233 11.75 22.25 13.8766 22.25 16.5C22.25 19.1234 20.1233 21.25 17.5 21.25C15.402 21.25 13.6216 19.8898 12.9927 18.0032H11.0072C10.3783 19.8898 8.59799 21.25 6.49998 21.25C3.87663 21.25 1.74998 19.1234 1.74998 16.5C1.74998 13.8766 3.87663 11.75 6.49998 11.75C8.95456 11.75 10.9743 13.6118 11.224 16.0003H12.776C13.0257 13.6118 15.0454 11.75 17.5 11.75ZM6.49998 13.75C4.9812 13.75 3.74998 14.9812 3.74998 16.5C3.74998 18.0188 4.9812 19.25 6.49998 19.25C8.01876 19.25 9.24998 18.0188 9.24998 16.5C9.24998 14.9812 8.01876 13.75 6.49998 13.75ZM17.5 13.75C15.9812 13.75 14.75 14.9812 14.75 16.5C14.75 18.0188 15.9812 19.25 17.5 19.25C19.0188 19.25 20.25 18.0188 20.25 16.5C20.25 14.9812 19.0188 13.75 17.5 13.75ZM15.5119 3C16.7263 3 17.797 3.79659 18.1459 4.95979L19.1521 8.31093C19.9446 8.44285 20.7203 8.59805 21.479 8.77658C22.0166 8.90308 22.3499 9.44144 22.2234 9.97904C22.0969 10.5166 21.5585 10.8499 21.0209 10.7234C18.2654 10.0751 15.2586 9.75 12 9.75C8.74132 9.75 5.73456 10.0751 2.97902 10.7234C2.44142 10.8499 1.90306 10.5166 1.77656 9.97904C1.65007 9.44144 1.98334 8.90308 2.52094 8.77658C3.27938 8.59813 4.05471 8.44298 4.84691 8.3111L5.85402 4.95979C6.20298 3.79659 7.27362 3 8.48804 3H15.5119Z"
                                                 fill="#878787" />
@@ -288,6 +339,57 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+
+            // upload photos
+            $('#photo_upload1').change(function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#img_1').attr('src', e.target.result).show();
+                    }
+                    reader.readAsDataURL(file);
+
+                    $('#upload-btn1').text('Change');
+                } else {
+                    console.log('no file');
+                }
+            });
+
+            $('#photo_upload2').change(function() {
+                console.log('Upload');
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#img_2').attr('src', e.target.result).show();
+                    }
+                    reader.readAsDataURL(file);
+
+                    $('#upload-btn2').text('Change');
+                } else {
+                    console.log('no file');
+                }
+            });
+
+            $('#photo_upload3').change(function() {
+                console.log('Upload');
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#img_3').attr('src', e.target.result).show();
+                    }
+                    reader.readAsDataURL(file);
+
+                    $('#upload-btn3').text('Change');
+                } else {
+                    console.log('no file');
+                }
+            });
+            // ---- upload photos
+
+
             $('#tags').select2({
                 tags: true,
             });
@@ -327,26 +429,60 @@
                 $('#divOverlay').removeClass('d-none');
                 $('#spinner').removeClass('d-none');
 
+                var id = $(this).attr('id');
+
+                var formData = new FormData();
+
                 var caption = $('#caption').val();
                 var content = $('#content').val();
                 var tags = $('#tags').val();
+
+                var upload1 = $('#photo_upload1').prop('files')[0];
+                var upload2 = $('#photo_upload2').prop('files')[0];
+                var upload3 = $('#photo_upload3').prop('files')[0];
+
+                var uploads = [];
+
+                if (upload1) {
+                    uploads.push(upload1);
+                }
+                if (upload2) {
+                    uploads.push(upload2);
+                }
+                if (upload3) {
+                    uploads.push(upload3);
+                }
+
+                console.log();
+
                 if ($('#anonymous').is(':checked')) {
                     var privacy = 'private';
                 } else {
                     var privacy = 'public';
                 }
 
-                var id = $(this).attr('id');
+                formData.append('caption', caption);
+                formData.append('content', content);
+                formData.append('tags', tags);
+                formData.append('privacy', privacy);
+                formData.append('_method', 'PUT');
+
+                // Append each file to FormData
+                for (var i = 0; i < tags.length; i++) {
+                    formData.append('tags[]', tags[i]);
+                }
+
+                for (var i = 0; i < uploads.length; i++) {
+                    formData.append('uploads[]', uploads[i]);
+                }
 
                 $.ajax({
-                    url: "{{ route('posts_page.update', [':id']) }}".replace(':id', id),
-                    method: 'PUT',
-                    data: {
-                        caption: caption,
-                        content: content,
-                        tags: tags,
-                        privacy: privacy,
-                    },
+                    url: "{{ route('posts_page.update', ['posts_page' => ':id']) }}".replace(':id',
+                        id),
+                    method: 'POST',
+                    processData: false,
+                    contentType: false,
+                    data: formData,
                     success: function(response) {
                         if (response.status == 200) {
                             $('#divOverlay').addClass('d-none');
@@ -355,7 +491,7 @@
                             butterup.toast({
                                 title: 'Success!',
                                 message: response.message,
-                                type:'success',
+                                type: 'success',
                                 icon: true,
                                 dismissable: true
                             })
@@ -377,7 +513,7 @@
                     }
                 });
 
-                console.log(privacy, tags);
+                console.log();
             });
         });
     </script>

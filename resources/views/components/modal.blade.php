@@ -1,7 +1,9 @@
 @props([
     'id' => '',
-    'title' => '',
     'formID' => '',
+
+
+    'title' => '',
     'footer' => '',
 ])
 

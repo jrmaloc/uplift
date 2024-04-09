@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.account')
 
 @section('head')
     <title>Edit - Users</title>

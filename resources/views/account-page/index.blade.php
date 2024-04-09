@@ -40,49 +40,89 @@
 @endsection
 
 @section('content')
+    @if (session()->has('status') && session('status') == 200)
+        <script src="{{ URL::asset('/assets/vendor/js/butterup.js') }}"></script>
+        <script>
+            var status = "{{ session('status') }}";
+            var message = "{{ session('message') }}";
+
+            butterup.toast({
+                title: 'Success!',
+                message: message,
+                type:'success',
+                icon: true,
+                dismissable: true,
+            });
+
+            console.log('status: ' + status, 'message: ' + message);
+        </script>
+    @endif
     <div class="row">
         <h3 class="h3 ml-4 mt-4 fw-bolder">Activity Feed</h3>
         <!-- feed -->
         <div class="col-7 ml-auto">
-            <!-- create post -->
+            <!-- create post  hindi pa tapooos-->
             <div class="mx-auto">
-                <form action="{{ route('posts_page.store') }}" method="POST">
+                <form action="{{ route('posts_page.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('POST')
-                    <div class="flex bg-white">
-                        <span class="input-group-text border-0"
-                            style="
-                            border-bottom-left-radius: 0px;
-                            border-top: 1px solid #d9dee3 !important;
-                            border-left: 1px solid #d9dee3 !important;
-                            border-top-right-radius: 0px;
-                            ">
+                    <div class="flex bg-white" style="border: 1px solid #d9dee3;">
+                        <span class="input-group-text border-0 flex align-items-start mt-4">
                             @php
                                 $avatar = $auth->avatar ? $auth->avatar : URL::asset('avatars/user.png');
                             @endphp
                             <img src="{{ URL::asset($auth->avatar) }}" alt="" class="rounded-full"
-                                style="width: 70px; aspect-ratio: 1/1;"></span>
+                                style="width: 100px; aspect-ratio: 1/1;">
+                        </span>
                         <div class="w-100">
                             <input type="text" class="form-control input-field border-0 pt-4" placeholder="Caption..."
-                                id="caption" name="caption"
+                                id="caption" name="caption" required
                                 style="
-                                border-top: 1px solid #d9dee3 !important;
-                                border-right: 1px solid #d9dee3 !important;
-                                border-bottom: 0px !important;
-                                border-top-left-radius: 0px;
-                                border-bottom-right-radius: 0px;
                                 font-weight: bold;
                                 font-size: 20px;">
                             <textarea class="form-control pt-4 input-field rounded-0 border-0" rows="2" aria-label="With textarea"
-                                placeholder="Lorem Ipsum..." id="content" name="content"
-                                style="border-right: 1px solid #d9dee3 !important;"></textarea>
+                                placeholder="Lorem Ipsum..." id="content" name="content" required></textarea>
+                            <div class="m-2 flex justify-end">
+                                <button class="badge bg-label-primary cursor-pointer upload-btn" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#uploadCollapse">Upload photos</i></button>
+                            </div>
+
+                            {{-- upload collapse --}}
+                            <div class="collapse" id="uploadCollapse" style="">
+                                <div class="d-grid d-sm-flex p-3 row border-0">
+                                    <div class="flex flex-col justify-center gap-2 col-4">
+                                        <img src="{{ URL::asset('avatars/image.png') }}" alt="uploaded photo"
+                                            accept="image/*" class="mb-sm-0 mb-2 aspect-square" id="img_1">
+                                        <input type="file" name="photo_upload1" id="photo_upload1" hidden
+                                            class="account-file-input">
+                                        <label for="photo_upload1" class="badge bg-label-secondary cursor-pointer"
+                                            id="upload-btn1">Upload</label>
+                                    </div>
+                                    <div class="flex flex-col justify-center gap-2 col-4">
+                                        <img src="{{ URL::asset('avatars/image.png') }}" alt="uploaded photo"
+                                            accept="image/*" class="mb-sm-0 mb-2 aspect-square" id="img_2">
+                                        <input type="file" name="photo_upload2" id="photo_upload2" hidden>
+                                        <label for="photo_upload2" class="badge bg-label-secondary cursor-pointer"
+                                            id="upload-btn2">Upload</label>
+                                    </div>
+                                    <div class="flex flex-col justify-center gap-2 col-4">
+                                        <img src="{{ URL::asset('avatars/image.png') }}" alt="uploaded photo"
+                                            accept="image/*" class="mb-sm-0 mb-2 aspect-square" id="img_3">
+                                        <input type="file" name="photo_upload3" id="photo_upload3" hidden>
+                                        <label for="photo_upload3" class="badge bg-label-secondary cursor-pointer"
+                                            id="upload-btn3">Upload</label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    {{-- taggs --}}
                     <div class="bg-indigo-100 px-2 py-3 flex justify-around gap-4"
                         style="border-bottom-left-radius: 0.375rem; border-bottom-right-radius: 0.375rem;">
                         <div class=" w-4/6">
                             <label for="tags" class="form-label mb-2 w-100"> tags:
-                                <select class="form-control mb-2 mr-2" id="tags" name="tags[]" multiple="multiple">
+                                <select class="form-control mb-2 mr-2" id="tags" name="tags[]" multiple="multiple"
+                                    required>
                                     <option value="Faith">Faith</option>
                                     <option value="Family">Family</option>
                                     <option value="Finance">Finance</option>
@@ -327,21 +367,21 @@
                                                     xmlns="http://www.w3.org/2000/svg">
                                                     <path
                                                         d="M17.5 11.75C20.1233 11.75 22.25 13.8766 22.25 16.5C22.25 19.1234 20.1233
-                                                        21.25 17.5 21.25C15.402 21.25 13.6216 19.8898 12.9927 18.0032H11.0072C10.3783
-                                                        19.8898 8.59799 21.25 6.49998 21.25C3.87663 21.25 1.74998 19.1234 1.74998
-                                                        16.5C1.74998 13.8766 3.87663 11.75 6.49998 11.75C8.95456 11.75 10.9743 13.6118
-                                                        11.224 16.0003H12.776C13.0257 13.6118 15.0454 11.75 17.5 11.75ZM6.49998
-                                                        13.75C4.9812 13.75 3.74998 14.9812 3.74998 16.5C3.74998 18.0188 4.9812 19.25
-                                                        6.49998 19.25C8.01876 19.25 9.24998 18.0188 9.24998 16.5C9.24998 14.9812 8.01876
-                                                        13.75 6.49998 13.75ZM17.5 13.75C15.9812 13.75 14.75 14.9812 14.75 16.5C14.75
-                                                        18.0188 15.9812 19.25 17.5 19.25C19.0188 19.25 20.25 18.0188 20.25 16.5C20.25
-                                                        14.9812 19.0188 13.75 17.5 13.75ZM15.5119 3C16.7263 3 17.797 3.79659 18.1459
-                                                        4.95979L19.1521 8.31093C19.9446 8.44285 20.7203 8.59805 21.479 8.77658C22.0166
-                                                        8.90308 22.3499 9.44144 22.2234 9.97904C22.0969 10.5166 21.5585 10.8499 21.0209
-                                                        10.7234C18.2654 10.0751 15.2586 9.75 12 9.75C8.74132 9.75 5.73456 10.0751 2.97902
-                                                        10.7234C2.44142 10.8499 1.90306 10.5166 1.77656 9.97904C1.65007 9.44144 1.98334
-                                                        8.90308 2.52094 8.77658C3.27938 8.59813 4.05471 8.44298 4.84691 8.3111L5.85402
-                                                        4.95979C6.20298 3.79659 7.27362 3 8.48804 3H15.5119Z"
+                                                                                21.25 17.5 21.25C15.402 21.25 13.6216 19.8898 12.9927 18.0032H11.0072C10.3783
+                                                                                19.8898 8.59799 21.25 6.49998 21.25C3.87663 21.25 1.74998 19.1234 1.74998
+                                                                                16.5C1.74998 13.8766 3.87663 11.75 6.49998 11.75C8.95456 11.75 10.9743 13.6118
+                                                                                11.224 16.0003H12.776C13.0257 13.6118 15.0454 11.75 17.5 11.75ZM6.49998
+                                                                                13.75C4.9812 13.75 3.74998 14.9812 3.74998 16.5C3.74998 18.0188 4.9812 19.25
+                                                                                6.49998 19.25C8.01876 19.25 9.24998 18.0188 9.24998 16.5C9.24998 14.9812 8.01876
+                                                                                13.75 6.49998 13.75ZM17.5 13.75C15.9812 13.75 14.75 14.9812 14.75 16.5C14.75
+                                                                                18.0188 15.9812 19.25 17.5 19.25C19.0188 19.25 20.25 18.0188 20.25 16.5C20.25
+                                                                                14.9812 19.0188 13.75 17.5 13.75ZM15.5119 3C16.7263 3 17.797 3.79659 18.1459
+                                                                                4.95979L19.1521 8.31093C19.9446 8.44285 20.7203 8.59805 21.479 8.77658C22.0166
+                                                                                8.90308 22.3499 9.44144 22.2234 9.97904C22.0969 10.5166 21.5585 10.8499 21.0209
+                                                                                10.7234C18.2654 10.0751 15.2586 9.75 12 9.75C8.74132 9.75 5.73456 10.0751 2.97902
+                                                                                10.7234C2.44142 10.8499 1.90306 10.5166 1.77656 9.97904C1.65007 9.44144 1.98334
+                                                                                8.90308 2.52094 8.77658C3.27938 8.59813 4.05471 8.44298 4.84691 8.3111L5.85402
+                                                                                4.95979C6.20298 3.79659 7.27362 3 8.48804 3H15.5119Z"
                                                         fill="#878787" />
                                                 </svg>
                                             </span>
@@ -388,6 +428,18 @@
                             <p class="text-gray-700 text-sm text-pretty">
                                 {{ $post->description }}
                             </p>
+                            @php
+                                $data = json_decode($post->photos);
+                                $photos = $data == null ? [] : $data;
+                            @endphp
+                            <div class="row mt-2">
+                                @foreach ($photos as $photo)
+                                    <div class="col-4">
+                                        <img src="{{ URL::asset($photo) }}" class="rounded-md aspect-square"
+                                            style="height: 200px;">
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
                         <!-- tags -->
                         @php
@@ -494,13 +546,13 @@
         <!-- latest updates -->
         <div class="col-3 mr-auto">
             <div class="card">
-                <h3 class="card-header pb-0 h3">Latest Updates</h3>
+                <h3 class="card-header pb-0 h3">Announcements</h3>
                 <div class="mt-2">
                     <div class="list-group border-b-0 border-transparent">
                         <a href="javascript:void(0);"
                             class="list-group-item list-group-item-action flex-column align-items-start">
                             <div class="d-flex justify-content-between w-100">
-                                <h6 class="h6">List group item heading</h6>
+                                <h6 class="h6">Lorem Ipsum Dolor</h6>
                             </div>
                             <p class="mb-1">
                                 Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
@@ -511,7 +563,7 @@
                         <a href="javascript:void(0);"
                             class="list-group-item list-group-item-action flex-column align-items-start">
                             <div class="d-flex justify-content-between w-100">
-                                <h6 class="h6">List group item heading</h6>
+                                <h6 class="h6">Lorem Ipsum Dolor</h6>
                             </div>
                             <p class="mb-1">
                                 Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
@@ -522,7 +574,7 @@
                         <a href="javascript:void(0);"
                             class="list-group-item list-group-item-action flex-column align-items-start">
                             <div class="d-flex justify-content-between w-100">
-                                <h6 class="h6">List group item heading</h6>
+                                <h6 class="h6">Lorem Ipsum Dolor</h6>
                             </div>
                             <p class="mb-1">
                                 Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
@@ -566,6 +618,57 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+
+            // upload photos
+            $('#photo_upload1').change(function() {
+                console.log('Upload');
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#img_1').attr('src', e.target.result).show();
+                    }
+                    reader.readAsDataURL(file);
+
+                    $('#upload-btn1').text('Change');
+                } else {
+                    console.log('no file');
+                }
+            });
+
+            $('#photo_upload2').change(function() {
+                console.log('Upload');
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#img_2').attr('src', e.target.result).show();
+                    }
+                    reader.readAsDataURL(file);
+
+                    $('#upload-btn2').text('Change');
+                } else {
+                    console.log('no file');
+                }
+            });
+
+            $('#photo_upload3').change(function() {
+                console.log('Upload');
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#img_3').attr('src', e.target.result).show();
+                    }
+                    reader.readAsDataURL(file);
+
+                    $('#upload-btn3').text('Change');
+                } else {
+                    console.log('no file');
+                }
+            });
+            // ---- upload photos
+
             $('.postheader').fadeOut('slow');
             $('.postheader').fadeIn('slow');
 
@@ -650,6 +753,11 @@
                     return !currentValue;
                 });
             });
+
+            // post upload
+            $(document).on('click', '.upload-btn', function() {
+                $('#uploadCollapse').collapse('show');
+            })
 
             // Comment Close
             $(document).on('hide.bs.collapse', '.collapse', function() {

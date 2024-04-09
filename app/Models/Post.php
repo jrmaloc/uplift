@@ -21,6 +21,7 @@ class Post extends Model
         'user_id',
         'reaction_count',
         'privacy',
+        'photos',
     ];
 
     protected $table = 'posts';
