@@ -11,6 +11,7 @@
 @endsection
 
 @section('content')
+    {{-- create user --}}
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-header">
             <h3 id="offcanvasRightLabel" class="h4 offcanvas-title">User Creation Form</h3>
@@ -25,7 +26,8 @@
                     <div class="input-group input-group-merge">
                         <span id="input-name2" class="input-group-text"><i class="bx bx-user"></i></span>
                         <input type="text" name="name" class="form-control rounded-md" id="input-name"
-                            value="{{ old('name') }}" placeholder="Juan Dela Cruz" autofocus autocomplete="name" />
+                            value="{{ old('name') }}" placeholder="Juan Dela Cruz" autofocus autocomplete="name"
+                            required />
                     </div>
                     @error('name')
                         <span class="text-danger text-xs">{{ $message }}</span>
@@ -37,8 +39,7 @@
                     <div class="input-group input-group-merge">
                         <span class="input-group-text"><i class="bx bx-envelope"></i></span>
                         <input type="email" id="input-email" name="email" class="form-control rounded-md"
-                            value="{{ old('email') }}" placeholder="example" autocomplete="email" />
-                        <span id="input-email2" class="input-group-text">@example.com</span>
+                            value="{{ old('email') }}" placeholder="example" autocomplete="email" required />
                     </div>
                     <div class="form-text text-xs">You can use letters, numbers & periods</div>
                     @error('email')
@@ -51,7 +52,7 @@
                     <div class="input-group input-group-merge">
                         <span id="input-username2" class="input-group-text">@</span>
                         <input type="text" id="input-username" name="username" class="form-control rounded-md"
-                            value="{{ old('username') }}" placeholder="jdelacruz" autocomplete="username" />
+                            value="{{ old('username') }}" placeholder="jdelacruz" autocomplete="username" required />
                     </div>
                     @error('username')
                         <span class="text-danger text-xs">{{ $message }}</span>
@@ -64,7 +65,7 @@
                         <span id="input-contact-number2" class="input-group-text"><i class="bx bx-phone"></i></span>
                         <input type="tel" id="input-contact-number" name="contact_number"
                             class="form-control phone-mask rounded-md" value="{{ old('contact_number') }}"
-                            placeholder="0912 345 6789" autocomplete="tel" />
+                            placeholder="0912 345 6789" autocomplete="tel" required />
                     </div>
                     @error('contact_number')
                         <span class="text-danger text-xs">{{ $message }}</span>
@@ -80,10 +81,76 @@
         </div>
     </div>
 
+    {{-- edit user --}}
+    <x-off-canvas id="editUserOffcanvas" title="Edit User">
+        <form id="editUserForm">
+            @csrf
+            <div class="mb-3">
+                <label class="form-label" for="edit-name">Full Name</label>
+                <div class="input-group input-group-merge">
+                    <span id="input-name2" class="input-group-text"><i class="bx bx-user"></i></span>
+                    <input type="text" name="name" class="form-control rounded-md" id="edit-name"
+                        value="{{ old('name') }}" placeholder="Juan Dela Cruz" autofocus autocomplete="name" required />
+                </div>
+                @error('name')
+                    <span class="text-danger text-xs">{{ $message }}</span>
+                @enderror
+            </div>
 
+            <div class="mb-3">
+                <label class="form-label" for="edit-email">Email</label>
+                <div class="input-group input-group-merge">
+                    <span class="input-group-text"><i class="bx bx-envelope"></i></span>
+                    <input type="email" id="edit-email" name="email" class="form-control rounded-md"
+                        value="{{ old('email') }}" placeholder="example" autocomplete="email" required />
+                </div>
+                <div class="form-text text-xs">You can use letters, numbers & periods</div>
+                @error('email')
+                    <span class="text-danger text-xs">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="edit-username">Username</label>
+                <div class="input-group input-group-merge">
+                    <span id="input-username2" class="input-group-text">@</span>
+                    <input type="text" id="edit-username" name="username" class="form-control rounded-md"
+                        value="{{ old('username') }}" placeholder="jdelacruz" autocomplete="username" required />
+                </div>
+                @error('username')
+                    <span class="text-danger text-xs">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="edit-contact-number">Phone No</label>
+                <div class="input-group input-group-merge">
+                    <span id="input-contact-number2" class="input-group-text"><i class="bx bx-phone"></i></span>
+                    <input type="tel" id="edit-contact-number" name="contact_number"
+                        class="form-control phone-mask rounded-md" value="{{ old('contact_number') }}"
+                        placeholder="0912 345 6789" autocomplete="tel" required />
+                </div>
+                @error('contact_number')
+                    <span class="text-danger text-xs">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <input type="text" class="d-none" name="id" hidden id="id">
+
+            <div class="flex justify-end gap-1 mt-4">
+                <button type="reset" class="btn btn-outline-info">Reset</button>
+                <button type="submit" class="btn btn-primary update-btn">Update<i
+                        class="bx bx-right-arrow-alt ml-1"></i></button>
+            </div>
+        </form>
+    </x-off-canvas>
+
+    {{-- title --}}
     <div class="mt-8 mb-2 flex justify-between mx-2">
         <h1 class="h2">Users Table</h1>
     </div>
+
+    {{-- table --}}
     <div class="flex justify-end mb-3">
         <a class="btn btn-primary flex justify-center align-items-center py-2 px-3 border-0" data-bs-toggle="offcanvas"
             href="#offcanvasRight" role="button" aria-controls="offcanvasRight">
@@ -182,6 +249,7 @@
         $(document).ready(function() {
             loadTable();
 
+            // add new user
             $('#addUserForm').submit(function(e) {
                 e.preventDefault();
                 let formData = $(this).serialize();
@@ -191,7 +259,7 @@
                     type: "POST",
                     url: "{{ route('users.store') }}",
                     success: function(response) {
-                        $('#offcanvasRight').hide();
+                        $('#offcanvasRight').offcanvas('hide');
                         $('#data-table').DataTable().destroy();
                         loadTable();
 
@@ -216,6 +284,86 @@
                 });
             });
 
+            // show edit form
+            $(document).on('click', '.edit-btn', function(e) {
+                $('#editUserOffcanvas').offcanvas('show');
+
+                var id = $(this).attr('id');
+
+                $.ajax({
+                    url: "{{ route('users.edit', [':id']) }}".replace(':id', id),
+                    method: 'GET',
+                    success: function(response) {
+                        $('#edit-name').val(response.user.name);
+                        $('#edit-email').val(response.user.email);
+                        $('#edit-username').val(response.user.username);
+                        $('#edit-contact-number').val(response.user.contact_number);
+                        $('#id').val(response.user.id);
+
+                        console.log();
+                    },
+                    error: function(error) {
+                        console.log('Error:', error);
+                    }
+                });
+            });
+
+            // edit user
+            $(document).on('submit', '#editUserForm', function(e) {
+                e.preventDefault();
+
+                let formData = $(this).serialize();
+                let id = $(this).find('[name="id"]').val();
+
+                $.ajax({
+                    url: "{{ route('users.update', [':id']) }}".replace(':id', id),
+                    method: 'PUT',
+                    data: formData,
+                    success: function(response) {
+                        if (response.status == 200) {
+                            $('#editUserOffcanvas').offcanvas('hide');
+                            $('#data-table').DataTable().destroy();
+                            loadTable();
+
+                            butterup.toast({
+                                title: 'Success!',
+                                message: response.message,
+                                type: 'success',
+                                icon: true,
+                                dismissable: true,
+                            });
+                        } else if (response.status == 500) {
+                            butterup.toast({
+                                title: 'Heads Up!',
+                                message: response.message,
+                                type: 'warning',
+                                icon: true,
+                                dismissable: true,
+                            });
+                        } else {
+                            butterup.toast({
+                                title: 'Error!',
+                                message: response.message,
+                                type: 'error',
+                                icon: true,
+                                dismissable: true,
+                            });
+                        }
+                    },
+                    error: function(error) {
+                        console.log('Error:', error);
+                        butterup.toast({
+                            title: 'Error!',
+                            message: response.message,
+                            type: 'error',
+                            icon: true,
+                            dismissable: true,
+                        });
+                    }
+                });
+            });
+
+            // delete user
             $(document).on("click", ".remove-btn", function(e) {
                 let id = $(this).attr("id");
 

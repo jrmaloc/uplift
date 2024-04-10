@@ -779,7 +779,7 @@
                 var val = $(this).val();
 
                 $.ajax({
-                    url: "{{ route('users.checkpassword', [':user']) }}".replace(':user', id),
+                    url: "{{ route('users', [':user']) }}".replace(':user', id),
                     method: 'POST',
                     data: {
                         input: val

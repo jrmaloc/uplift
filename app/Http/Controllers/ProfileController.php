@@ -6,6 +6,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
 class ProfileController extends Controller
@@ -107,5 +108,62 @@ class ProfileController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function change_password(Request $request, string $id)
+    {
+        if ($request->ajax()) {
+            $data = $request->validate([
+                'old_password' => 'required',
+                'new_password' => 'required|min:8',
+                'confirm_password' => 'required|same:new_password',
+            ]);
+
+            $user = User::findOrFail($id);
+
+            if (Hash::check($data['old_password'], $user->password)) {
+
+                if (!Hash::check($data['new_password'], $user->password)) {
+                    $newPass = Hash::make($data['new_password']);
+                    $user->password = $newPass;
+
+                    $save = $user->save();
+                    if ($save) {
+                        return response()->json([
+                            'status' => 200,
+                            'message' => 'Password changed successfully',
+                        ]);
+                    }
+                } else {
+                    return response()->json([
+                        'status' => 201,
+                        'message' => 'You are trying to change the same password!',
+                    ]);
+                }
+            } else {
+                return response()->json([
+                    'status' => 500,
+                    'message' => 'Incorrect Credentials',
+                ]);
+            };
+        }
+    }
+
+    public function check_password(string $id, Request $request)
+    {
+        if ($request->ajax()) {
+
+            $user = User::findOrFail($id);
+            $try = $request->input;
+            if (Hash::check($try, $user->password)) {
+                return response()->json([
+                    'status' => 200,
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 500,
+                ]);
+            }
+        }
     }
 }

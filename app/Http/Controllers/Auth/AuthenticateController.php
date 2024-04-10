@@ -84,4 +84,43 @@ class AuthenticateController extends Controller
 
         return redirect(route('auth.login')); // Redirect to your desired page after logout
     }
+
+    public function changePassword(Request $request, string $id)
+    {
+        if ($request->ajax()) {
+            $data = $request->validate([
+                'old_password' => 'required',
+                'new_password' => 'required|min:8',
+                'confirm_password' => 'required|same:new_password',
+            ]);
+
+            $user = User::findOrFail($id);
+
+            if (Hash::check($data['old_password'], $user->password)) {
+
+                if (!Hash::check($data['new_password'], $user->password)) {
+                    $newPass = Hash::make($data['new_password']);
+                    $user->password = $newPass;
+
+                    $save = $user->save();
+                    if ($save) {
+                        return response()->json([
+                            'status' => 200,
+                            'message' => 'Password changed successfully',
+                        ]);
+                    }
+                } else {
+                    return response()->json([
+                        'status' => 201,
+                        'message' => 'You are trying to change the same password!',
+                    ]);
+                }
+            } else {
+                return response()->json([
+                    'status' => 500,
+                    'message' => 'Incorrect Credentials',
+                ]);
+            };
+        }
+    }
 }

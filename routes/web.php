@@ -6,19 +6,14 @@ use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\DashboardUserController;
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostPageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RolesController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserPageController;
 use Illuminate\Support\Facades\Route;
-use Spatie\Permission\Models\Role;
-
-
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -53,23 +48,36 @@ Route::middleware(['auth', 'revalidate'])->group(function () {
 
 Route::post('login', [AuthenticateController::class, 'login'])->name('auth.login');
 Route::post('register', [AuthenticateController::class, 'register'])->name('auth.register');
-Route::match(['PUT', 'PATCH'], '/dashboard/users/{user}/password', [UserController::class, 'password'])->name('users.password');
-Route::post('/dashboard/users/{user}/checkpassword', [UserController::class, 'check'])->name('users.checkpassword');
+// Route::match(['PUT', 'PATCH'], '/users/{user}/password', [AuthenticateController::class, 'changePassword'])->name('users.password');
 
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
-    'verified', 'revalidate', 'role:admin|super-admin'
+    'verified', 'revalidate', 'role:admin|super-admin',
 ])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-    Route::resource('/dashboard/users', UserController::class);
+
     Route::resource('/dashboard/posts', PostController::class);
     Route::resource('/dashboard/roles', RolesController::class);
-    Route::resource('/dashboard/profile', ProfileController::class);
     Route::resource('/dashboard/permissions', PermissionsController::class);
 });
+
+// logged in routes
+Route::middleware(['auth:sanctum', 'verified', 'revalidate', config('jetstream.auth_session')])
+    ->group(function () {
+        Route::resource('profile', ProfileController::class);
+        Route::match(['PUT', 'PATCH'], 'profile/{profile}/change', [ProfileController::class, 'change_password'])->name('profile.change_password');
+        Route::post('profile/{profile}/check', [ProfileController::class, 'check_password'])->name('profile.check_password');
+    });
+
+// dashboard routes
+Route::middleware(['auth:sanctum', 'verified', 'revalidate', 'role:admin|super-admin', config('jetstream.auth_session')])
+    ->prefix('dashboard')
+    ->group(function () {
+        Route::resource('users', DashboardUserController::class);
+    });
 
 Route::middleware([
     'auth:sanctum',
@@ -78,8 +86,6 @@ Route::middleware([
 ])->group(function () {
     Route::resource('/account/user_page', UserPageController::class);
     Route::resource('/account/posts_page', PostPageController::class);
-    Route::resource('/account/profile', ProfileController::class);
     Route::resource('account/home', AccountPageController::class);
     Route::resource('/account/comments', CommentController::class);
 });
-

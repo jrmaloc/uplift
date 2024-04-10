@@ -74,6 +74,7 @@
                                 style="">
                                 <div class="d-grid d-sm-flex p-3 row border-0">
                                     <div class="flex flex-col justify-center gap-2 col-4">
+                                        <label for="photo_upload1" class="cursor-pointer">
                                         @if (isset($photos[0]) && $photos[0] !== null)
                                             <img src="{{ URL::asset($photos[0]) }}" alt="uploaded photo" accept="image/*"
                                                 class="mb-sm-0 mb-2 aspect-square rounded-md" id="img_1">
@@ -83,11 +84,12 @@
                                         @endif
                                         <input type="file" name="photo_upload1" id="photo_upload1" hidden
                                             class="account-file-input">
-                                        <label for="photo_upload1"
-                                            class="badge bg-label-secondary cursor-pointer hover:scale-110 ease-in-out duration-300"
-                                            id="upload-btn1">{{ $post->photos != null ? 'Change' : 'Upload' }}</label>
+                                        <span class="badge bg-label-secondary flex mt-2 justify-center cursor-pointer hover:scale-110 ease-in-out duration-300"
+                                            id="upload-btn1">{{ $post->photos != null ? 'Change' : 'Upload' }}</span>
+                                        </label>
                                     </div>
                                     <div class="flex flex-col justify-center gap-2 col-4">
+                                        <label for="photo_upload1" class="cursor-pointer">
                                         @if (isset($photos[1]) && $photos[1] !== null)
                                             <img src="{{ URL::asset($photos[1]) }}" alt="uploaded photo" accept="image/*"
                                                 class="mb-sm-0 mb-2 aspect-square rounded-md" id="img_2">
@@ -96,11 +98,12 @@
                                                 class="mb-sm-0 mb-2 aspect-square rounded-md" id="img_2">
                                         @endif
                                         <input type="file" name="photo_upload2" id="photo_upload2" hidden>
-                                        <label for="photo_upload2"
-                                            class="badge bg-label-secondary cursor-pointer hover:scale-110 ease-in-out duration-300"
-                                            id="upload-btn2">{{ $post->photos != null ? 'Change' : 'Upload' }}</label>
+                                        <span class="badge bg-label-secondary flex mt-2 justify-center cursor-pointer hover:scale-110 ease-in-out duration-300"
+                                            id="upload-btn2">{{ $post->photos != null ? 'Change' : 'Upload' }}</span>
+                                        </label>
                                     </div>
                                     <div class="flex flex-col justify-center gap-2 col-4">
+                                        <label for="photo_upload1" class="cursor-pointer">
                                         @if (isset($photos[2]) && $photos[2] !== null)
                                             <img src="{{ URL::asset($photos[2]) }}" alt="uploaded photo" accept="image/*"
                                                 class="mb-sm-0 mb-2 aspect-square rounded-md" id="img_3">
@@ -109,9 +112,9 @@
                                                 class="mb-sm-0 mb-2 aspect-square rounded-md" id="img_3">
                                         @endif
                                         <input type="file" name="photo_upload3" id="photo_upload3" hidden>
-                                        <label for="photo_upload3"
-                                            class="badge bg-label-secondary cursor-pointer hover:scale-110 ease-in-out duration-300"
-                                            id="upload-btn3">{{ $post->photos != null ? 'Change' : 'Upload' }}</label>
+                                        <span class="badge bg-label-secondary flex mt-2 justify-center cursor-pointer hover:scale-110 ease-in-out duration-300"
+                                            id="upload-btn3">{{ $post->photos != null ? 'Change' : 'Upload' }}</span>
+                                        </label>
                                     </div>
                                 </div>
                             </div>

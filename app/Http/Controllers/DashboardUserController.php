@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\DataTables;
 
-class UserController extends Controller
+class DashboardUserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,7 +24,7 @@ class UserController extends Controller
                 ->addIndexColumn()
             // ->addColumn('household_servant', '{{$household_servant_name}}')
                 ->addColumn("actions", function ($info) {
-                    $editButton = '<a href="users/' . $info->id . '/edit" class="btn btn-outline-secondary btn-sm"><i class="tf-icons bx bx-edit"></i></a>';
+                    $editButton = '<a href="javascript:void(0);" id="' . $info->id . '" class="btn btn-outline-secondary btn-sm edit-btn"><i class="tf-icons bx bx-edit"></i></a>';
                     $deleteButton = '<a href="javascript:void(0);" id="' . $info->id . '" class="btn btn-outline-danger remove-btn btn-sm"><i class="tf-icons bx bx-trash"></i></a>';
 
                     return '<div class="dropdown flex gap-2">' . $editButton . $deleteButton . '</div>';
@@ -34,7 +34,7 @@ class UserController extends Controller
                 ->make(true);
         }
 
-        return view('users.index');
+        return view('dashboard.users.index');
     }
 
     /**
@@ -104,22 +104,31 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, string $id)
     {
         //
-        $user = User::find($id);
+        if ($request->ajax()) {
+            $user = User::findOrFail($id);
 
-        $dob = Carbon::parse($user->birthday);
+            return response()->json([
+                'user' => $user,
+            ]);
+        }
 
-        $age = $dob->diffInYears(Carbon::now());
+        // $user = User::find($id);
 
-        $role = Role::find($user->role_id);
+        // $dob = Carbon::parse($user->birthday);
 
-        return view('users.edit', [
-            'user' => $user,
-            'age' => $age,
-            'role' => $role,
-        ]);
+        // $age = $dob->diffInYears(Carbon::now());
+
+        // $role = Role::find($user->role_id);
+
+        // return view('dashboard.users.edit', [
+        //     'user' => $user,
+        //     'age' => $age,
+        //     'role' => $role,
+        // ]);
+
     }
 
     /**
@@ -130,35 +139,60 @@ class UserController extends Controller
         //
         if ($request->ajax()) {
             $data = $request->validate([
-                'name' => 'required',
-                'email' => 'required|email',
-                'username' => 'required',
-                'contact_number' => 'required',
-                'birthday' => 'required',
-                'gender' => 'required',
-                'bio' => 'required',
+                'name' =>'required',
+                'email' =>'required',
+                'username' =>'required',
+                'contact_number' =>'required',
             ]);
 
+            $data['status'] = 'active';
+
             $user = User::findOrFail($id);
-            $dob = Carbon::parse($user->birthday);
+            $update = $user->update($data);
 
-            $age = $dob->diffInYears(Carbon::now());
-
-            $save = $user->update($data);
-            if ($save) {
+            if ($update) {
                 return response()->json([
                     'status' => 200,
                     'message' => 'User Updated Successfully!',
-                    'data' => $user,
-                    'age' => $age,
                 ]);
             } else {
                 return response()->json([
                     'status' => 500,
                     'message' => 'Something went wrong',
-                ], 500);
+                ]);
             }
         }
+        // if ($request->ajax()) {
+        //     $data = $request->validate([
+        //         'name' => 'required',
+        //         'email' => 'required|email',
+        //         'username' => 'required',
+        //         'contact_number' => 'required',
+        //         'birthday' => 'required',
+        //         'gender' => 'required',
+        //         'bio' => 'required',
+        //     ]);
+
+        //     $user = User::findOrFail($id);
+        //     $dob = Carbon::parse($user->birthday);
+
+        //     $age = $dob->diffInYears(Carbon::now());
+
+        //     $save = $user->update($data);
+        //     if ($save) {
+        //         return response()->json([
+        //             'status' => 200,
+        //             'message' => 'User Updated Successfully!',
+        //             'data' => $user,
+        //             'age' => $age,
+        //         ]);
+        //     } else {
+        //         return response()->json([
+        //             'status' => 500,
+        //             'message' => 'Something went wrong',
+        //         ], 500);
+        //     }
+        // }
     }
 
     /**
@@ -181,24 +215,6 @@ class UserController extends Controller
                     'status' => 500,
                     'message' => 'Something went wrong. Please try again',
                 ], 500);
-            }
-        }
-    }
-
-    public function check(string $id, Request $request)
-    {
-        if ($request->ajax()) {
-
-            $user = User::findOrFail($id);
-            $try = $request->input;
-            if (Hash::check($try, $user->password)) {
-                return response()->json([
-                    'status' => 200,
-                ]);
-            } else {
-                return response()->json([
-                    'status' => 500,
-                ]);
             }
         }
     }
