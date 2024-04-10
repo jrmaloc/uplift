@@ -104,14 +104,14 @@
                     <!-- Apps -->
                     <li
                         class="menu-item {{ preg_match('/dashboard\/users$/', Request::path()) || preg_match('/dashboard\/users\/\d+\/edit$/', Request::path()) ? 'active' : null }}">
-                        <a href="{{ route('users.index') }}" class="menu-link">
+                        <a href="#" class="menu-link">
                             <i class="menu-icon bx bx-user"></i>
                             <div data-i18n="Users">Users</div>
                         </a>
                     </li>
                     <li
                         class="menu-item {{ preg_match('/dashboard\/posts$/', Request::path()) || preg_match('/dashboard\/posts\/\d+\/edit$/', Request::path()) ? 'active' : null }}">
-                        <a href="{{ route('posts.index') }}" class="menu-link">
+                        <a href="{{ route('dashboard.posts.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-clipboard"></i>
                             <div data-i18n="Users">Posts</div>
                         </a>
@@ -119,7 +119,7 @@
                     <!-- Pages -->
                     <li
                         class="menu-item {{ preg_match('/dashboard\/roles$/', Request::path()) || preg_match('/dashboard\/permissions$/', Request::path()) ? 'open active' : '' }}">
-                        <a href="{{ route('roles.index') }}" class="menu-link">
+                        <a href="#" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-cog"></i>
                             <div data-i18n="Account Settings">Roles &amp; Permissions</div>
                         </a>

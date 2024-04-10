@@ -1,14 +1,15 @@
 <?php
 
 use App\Http\Controllers\AccountPageController;
+use App\Http\Controllers\AccountPostsController;
 use App\Http\Controllers\Auth\AuthenticateController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\DashboardPostsController;
 use App\Http\Controllers\DashboardUserController;
 use App\Http\Controllers\PermissionsController;
-use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostPageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RolesController;
@@ -59,7 +60,6 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
-    Route::resource('/dashboard/posts', PostController::class);
     Route::resource('/dashboard/roles', RolesController::class);
     Route::resource('/dashboard/permissions', PermissionsController::class);
 });
@@ -75,8 +75,19 @@ Route::middleware(['auth:sanctum', 'verified', 'revalidate', config('jetstream.a
 // dashboard routes
 Route::middleware(['auth:sanctum', 'verified', 'revalidate', 'role:admin|super-admin', config('jetstream.auth_session')])
     ->prefix('dashboard')
+    ->name('dashboard.')
     ->group(function () {
+        Route::resource('posts', DashboardPostsController::class);
         Route::resource('users', DashboardUserController::class);
+
+    });
+
+// account routes
+Route::middleware(['auth:sanctum', 'verified', 'revalidate', config('jetstream.auth_session')])
+    ->prefix('account')
+    ->name('account.')
+    ->group(function () {
+        Route::resource('posts', AccountPostsController::class);
     });
 
 Route::middleware([

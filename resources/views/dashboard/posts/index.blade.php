@@ -17,22 +17,17 @@
     <div class="mt-8 mb-5 flex justify-between mx-2">
         <h1 class="h2">Posts Table</h1>
     </div>
-    <div class="flex justify-end mb-3">
-        {{-- <a class="btn btn-primary flex justify-center align-items-center py-2 px-3 border-0" data-bs-toggle="offcanvas"
-            href="#offcanvasRight" role="button" aria-controls="offcanvasRight">
-            Create New User<span class="mdi mdi-plus ml-2"></span>
-        </a> --}}
-    </div>
+
     <div class="row mb-8">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive-lg text-nowrap">
-                        <table id="data-table" class="table table-striped" style="width: 100%;">
+                        <table id="data-table" class="table table-hover" style="width: 100%;">
                             <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Post</th>
+                                    <th>Title</th>
                                     <th>Creator</th>
                                     <th>Type</th>
                                     <th>Privacy</th>
@@ -57,12 +52,8 @@
                     width: '10%'
                 },
                 {
-                    data: 'description',
+                    data: 'caption',
                     name: 'post',
-                    width: '30%',
-                    reder: function(data) {
-                        return data.name;
-                    }
                 },
                 {
                     data: 'creator',
@@ -72,17 +63,18 @@
                     // }
                 },
                 {
-                    data: 'type',
-                    name: 'type',
-                    render: function(data) {
-                        return '<div class="badge rounded-pill bg-label-primary px-4 py-2">' + data + '</div>';
-                    }
+                    data: 'tags',
+                    name: 'tags',
                 },
                 {
                     data: 'privacy',
                     name: 'privacy',
                     render: function(data) {
-                        return '<div class="badge rounded-pill bg-label-dark px-4 py-2">' + data + '</div>';
+                        if (data == 'public') {
+                            return '<div class="badge rounded-pill bg-label-primary px-4 py-2">' + data + '</div>';
+                        } else if (data == 'private') {
+                            return '<div class="badge rounded-pill bg-label-dark px-4 py-2 border-1">' + data + '</div>';
+                        }
                     }
                 },
                 {
@@ -113,7 +105,7 @@
                 scrollX: 460,
                 scrollY: 500,
                 ajax: {
-                    url: "{{ route('posts.index') }}"
+                    url: "{{ route('dashboard.posts.index') }}"
                 },
                 columns: columns,
                 order: [
