@@ -19,16 +19,14 @@ return new class extends Migration
             $table->string('contact_number')->nullable();
             $table->enum('gender', ['male', 'female']);
             $table->enum('status', ['active', 'inactive']);
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
             $table->string('avatar')->nullable();
             $table->json('friends')->nullable();
             $table->string('address')->nullable();
             $table->date('birthday')->nullable();
             $table->text('bio')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
             $table->rememberToken();
-            $table->foreignId('current_team_id')->nullable();
-            $table->string('profile_photo_path', 2048)->nullable();
             $table->timestamps();
         });
     }

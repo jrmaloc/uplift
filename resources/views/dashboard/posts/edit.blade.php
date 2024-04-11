@@ -199,136 +199,43 @@
                     }
                 </style>
 
-                <div class="relative max-w-xs overflow-hidden bg-cover bg-[50%] bg-no-repeat">
-                    <img src="https://tecdn.b-cdn.net/img/Photos/Others/mewa.jpg" class="max-w-xs" />
-                    <div
-                        class="absolute cursor-pointer bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-fixed ease-in-out duration-300">
-                        <div id="text" class="flex h-full items-center justify-center ease-in-out duration-300">
-                            <p id="test-text" class="text-white ease-in-out duration-300"><i class='bx bxs-trash'
-                                    style="font-size: 5rem;"></i></p>
-                        </div>
-                    </div>
-                </div>
-
                 {{-- photos --}}
                 <div class="">
                     <div class="flex flex-col justify-st bg-indigo-100 rounded-md mb-2 py-2 p-4">
-                        <label for="uploadPhoto" class="btn btn-secondary w-max ml-auto">
-                            <input type="file" name="uploadPhoto[]" id="uploadPhoto" accept="image/*" multiple hidden>
+                        <label for="uploadedPhotos" class="btn btn-secondary w-max ml-auto">
+                            <input type="file" name="uploadedPhotos[]" id="uploadedPhotos" accept="image/*" multiple
+                                hidden>
                             <i class='bx bx-image-add'></i>
                         </label>
 
                         <a href="javascript:void(0);" class="btn btn-danger w-max ml-auto d-none"><i
                                 class='bx bx-x'></i></a>
+                        @php
+                            $photos = json_decode($post->photos, true);
 
-                        <div id="preview" class="mt-4 w-100 flex flex-wrap gap-2">
-                            <div class="relative max-w-xs overflow-hidden bg-cover bg-[50%] bg-no-repeat col-4">
-                                <img src="https://tecdn.b-cdn.net/img/Photos/Others/mewa.jpg" class="max-w-xs" />
+                            if ($photos == null) {
+                                $photos = [];
+                            }
+                        @endphp
+
+                        <div id="preview"
+                            class="w-100 flex flex-wrap justify-center {{ $photos == [] ? '' : 'py-4' }} gap-2">
+                            @foreach ($photos as $photo)
                                 <div
-                                    class="absolute cursor-pointer bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-fixed ease-in-out duration-300">
-                                    <div id="text"
-                                        class="flex h-full items-center justify-center ease-in-out duration-300">
-                                        <p id="test-text" class="text-white ease-in-out duration-300"><i
-                                                class='bx bxs-trash' style="font-size: 5rem;"></i></p>
+                                    class="relative max-w-52 overflow-hidden bg-cover bg-[50%] bg-no-repeat col-4 rounded-md">
+                                    <img src="{{ URL::asset($photo) }}" class="max-w-52 aspect-square" />
+                                    <div
+                                        class="absolute cursor-pointer bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-fixed ease-in-out duration-300">
+                                        <div id="text"
+                                            class="flex h-full items-center justify-center ease-in-out duration-300">
+                                            <p id="test-text" class="text-white ease-in-out duration-300"><i
+                                                    class='bx bxs-trash' style="font-size: 1.5rem;"></i></p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="relative max-w-xs overflow-hidden bg-cover bg-[50%] bg-no-repeat col-4">
-                                <img src="https://tecdn.b-cdn.net/img/Photos/Others/mewa.jpg" class="max-w-xs" />
-                                <div
-                                    class="absolute cursor-pointer bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-fixed ease-in-out duration-300">
-                                    <div id="text"
-                                        class="flex h-full items-center justify-center ease-in-out duration-300">
-                                        <p id="test-text" class="text-white ease-in-out duration-300"><i
-                                                class='bx bxs-trash' style="font-size: 5rem;"></i></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="relative max-w-xs overflow-hidden bg-cover bg-[50%] bg-no-repeat col-4">
-                                <img src="https://tecdn.b-cdn.net/img/Photos/Others/mewa.jpg" class="max-w-xs" />
-                                <div
-                                    class="absolute cursor-pointer bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-fixed ease-in-out duration-300">
-                                    <div id="text"
-                                        class="flex h-full items-center justify-center ease-in-out duration-300">
-                                        <p id="test-text" class="text-white ease-in-out duration-300"><i
-                                                class='bx bxs-trash' style="font-size: 5rem;"></i></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="relative max-w-xs overflow-hidden bg-cover bg-[50%] bg-no-repeat col-4">
-                                <img src="https://tecdn.b-cdn.net/img/Photos/Others/mewa.jpg" class="max-w-xs" />
-                                <div
-                                    class="absolute cursor-pointer bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-fixed ease-in-out duration-300">
-                                    <div id="text"
-                                        class="flex h-full items-center justify-center ease-in-out duration-300">
-                                        <p id="test-text" class="text-white ease-in-out duration-300"><i
-                                                class='bx bxs-trash' style="font-size: 5rem;"></i></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="relative max-w-xs overflow-hidden bg-cover bg-[50%] bg-no-repeat col-4">
-                                <img src="https://tecdn.b-cdn.net/img/Photos/Others/mewa.jpg" class="max-w-xs" />
-                                <div
-                                    class="absolute cursor-pointer bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-fixed ease-in-out duration-300">
-                                    <div id="text"
-                                        class="flex h-full items-center justify-center ease-in-out duration-300">
-                                        <p id="test-text" class="text-white ease-in-out duration-300"><i
-                                                class='bx bxs-trash' style="font-size: 5rem;"></i></p>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
-                    @php
-                        $photos = json_decode($post->photos, true);
-                    @endphp
-
-                    {{ $photos = $photos == null ? '' : $photos }}
-                    {{-- <div class="d-grid d-sm-flex p-3 row border-0">
-                        <div class="flex flex-col justify-center gap-2 col-4">
-                            <label for="photo_upload1" class="cursor-pointer">
-                                @if (isset($photos[0]) && $photos[0] !== null)
-                                    <img src="{{ URL::asset($photos[0]) }}" alt="uploaded photo" accept="image/*"
-                                        class="mb-sm-0 mb-2 aspect-square rounded-md" id="img_1" style="width: 300px;">
-                                @else
-                                    <img src="{{ URL::asset('avatars/image.png') }}" alt="default photo"
-                                        class="mb-sm-0 mb-2 aspect-square rounded-md" id="img_1" style="width: 300px;">
-                                @endif
-                                <input type="file" name="photo_upload1" id="photo_upload1" hidden
-                                    class="account-file-input">
-                                <span class="badge bg-label-secondary flex mt-2 justify-center cursor-pointer"
-                                    id="upload-btn1">{{ $post->photos != null ? 'Change' : 'Upload' }}</span>
-                            </label>
-                        </div>
-                        <div class="flex flex-col justify-center gap-2 col-4">
-                            <label for="photo_upload2" class="cursor-pointer">
-                                @if (isset($photos[1]) && $photos[1] !== null)
-                                    <img src="{{ URL::asset($photos[1]) }}" alt="uploaded photo" accept="image/*"
-                                        class="mb-sm-0 mb-2 aspect-square rounded-md" id="img_2" style="width: 300px;">
-                                @else
-                                    <img src="{{ URL::asset('avatars/image.png') }}" alt="default photo"
-                                        class="mb-sm-0 mb-2 aspect-square rounded-md" id="img_2" style="width: 300px;">
-                                @endif
-                                <input type="file" name="photo_upload2" id="photo_upload2" hidden>
-                                <span class="badge bg-label-secondary flex mt-2 justify-center cursor-pointer"
-                                    id="upload-btn2">{{ $post->photos != null ? 'Change' : 'Upload' }}</span>
-                            </label>
-                        </div>
-                        <div class="flex flex-col justify-center gap-2 col-4">
-                            <label for="photo_upload3" class="cursor-pointer">
-                                @if (isset($photos[2]) && $photos[2] !== null)
-                                    <img src="{{ URL::asset($photos[2]) }}" alt="uploaded photo" accept="image/*"
-                                        class="mb-sm-0 mb-2 aspect-square rounded-md" id="img_3" style="width: 300px;">
-                                @else
-                                    <img src="{{ URL::asset('avatars/image.png') }}" alt="default photo"
-                                        class="mb-sm-0 mb-2 aspect-square rounded-md" id="img_3" style="width: 300px;">
-                                @endif
-                                <input type="file" name="photo_upload3" id="photo_upload3" hidden>
-                                <span class="badge bg-label-secondary flex mt-2 justify-center cursor-pointer"
-                                    id="upload-btn3">{{ $post->photos != null ? 'Change' : 'Upload' }}</span>
-                            </label>
-                        </div>
-                    </div> --}}
                 </div>
 
                 <div>
@@ -375,8 +282,8 @@
                         </span>
 
                         <span title="anonymous">
-                            <?xml version="1.0" ?><svg fill="none" width="18" viewBox="0 0 24 24"
-                                id="incognito" class="d-none" width="24" xmlns="http://www.w3.org/2000/svg">
+                            <?xml version="1.0" ?><svg fill="none" width="18" viewBox="0 0 24 24" id="incognito"
+                                class="d-none" width="24" xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M17.5 11.75C20.1233 11.75 22.25 13.8766 22.25 16.5C22.25 19.1234 20.1233 21.25 17.5 21.25C15.402 21.25 13.6216 19.8898 12.9927 18.0032H11.0072C10.3783 19.8898 8.59799 21.25 6.49998 21.25C3.87663 21.25 1.74998 19.1234 1.74998 16.5C1.74998 13.8766 3.87663 11.75 6.49998 11.75C8.95456 11.75 10.9743 13.6118 11.224 16.0003H12.776C13.0257 13.6118 15.0454 11.75 17.5 11.75ZM6.49998 13.75C4.9812 13.75 3.74998 14.9812 3.74998 16.5C3.74998 18.0188 4.9812 19.25 6.49998 19.25C8.01876 19.25 9.24998 18.0188 9.24998 16.5C9.24998 14.9812 8.01876 13.75 6.49998 13.75ZM17.5 13.75C15.9812 13.75 14.75 14.9812 14.75 16.5C14.75 18.0188 15.9812 19.25 17.5 19.25C19.0188 19.25 20.25 18.0188 20.25 16.5C20.25 14.9812 19.0188 13.75 17.5 13.75ZM15.5119 3C16.7263 3 17.797 3.79659 18.1459 4.95979L19.1521 8.31093C19.9446 8.44285 20.7203 8.59805 21.479 8.77658C22.0166 8.90308 22.3499 9.44144 22.2234 9.97904C22.0969 10.5166 21.5585 10.8499 21.0209 10.7234C18.2654 10.0751 15.2586 9.75 12 9.75C8.74132 9.75 5.73456 10.0751 2.97902 10.7234C2.44142 10.8499 1.90306 10.5166 1.77656 9.97904C1.65007 9.44144 1.98334 8.90308 2.52094 8.77658C3.27938 8.59813 4.05471 8.44298 4.84691 8.3111L5.85402 4.95979C6.20298 3.79659 7.27362 3 8.48804 3H15.5119Z"
                                     fill="#878787" />
@@ -414,9 +321,6 @@
                 $('#incognito').removeClass('d-none');
             }
 
-
-
-
             $('.tgl-btn').click(function() {
                 if ($('#anonymous').is(':checked')) {
                     $('#incognito').addClass('d-none');
@@ -431,57 +335,46 @@
 
             var uploadedFiles = [];
             // upload photos
-            $('#uploadPhoto').change(function() {
+            $('#uploadedPhotos').change(function() {
                 var files = $(this)[0].files;
-
-                // Clear previous previews
-                // $('#preview').empty();
 
                 // Loop through the files and create img elements
                 for (var i = 0; i < files.length; i++) {
                     var file = files[i];
-                    var img = $('<img src="' + URL.createObjectURL(file) +
-                        '" class="col-4 aspect-square rounded-lg my-2 ease-in-out duration-300 cursor-pointer" style="width:320px;">' +
-                        '<div class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-purple-700 bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-20"></div></div>'
-                    );
-                    img.appendTo('#preview');
+                    var img = $(
+                        `<div class="relative max-w-52 overflow-hidden bg-cover bg-[50%] bg-no-repeat col-4 rounded-md">
+                            <img src="` + URL.createObjectURL(file) + `" class="max-w-52 aspect-square" />
+                            <div
+                                class="absolute cursor-pointer bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-fixed ease-in-out duration-300">
+                                <div id="text"
+                                    class="flex h-full items-center justify-center ease-in-out duration-300">
+                                    <p id="test-text" class="text-white ease-in-out duration-300"><i
+                                            class='bx bxs-trash' style="font-size: 1.5rem;"></i></p>
+                                </div>
+                            </div>
+                        </div>`);
+                    var test = img.appendTo('#preview');
+
+                    if (test.length > 0) {
+                        $('#preview').addClass('py-4');
+                    }
 
                     uploadedFiles.push(file);
                 }
             });
 
-            // $('#photo_upload2').change(function() {
-            //     console.log('Upload');
-            //     const file = this.files[0];
-            //     if (file) {
-            //         const reader = new FileReader();
-            //         reader.onload = function(e) {
-            //             $('#img_2').attr('src', e.target.result).show();
-            //         }
-            //         reader.readAsDataURL(file);
+            var deletedFile = 'wewak';
 
-            //         $('#upload-btn2').text('Change');
-            //     } else {
-            //         console.log('no file');
-            //     }
-            // });
+            // remove photo
+            $(document).on('click', '#text', function(e) {
+                var parent = $(this).parent().parent();
 
-            // $('#photo_upload3').change(function() {
-            //     console.log('Upload');
-            //     const file = this.files[0];
-            //     if (file) {
-            //         const reader = new FileReader();
-            //         reader.onload = function(e) {
-            //             $('#img_3').attr('src', e.target.result).show();
-            //         }
-            //         reader.readAsDataURL(file);
+                parent.addClass('d-none');
 
-            //         $('#upload-btn3').text('Change');
-            //     } else {
-            //         console.log('no file');
-            //     }
-            // });
-            // ---- upload photos
+                var deletedImg = parent.find('img').attr('src').split('/').pop();
+
+                deletedFile = 'avatars/' + deletedImg;
+            });
 
             // edit
             $(document).on('submit', '#editPostForm', function(e) {
@@ -489,16 +382,15 @@
 
                 var id = {{ $post->id }};
                 var formData = new FormData();
+                console.log(deletedFile);
 
                 var caption = $('#edit-caption').val();
                 var content = $('#edit-description').val();
                 var tags = $('#edit-tags').val();
 
-                var upload1 = $('#photo_upload1').prop('files')[0];
-                var upload2 = $('#photo_upload2').prop('files')[0];
-                var upload3 = $('#photo_upload3').prop('files')[0];
-
-                console.log();
+                $.each(uploadedFiles, function(index, file) {
+                    formData.append('uploadedFiles[]', file);
+                });
 
                 if ($('#anonymous').is(':checked')) {
                     var privacy = 'private';
@@ -511,9 +403,7 @@
                 formData.append('tags', tags);
                 formData.append('privacy', privacy);
                 formData.append('_method', 'PUT');
-                formData.append('upload1', upload1);
-                formData.append('upload2', upload2);
-                formData.append('upload3', upload3);
+                formData.append('deletedFile', deletedFile);
 
                 // Append each file to FormData
                 for (var i = 0; i < tags.length; i++) {
@@ -555,7 +445,7 @@
                         });
                     }
                 });
-            })
+            });
         });
     </script>
 @endpush

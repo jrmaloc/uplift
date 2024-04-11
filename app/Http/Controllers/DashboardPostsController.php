@@ -112,6 +112,10 @@ class DashboardPostsController extends Controller
         //
         $post = Post::findOrFail($id);
 
+        if ($post->tags == null) {
+            $post->tags = '[]';
+        }
+
         $tags = json_decode($post->tags, true);
 
         $options = array_diff($tags, array('Faith', 'Family', 'Finance', 'Health', 'Studies', 'Work'));
@@ -131,22 +135,24 @@ class DashboardPostsController extends Controller
             // dd($request->all());
             // dd($request->tags);
             $post = Post::findOrFail($id);
-
             $photos = [];
-            for ($i = 1; $i <= 3; $i++) {
-                if ($request->hasFile('upload' . $i)) {
-                    $file = $request->file('upload' . $i);
-                    $uniqueId = uniqid();
 
+            if ($request->hasFile('uploadedFiles')) {
+                $files = $request->file('uploadedFiles');
+
+                foreach ($files as $file) {
+                    $uniqueId = uniqid();
                     if ($file->isValid()) {
                         $photo = 'avatars/' . time() . $uniqueId . '.' . $file->getClientOriginalExtension();
                         $file->move(public_path('avatars'), $photo);
-                        $photos[$i - 1] = $photo; // Assign photo path to corresponding index
+
+                        array_push($photos, $photo);
+                    } else {
+                        // File is not valid
+                        abort(500);
                     }
                 }
             }
-
-            dd($photos);
 
             if ($post->photos == null) {
                 $post->photos = '[]';
@@ -155,14 +161,16 @@ class DashboardPostsController extends Controller
             $data = json_decode($post->photos, true);
 
             foreach ($photos as $photo) {
-                $max_length = 3;
-
                 array_push($data, $photo);
-
-                if (count($data) > $max_length) {
-                    array_shift($data);
-                }
             }
+
+            $index = array_search($request->deletedFile, $data);
+
+            if ($index !== false) {
+                unset($data[$index]); // Delete the element at the found index
+            }
+
+            // dd($data);
 
             $uploads = json_encode($data);
             $tags = json_encode($request->tags);
@@ -171,9 +179,7 @@ class DashboardPostsController extends Controller
             $post->description = $request->content;
             $post->tags = $tags;
             $post->privacy = $request->privacy;
-            if ($uploads !== '[]') {
-                $post->photos = $uploads;
-            }
+            $post->photos = $uploads;
             $post->tags = $tags;
             $save = $post->save();
 

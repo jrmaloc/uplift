@@ -93,9 +93,7 @@ class RolesAndPermissionsSeeder extends Seeder
         // Create roles and assign permissions
         foreach ($roles as $roleName => $permissions) {
             $role = Role::create(['name' => $roleName]);
-            foreach ($permissions as $permission) {
-                $role->givePermissionTo($permission);
-            }
+            $role->syncPermissions($permissions);
         }
     }
 }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['school', 'love', 'faith', 'life', 'family'])->nullable();
+            $table->json('tags')->nullable();
             $table->string('caption')->nullable();
             $table->string('description')->nullable();
             $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete();

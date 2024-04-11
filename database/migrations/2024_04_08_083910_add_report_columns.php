@@ -32,15 +32,15 @@ return new class extends Migration
     {
         //
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('reported?');
+            $table->dropColumn('reported');
         });
 
         Schema::table('comments', function (Blueprint $table) {
-            $table->dropColumn('reported?');
+            $table->dropColumn('reported');
         });
 
         Schema::table('posts', function (Blueprint $table) {
-            $table->dropColumn('reported?');
+            $table->dropColumn('reported');
         });
     }
 };

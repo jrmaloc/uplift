@@ -95,13 +95,13 @@ class RolesController extends Controller
 
                 if (!$role) {
                     // Handle case where role is not found
-                    dd('maliii');
+                    abort(404);
                 }
 
                 $permissions = $role->getAllPermissions();
 
                 if (!$permissions) {
-                    dd('enggkk');
+                    abort(404);
                 }
 
                 return response()->json([
