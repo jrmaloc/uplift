@@ -42,10 +42,7 @@
                     @csrf
                     <div class="flex bg-white" style="border: 1px solid #d9dee3;">
                         <span class="input-group-text border-0 flex align-items-start mt-4">
-                            @php
-                                $avatar = $auth->avatar ? $auth->avatar : URL::asset('avatars/user.png');
-                            @endphp
-                            <img src="{{ URL::asset($auth->avatar) }}" alt="" class="rounded-full"
+                            <img src="{{ URL::asset($authAvatar) }}" alt="" class="rounded-full"
                                 style="width: 100px; aspect-ratio: 1/1;">
                         </span>
                         <div class="w-100">
@@ -480,7 +477,7 @@
                 }
 
                 $.ajax({
-                    url: "{{ route('posts_page.update', ['posts_page' => ':id']) }}".replace(':id',
+                    url: "{{ route('account.posts.update', ['post' => ':id']) }}".replace(':id',
                         id),
                     method: 'POST',
                     processData: false,

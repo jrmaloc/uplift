@@ -156,7 +156,7 @@
                 scrollX: 460,
                 scrollY: 500,
                 ajax: {
-                    url: "{{ route('roles.index') }}"
+                    url: "{{ route('dashboard.roles.index') }}"
                 },
                 columns: columns,
                 order: [
@@ -201,7 +201,7 @@
                 var id = $(this).val();
 
                 $.ajax({
-                    url: "{{ route('roles.store') }}",
+                    url: "{{ route('dashboard.roles.store') }}",
                     type: "POST",
                     data: {
                         roleID: id,
@@ -236,7 +236,7 @@
                 $('#editRoleOffcanvas').offcanvas('show');
 
                 $.ajax({
-                    url: "{{ route('roles.update', [':role']) }}".replace(':role', id),
+                    url: "{{ route('dashboard.roles.update', [':role']) }}".replace(':role', id),
                     data: {
                         id: id,
                         from: 'show'
@@ -274,7 +274,7 @@
                 var selectedPermissions = $('#permissions').val();
 
                 $.ajax({
-                    url: "{{ route('roles.update', [':role']) }}".replace(':role', id),
+                    url: "{{ route('dashboard.roles.update', [':role']) }}".replace(':role', id),
                     data: {
                         data: selectedPermissions,
                         id: id,
@@ -308,7 +308,7 @@
                 var selectedRole = $('#addRole').val();
 
                 $.ajax({
-                    url: "{{ route('roles.store') }}",
+                    url: "{{ route('dashboard.roles.store') }}",
                     type: "POST",
                     data: {
                         permissions: selectedPermissions,

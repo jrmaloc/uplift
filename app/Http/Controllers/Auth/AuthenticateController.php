@@ -30,7 +30,7 @@ class AuthenticateController extends Controller
 
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             // Authentication passed...
-            return redirect()->route('dashboard')->with('login', true);
+            return redirect()->route('dashboard.home.index')->with('login', true);
         } else {
             return back()->with('error', 'Incorrect credentials')->withInput();
 

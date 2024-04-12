@@ -237,7 +237,7 @@
                 scrollX: 460,
                 scrollY: 500,
                 ajax: {
-                    url: "{{ route('users.index') }}"
+                    url: "{{ route('dashboard.users.index') }}"
                 },
                 columns: columns,
                 order: [
@@ -257,7 +257,7 @@
                 $.ajax({
                     data: formData,
                     type: "POST",
-                    url: "{{ route('users.store') }}",
+                    url: "{{ route('dashboard.users.store') }}",
                     success: function(response) {
                         $('#offcanvasRight').offcanvas('hide');
                         $('#data-table').DataTable().destroy();
@@ -291,7 +291,7 @@
                 var id = $(this).attr('id');
 
                 $.ajax({
-                    url: "{{ route('users.edit', [':id']) }}".replace(':id', id),
+                    url: "{{ route('dashboard.users.edit', [':id']) }}".replace(':id', id),
                     method: 'GET',
                     success: function(response) {
                         $('#edit-name').val(response.user.name);
@@ -316,7 +316,7 @@
                 let id = $(this).find('[name="id"]').val();
 
                 $.ajax({
-                    url: "{{ route('users.update', [':id']) }}".replace(':id', id),
+                    url: "{{ route('dashboard.users.update', [':id']) }}".replace(':id', id),
                     method: 'PUT',
                     data: formData,
                     success: function(response) {
@@ -378,7 +378,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: "{{ route('users.destroy', ['user' => ':id']) }}".replace(
+                            url: "{{ route('dashboard.users.destroy', ['user' => ':id']) }}".replace(
                                 ':id',
                                 id),
                             method: "DELETE",

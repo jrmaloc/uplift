@@ -3,7 +3,8 @@
 @section('head')
     <title>Posts</title>
     <style>
-        td:nth-child(2), td:nth-child(4) {
+        td:nth-child(2),
+        td:nth-child(4) {
             width: 400px !important;
             max-width: 400px !important;
             word-wrap: break-word;
@@ -73,7 +74,8 @@
                         if (data == 'public') {
                             return '<div class="badge rounded-pill bg-label-primary px-4 py-2">' + data + '</div>';
                         } else if (data == 'private') {
-                            return '<div class="badge rounded-pill bg-label-dark px-4 py-2 border-1">' + data + '</div>';
+                            return '<div class="badge rounded-pill bg-label-dark px-4 py-2 border-1">' + data +
+                                '</div>';
                         }
                     }
                 },
@@ -116,6 +118,65 @@
 
         $(document).ready(function(e) {
             loadTable();
+
+            // delete post
+            $(document).on('click', '.remove-btn', function(e) {
+                let id = $(this).attr("id");
+                console.log('wewewe');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Remove post from list",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, remove it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "{{ route('dashboard.posts.destroy', ['post' => ':id']) }}".replace(
+                                ':id',
+                                id),
+                            method: "DELETE",
+                            data: {
+                                _token: "{{ csrf_token() }}",
+                                id: id
+                            },
+                            success: function(response) {
+                                if (response.status == 200) {
+                                    Swal.fire('Removed!', response.message, 'success')
+                                        .then(
+                                            result => {
+                                                if (result.isConfirmed) {
+                                                    $('#data-table').DataTable()
+                                                        .destroy();
+                                                    loadTable();
+                                                }
+                                            })
+                                } else {
+                                    butterup.toast({
+                                        title: 'Heads Up!',
+                                        message: 'Something went wrong',
+                                        type: 'warning',
+                                        icon: true,
+                                        dismissable: true,
+                                    })
+                                }
+                            },
+                            error: function(error) {
+                                butterup.toast({
+                                    title: 'Error!',
+                                    message: 'Something is wrong. Try Again!',
+                                    type: 'error',
+                                    icon: true,
+                                    dismissable: true,
+                                })
+                            }
+                        })
+                    }
+                })
+            });
         });
     </script>
 @endpush

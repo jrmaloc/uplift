@@ -90,8 +90,8 @@
                 <ul class="menu-inner py-1">
                     <!-- Dashboards -->
                     {{-- <li class="menu-item {{ preg_match('/\/dashboard\/create$/', Request::path()) ? 'active' : null }}"> --}}
-                    <li class="menu-item {{ preg_match('/dashboard$/', Request::path()) ? 'active' : null }}">
-                        <a href="{{ route('dashboard') }}" class="menu-link">
+                    <li class="menu-item {{ preg_match('/dashboard\/home$/', Request::path()) ? 'active' : null }}">
+                        <a href="{{ route('dashboard.home.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Dashboards">Dashboards</div>
                             <div class="badge bg-danger rounded-pill ms-auto">5</div>
@@ -102,9 +102,8 @@
                         <span class="menu-header-text">MANAGEMENT</span>
                     </li>
                     <!-- Apps -->
-                    <li
-                        class="menu-item {{ preg_match('/dashboard\/users$/', Request::path()) || preg_match('/dashboard\/users\/\d+\/edit$/', Request::path()) ? 'active' : null }}">
-                        <a href="#" class="menu-link">
+                    <li class="menu-item {{ preg_match('/dashboard\/users$/', Request::path()) ? 'active' : null }}">
+                        <a href="{{ route('dashboard.users.index') }}" class="menu-link">
                             <i class="menu-icon bx bx-user"></i>
                             <div data-i18n="Users">Users</div>
                         </a>
@@ -116,25 +115,35 @@
                             <div data-i18n="Users">Posts</div>
                         </a>
                     </li>
-                    <!-- Pages -->
                     <li
                         class="menu-item {{ preg_match('/dashboard\/roles$/', Request::path()) || preg_match('/dashboard\/permissions$/', Request::path()) ? 'open active' : '' }}">
-                        <a href="#" class="menu-link">
+                        <a href="{{ route('dashboard.roles.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-cog"></i>
                             <div data-i18n="Account Settings">Roles &amp; Permissions</div>
                         </a>
-                        {{-- <ul class="menu-sub">
-                            <li class="menu-item {{ preg_match('/dashboard\/roles$/', Request::path()) ? 'active' : null }}">
-                                <a href="{{ route('roles.index') }}" class="menu-link">
-                                    <div data-i18n="Roles">Roles</div>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-error"></i>
+                            <div data-i18n="Account Settings">Reports</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="#" class="menu-link">
+                                    <div data-i18n="Roles">Users</div>
                                 </a>
                             </li>
-                            <li class="menu-item {{ preg_match('/dashboard\/permissions$/', Request::path()) ? 'active' : null }}">
-                                <a href="{{ route('permissions.index') }}" class="menu-link">
-                                    <div data-i18n="Permissions">Permissions</div>
+                            <li class="menu-item">
+                                <a href="#" class="menu-link">
+                                    <div data-i18n="Posts">Posts</div>
                                 </a>
                             </li>
-                        </ul> --}}
+                            <li class="menu-item">
+                                <a href="#" class="menu-link">
+                                    <div data-i18n="Comments">Comments</div>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </aside>

@@ -91,7 +91,7 @@
                     <!-- Dashboards -->
                     {{-- <li class="menu-item {{ preg_match('/\/dashboard\/create$/', Request::path()) ? 'active' : null }}"> --}}
                     <li class="menu-item {{ preg_match('/account\/home$/', Request::path()) ? 'active' : null }}">
-                        <a href="{{ route('home.index') }}" class="menu-link">
+                        <a href="{{ route('account.home.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Homes">Home</div>
                             <div class="badge bg-danger rounded-pill ms-auto">5</div>
@@ -113,9 +113,12 @@
                         </a>
                     </li> --}}
                     <li
-                        class="menu-item {{ preg_match('/account\/posts_page$/', Request::path()) || preg_match('/account\/posts_page\/\d+\/edit$/', Request::path())
-                        || preg_match('/account\/profile$/', Request::path()) ? 'active' : null }}">
-                        <a href="{{ route('posts_page.index') }}" class="menu-link">
+                        class="menu-item {{ preg_match('/account\/posts_page$/', Request::path()) ||
+                        preg_match('/account\/posts_page\/\d+\/edit$/', Request::path()) ||
+                        preg_match('/account\/profile$/', Request::path())
+                            ? 'active'
+                            : null }}">
+                        <a href="{{ route('account.posts.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-clipboard"></i>
                             <div data-i18n="Users">Profile</div>
                         </a>
@@ -221,7 +224,10 @@
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
                                     data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online">
-                                        <img src="{{ URL::asset('/assets/img/avatars/1.png') }}" alt
+                                        @php
+                                            $avatar = $auth->avatar ? $auth->avatar : 'avatars/user.png';
+                                        @endphp
+                                        <img src="{{ URL::asset($avatar) }}" alt
                                             class="w-px-40 h-auto rounded-circle" />
                                     </div>
                                 </a>
@@ -231,7 +237,7 @@
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
-                                                        <img src="{{ URL::asset('/assets/img/avatars/1.png') }}" alt
+                                                        <img src="{{ URL::asset($avatar) }}" alt
                                                             class="w-px-40 h-auto rounded-circle" />
                                                     </div>
                                                 </div>

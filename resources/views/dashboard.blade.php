@@ -21,7 +21,7 @@
                                     your profile.
                                 </p>
 
-                                <a href="{{ route('home.index') }}" class="btn btn-sm btn-outline-primary">View User Page</a>
+                                <a href="{{ route('account.home.index') }}" class="btn btn-sm btn-outline-primary">View User Page</a>
                             </div>
                         </div>
                         <div class="col-sm-5 text-center text-sm-left">

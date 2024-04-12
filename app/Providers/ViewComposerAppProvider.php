@@ -26,6 +26,8 @@ class ViewComposerAppProvider extends ServiceProvider
         View::composer('*', function ($view) {
             $auth = Auth::user();
             $all = User::all();
+
+            $authAvatar =  optional($auth)->avatar ? $auth->avatar :'avatars/user.png';
             // $unreadNotifications = optional($auth)->unreadNotifications; // Fetch notifications or any necessary data
             // $readNotifications = optional($auth)->readNotifications;
 
@@ -34,6 +36,7 @@ class ViewComposerAppProvider extends ServiceProvider
                 // 'unreadNotifications' => $unreadNotifications,
                 'auth' => $auth,
                 'all' => $all,
+                'authAvatar' => $authAvatar,
             ]);
         });
 
