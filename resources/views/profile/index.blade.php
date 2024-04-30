@@ -526,6 +526,9 @@
 
         </div>
     </div>
+
+
+
     <!-- Page content -->
     <div class="container-fluid mt--7">
         <div class="row">
@@ -544,8 +547,11 @@
                                 </style>
                                 <form action="POST" id="dp_upload">
                                     @csrf
+                                    @if (!$user->avatar)
+                                        {{ 'WEWAKKK' }}
+                                    @endif
                                     <label href="#" for="upload" id="profile">
-                                        <img id="avatar" src="{{ URL::asset($user->avatar) }}" class="rounded-circle">
+                                        <img id="avatar" src="{{ $user->avatar ?  URL::asset($user->avatar) : URL::asset('avatars/user.png') }}" class="rounded-circle">
                                         <input type="file" name="file" id="upload" class="account-file-input"
                                             hidden="" accept="image/png, image/jpeg">
                                     </label>
@@ -578,10 +584,6 @@
                                 {{ $user->name }}<span class="font-weight-light" id="age">,
                                     {{ $age }}</span>
                             </h3>
-                            <div class="h5 mt-4">
-                                <i class="ni business_briefcase-24 mr-2 capitalize"></i><span
-                                    class="capitalize">{{ $role->name }}</span>
-                            </div>
                             <hr class="my-4">
                         </div>
                     </div>
@@ -791,7 +793,7 @@
                 let formData = $(this).serialize();
 
                 $.ajax({
-                    url: "{{ route('users.password', [':user']) }}".replace(':user', id),
+                    url: "{{ route('profile.change_password', [':profile']) }}".replace(':profile', id),
                     data: formData,
                     method: 'PUT',
                     success: function(response) {
@@ -831,7 +833,7 @@
                 let formData = $(this).serialize();
 
                 $.ajax({
-                    url: "{{ route('users.update', [':user']) }}".replace(':user', id),
+                    url: "{{ route('account.users.update', [':user']) }}".replace(':user', id),
                     data: formData,
                     method: 'PUT',
                     success: function(response) {
@@ -863,7 +865,7 @@
                 var val = $(this).val();
 
                 $.ajax({
-                    url: "{{ route('users.checkpassword', [':user']) }}".replace(':user', id),
+                    url: "{{ route('profile.check_password', [':profile']) }}".replace(':profile', id),
                     method: 'POST',
                     data: {
                         input: val
@@ -895,7 +897,7 @@
                             e.preventDefault();
 
                             $.ajax({
-                                url: "{{ route('users.destroy', [':user']) }}"
+                                url: "{{ route('account.users.destroy', [':user']) }}"
                                     .replace(':user', id),
                                 method: 'DELETE',
                                 success: function(response) {

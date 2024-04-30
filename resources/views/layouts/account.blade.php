@@ -113,9 +113,9 @@
                         </a>
                     </li> --}}
                     <li
-                        class="menu-item {{ preg_match('/account\/posts_page$/', Request::path()) ||
-                        preg_match('/account\/posts_page\/\d+\/edit$/', Request::path()) ||
-                        preg_match('/account\/profile$/', Request::path())
+                        class="menu-item {{ preg_match('/account\/posts$/', Request::path()) ||
+                        preg_match('/account\/posts\/\d+\/edit$/', Request::path()) ||
+                        preg_match('/profile$/', Request::path())
                             ? 'active'
                             : null }}">
                         <a href="{{ route('account.posts.index') }}" class="menu-link">
@@ -226,6 +226,8 @@
                                     <div class="avatar avatar-online">
                                         @php
                                             $avatar = $auth->avatar ? $auth->avatar : 'avatars/user.png';
+
+                                            $role = Spatie\Permission\Models\Role::findOrFail($auth->role_id);
                                         @endphp
                                         <img src="{{ URL::asset($avatar) }}" alt
                                             class="w-px-40 h-auto rounded-circle" />
@@ -244,7 +246,7 @@
                                                 <div class="flex-grow-1">
                                                     <span
                                                         class="fw-medium d-block">{{ $auth->name != null ? $auth->name : $auth->username }}</span>
-                                                    <small class="text-muted">Admin</small>
+                                                    <small class="text-muted">{{ $role->name }}</small>
                                                 </div>
                                             </div>
                                         </a>

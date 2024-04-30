@@ -16,9 +16,9 @@ class AccountPostsController extends Controller
         //
         $authId = Auth::user()->id;
 
-        $posts = Post::where('user_id', $authId)->with('comments')->get();
+        $posts = Post::where('user_id', $authId)->with('comments')->orderBy('created_at', 'desc')->get();
 
-        return view('my-posts.index', [
+        return view('account.post.index', [
             'posts' => $posts,
         ]);
     }
