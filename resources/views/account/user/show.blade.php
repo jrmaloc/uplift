@@ -56,6 +56,9 @@
         </x-slot>
     </x-modal>
     {{-- /MODALS --}}
+
+
+    {{-- POSTS --}}
     <div class="row gap-3 mt-4 mx-auto">
         <div class="col-3 card" style="max-height: 400px;">
             <div class="card-header">
@@ -82,7 +85,7 @@
         </div>
         <div class="col-7" style="margin-top: 1rem;">
             <h3 class="h2">Prayers</h3>
-            @foreach ($posts as $post)
+            @forelse ($posts as $post)
                 <div class="card px-8 pt-6 pb-4 mb-4">
                     <!-- post header -->
                     <div class="flex justify-between align-items-center w-100 mb-4">
@@ -127,25 +130,24 @@
                                         </span>
                                     @else
                                         <span>
-                                            <?xml version="1.0" ?><svg fill="none" height="24"
-                                                viewBox="0 0 24 24" width="15" xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M17.5 11.75C20.1233 11.75 22.25 13.8766 22.25 16.5C22.25 19.1234 20.1233
-                                                                                21.25 17.5 21.25C15.402 21.25 13.6216 19.8898 12.9927 18.0032H11.0072C10.3783
-                                                                                19.8898 8.59799 21.25 6.49998 21.25C3.87663 21.25 1.74998 19.1234 1.74998
-                                                                                16.5C1.74998 13.8766 3.87663 11.75 6.49998 11.75C8.95456 11.75 10.9743 13.6118
-                                                                                11.224 16.0003H12.776C13.0257 13.6118 15.0454 11.75 17.5 11.75ZM6.49998
-                                                                                13.75C4.9812 13.75 3.74998 14.9812 3.74998 16.5C3.74998 18.0188 4.9812 19.25
-                                                                                6.49998 19.25C8.01876 19.25 9.24998 18.0188 9.24998 16.5C9.24998 14.9812 8.01876
-                                                                                13.75 6.49998 13.75ZM17.5 13.75C15.9812 13.75 14.75 14.9812 14.75 16.5C14.75
-                                                                                18.0188 15.9812 19.25 17.5 19.25C19.0188 19.25 20.25 18.0188 20.25 16.5C20.25
-                                                                                14.9812 19.0188 13.75 17.5 13.75ZM15.5119 3C16.7263 3 17.797 3.79659 18.1459
-                                                                                4.95979L19.1521 8.31093C19.9446 8.44285 20.7203 8.59805 21.479 8.77658C22.0166
-                                                                                8.90308 22.3499 9.44144 22.2234 9.97904C22.0969 10.5166 21.5585 10.8499 21.0209
-                                                                                10.7234C18.2654 10.0751 15.2586 9.75 12 9.75C8.74132 9.75 5.73456 10.0751 2.97902
-                                                                                10.7234C2.44142 10.8499 1.90306 10.5166 1.77656 9.97904C1.65007 9.44144 1.98334
-                                                                                8.90308 2.52094 8.77658C3.27938 8.59813 4.05471 8.44298 4.84691 8.3111L5.85402
-                                                                                4.95979C6.20298 3.79659 7.27362 3 8.48804 3H15.5119Z"
+                                            <?xml version="1.0" ?><svg fill="none" height="24" viewBox="0 0 24 24"
+                                                width="15" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M17.5 11.75C20.1233 11.75 22.25 13.8766 22.25 16.5C22.25 19.1234 20.1233
+                                                            21.25 17.5 21.25C15.402 21.25 13.6216 19.8898 12.9927 18.0032H11.0072C10.3783
+                                                            19.8898 8.59799 21.25 6.49998 21.25C3.87663 21.25 1.74998 19.1234 1.74998
+                                                            16.5C1.74998 13.8766 3.87663 11.75 6.49998 11.75C8.95456 11.75 10.9743 13.6118
+                                                            11.224 16.0003H12.776C13.0257 13.6118 15.0454 11.75 17.5 11.75ZM6.49998
+                                                            13.75C4.9812 13.75 3.74998 14.9812 3.74998 16.5C3.74998 18.0188 4.9812 19.25
+                                                            6.49998 19.25C8.01876 19.25 9.24998 18.0188 9.24998 16.5C9.24998 14.9812 8.01876
+                                                            13.75 6.49998 13.75ZM17.5 13.75C15.9812 13.75 14.75 14.9812 14.75 16.5C14.75
+                                                            18.0188 15.9812 19.25 17.5 19.25C19.0188 19.25 20.25 18.0188 20.25 16.5C20.25
+                                                            14.9812 19.0188 13.75 17.5 13.75ZM15.5119 3C16.7263 3 17.797 3.79659 18.1459
+                                                            4.95979L19.1521 8.31093C19.9446 8.44285 20.7203 8.59805 21.479 8.77658C22.0166
+                                                            8.90308 22.3499 9.44144 22.2234 9.97904C22.0969 10.5166 21.5585 10.8499 21.0209
+                                                            10.7234C18.2654 10.0751 15.2586 9.75 12 9.75C8.74132 9.75 5.73456 10.0751 2.97902
+                                                            10.7234C2.44142 10.8499 1.90306 10.5166 1.77656 9.97904C1.65007 9.44144 1.98334
+                                                            8.90308 2.52094 8.77658C3.27938 8.59813 4.05471 8.44298 4.84691 8.3111L5.85402
+                                                            4.95979C6.20298 3.79659 7.27362 3 8.48804 3H15.5119Z"
                                                     fill="#878787" />
                                             </svg>
                                         </span>
@@ -217,7 +219,7 @@
                         </style>
                         @php
                             $id = $post->id;
-                            $reactions = json_decode($post->reaction_count, true);
+                            $reactions = json_decode($post->reactors, true);
 
                             if ($reactions == null) {
                                 $reactions = [];
@@ -389,7 +391,12 @@
                         </form>
                     </div>
                 </div>
-            @endforeach
+
+            @empty
+                <div class="mt-4">
+                    <div class="alert alert-primary flex justify-center" role="alert">No posts available at the moment.</div>
+                </div>
+            @endforelse
         </div>
 
     </div>
@@ -429,7 +436,7 @@
                 $('#comment' + id).prop('checked', function(i, currentValue) {
 
                     $.ajax({
-                        url: "{{ route('comments.store') }}",
+                        url: "{{ route('account.home.store') }}",
                         method: "POST",
                         data: {
                             id: id,
@@ -452,7 +459,8 @@
                                 $('.comment_reaction_count' + id).html(response
                                     .reactCount);
                                 heart.attr('src',
-                                    "{{ URL::asset('avatars/pray-outline.png') }}");
+                                    "{{ URL::asset('avatars/pray-outline.png') }}"
+                                    );
                             }
                         },
                         error: function(error) {
@@ -510,7 +518,8 @@
                 var newComment = $('#editCommentInput' + commentId).val();
 
                 $.ajax({
-                    url: "{{ route('comments.update', [':id']) }}".replace(':id', commentId),
+                    url: "{{ route('account.comments.update', [':id']) }}".replace(':id',
+                        commentId),
                     method: "PUT",
                     data: {
                         comment: newComment,
@@ -545,7 +554,8 @@
                     $('#commentDeleteModal').modal('hide');
 
                     $.ajax({
-                        url: "{{ route('comments.destroy', [':id']) }}".replace(':id', id),
+                        url: "{{ route('account.comments.destroy', [':id']) }}".replace(
+                            ':id', id),
                         method: "DELETE",
                         data: {
                             data: 'delete',
@@ -590,7 +600,7 @@
                 $('.comment' + id).css('background-size', '100% 2px, auto');
 
                 $.ajax({
-                    url: "{{ route('comments.store') }}",
+                    url: "{{ route('account.comments.store') }}",
                     method: "POST",
                     data: {
                         post_id: id,
@@ -602,7 +612,7 @@
                             <div class="row">
                                 <!-- comment header -->
                                 <div class ="col-2">
-                                    <img src="http://127.0.0.1:8000/${response.avatar}"
+                                    <img src="{{ URL::asset('`+response.avatar+`') }}"
                                         alt="profile_pic" class="ml-3 mb-sm-0 mb-2" height="125"
                                         style="max-width: 90%; border-radius: 50%; aspect-ratio: 1/1;" />
                                 </div>
@@ -632,9 +642,8 @@
                                     </form>
                                     <div class="flex align-items-center gap-4">
                                         <input type="checkbox" id="comment${response.comments.id}" hidden>
-
                                         <a class="flex gap-2 cursor-default">
-                                            <img src="{{ in_array($auth->id, $array) ? URL::asset('avatars/pray.png') : URL::asset('avatars/pray-outline.png') }}"
+                                            <img src="{{ URL::asset('avatars/pray-outline.png') }}"
                                                 id="${response.comments.id}"
                                                 style="height: 25px; aspect-ratio:1;"
                                                 class="heart${response.comments.id} comment-react-btn cursor-pointer
@@ -662,10 +671,10 @@
                                         </a>
                                         <ul class="dropdown-menu dropdown-menu1 commentDropdown dropdown-menu-end mt-1"
                                             style="">
-                                            @if ($comment->user_id != $auth->id)
+                                            @if (`+ response.comment.user_id +` != $auth->id)
                                                 <li>
                                                     <a class="dropdown-item text-primary view-btn"
-                                                        href="{{ route('user_page.show', ['user_page' => $comment->user_id]) }}"><i
+                                                        href="{{ route('account.users.show', ['user' => 2]) }}"><i
                                                             class="bx bx-user mr-1"></i>
                                                         View User
                                                     </a>
@@ -714,7 +723,13 @@
 
                         $('#textarea_' + response.post_id).val('');
 
-                        console.log();
+                        butterup.toast({
+                            title: 'Success!',
+                            message: 'Comment has been posted.',
+                            type:'success',
+                            icon: true,
+                            dismissable: true,
+                        })
                     },
                     error: function(error) {
                         console.log(error);
@@ -734,7 +749,7 @@
 
                 $('#heart' + id).prop('checked', function(i, currentValue) {
                     $.ajax({
-                        url: "{{ route('posts.store') }}",
+                        url: "{{ route('account.posts.store') }}",
                         method: "POST",
                         data: {
                             id: id,
@@ -753,7 +768,8 @@
                                 'false') {
 
                                 heart.attr('src',
-                                    "{{ URL::asset('avatars/pray-outline.png') }}");
+                                    "{{ URL::asset('avatars/pray-outline.png') }}"
+                                    );
 
                                 $('.post-react-count' + id).html(response.reactCount);
                             }
@@ -783,7 +799,7 @@
                 };
 
                 $.ajax({
-                    url: "{{ route('user_page.update', [':id']) }}".replace(':id', id),
+                    url: "{{ route('account.users.update', [':id']) }}".replace(':id', id),
                     method: "PUT",
                     data: {
                         follow: follow,
@@ -820,23 +836,24 @@
                 $('#reportModal').modal('hide');
 
                 $.ajax({
-                    url: "{{ route('user_page.store') }}",
+                    url: "{{ route('account.users.store') }}",
                     method: "POST",
                     data: {
                         id: '{{ $user->id }}',
                         reporter: '{{ $auth->id }}',
                         reason: reason,
-                        data:'report',
-                    }, success: function(response) {
-                        if(response.status == 200) {
+                        data: 'report',
+                    },
+                    success: function(response) {
+                        if (response.status == 200) {
                             butterup.toast({
                                 title: 'Reported!',
                                 message: response.message,
-                                type:'info',
+                                type: 'info',
                                 dismissable: true,
                                 icon: true,
                             })
-                        } else if(response.status == 400) {
+                        } else if (response.status == 400) {
                             butterup.toast({
                                 title: 'Heads Up!',
                                 message: response.message,
@@ -846,7 +863,8 @@
                             });
                         }
                         console.log();
-                    }, error: function(error) {
+                    },
+                    error: function(error) {
                         console.log(error);
                     }
                 });

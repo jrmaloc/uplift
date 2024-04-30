@@ -15,7 +15,7 @@ class AccountController extends Controller
     public function index(Request $request)
     {
         //
-        $posts = Post::with(['user', 'comments'])->orderBy('created_at', 'desc')->get();
+        $posts = Post::with(['user', 'comments.user'])->orderBy('created_at', 'desc')->get();
 
         if ($request->ajax()) {
             $comments = Comment::where('post_id', $request->id)->get();

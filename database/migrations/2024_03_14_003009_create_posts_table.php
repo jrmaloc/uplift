@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('caption')->nullable();
             $table->string('description')->nullable();
             $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete();
-            $table->bigInteger('reaction_count')->nullable();
+            $table->json('reactors')->nullable();
             $table->enum('privacy', ['public', 'private',])->nullable();
             $table->timestamps();
         });

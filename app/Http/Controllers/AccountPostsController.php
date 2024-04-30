@@ -45,7 +45,7 @@ class AccountPostsController extends Controller
             $post = Post::findOrFail($request->id);
             $user_id = $request->userId;
 
-            $reactions = json_decode($post->reaction_count, true);
+            $reactions = json_decode($post->reactors, true);
 
             if ($reactions == null) {
                 $reactions = [];
@@ -56,7 +56,8 @@ class AccountPostsController extends Controller
                 array_push($reactions, $user_id);
                 $count = count($reactions);
                 $json = json_encode($reactions);
-                $post->reaction_count = $json;
+                $post->reactors = $json;
+
                 $post->save();
 
                 return response()->json([
@@ -71,7 +72,7 @@ class AccountPostsController extends Controller
                 unset($reactions[$index]);
                 $count = count($reactions);
                 $json = json_encode($reactions);
-                $post->reaction_count = $json;
+                $post->reactors = $json;
                 $post->save();
 
                 return response()->json([

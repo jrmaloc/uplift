@@ -78,7 +78,7 @@ class AccountCommentsController extends Controller
             $comment = Comment::findOrFail($request->id);
             $user_id = $request->userId;
 
-            $reactions = json_decode($comment->reaction_count, true);
+            $reactions = json_decode($comment->reactors, true);
 
             if ($reactions == null) {
                 $reactions = [];
@@ -89,7 +89,8 @@ class AccountCommentsController extends Controller
                 array_push($reactions, $user_id);
                 $count = count($reactions);
                 $json = json_encode($reactions);
-                $comment->reactions = $json;
+                $comment->reactors = $json;
+
                 $comment->save();
 
                 return response()->json([
@@ -104,7 +105,7 @@ class AccountCommentsController extends Controller
                 unset($reactions[$index]);
                 $count = count($reactions);
                 $json = json_encode($reactions);
-                $comment->reactions = $json;
+                $comment->reactors = $json;
                 $comment->save();
 
                 return response()->json([
@@ -179,22 +180,24 @@ class AccountCommentsController extends Controller
      */
     public function destroy(Request $request, string $id)
     {
-        //
+        // dd($request->all());
         if ($request->ajax() && $request->data == 'delete') {
             $comment = Comment::findOrFail($id);
             $delete = $comment->delete();
 
-            $post = Post::findOrFail($request->postId);
-            $commentCount = $post->comments->count();
+            $post_id = $request->post_id;
+            $post = Post::with('comments')->findOrFail($post_id);
 
             if ($delete) {
+                $count = count($post->comments);
+
                 return response()->json([
                     'success' => true,
                     'status' => 200,
                     'message' => 'Comment deleted successfully',
                     'id' => $id,
-                    'postId' => $request->postId,
-                    'commentCount' => $commentCount,
+                    'post_id' => $post_id,
+                    'commentCount' => $count,
                 ], 200);
             }
         }

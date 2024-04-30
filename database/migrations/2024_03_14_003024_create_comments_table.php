@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete();
             $table->foreignId('post_id')->nullable()->constrained('posts')->cascadeOnDelete();
             $table->text('comments')->nullable();
-            $table->bigInteger('reactions')->nullable();
+            $table->json('reactors')->nullable();
             $table->timestamps();
         });
     }
