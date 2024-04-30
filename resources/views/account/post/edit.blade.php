@@ -40,24 +40,22 @@
             <div class="card">
                 <form id="editPostForm">
                     @csrf
-                    <div class="flex bg-white" style="border: 1px solid #d9dee3;">
+                    <div class="flex bg-white rounded-t-lg" style="border: 1px solid #d9dee3;">
                         <span class="input-group-text border-0 flex align-items-start mt-4">
-                            <img src="{{ URL::asset($authAvatar) }}" alt="" class="rounded-full"
+                            @php
+                                $avatar = $auth->avatar ? $auth->avatar : 'avatars/user.png';
+                            @endphp
+                            <img src="{{ URL::asset($avatar) }}" alt="" class="rounded-full"
                                 style="width: 100px; aspect-ratio: 1/1;">
                         </span>
                         <div class="w-100">
                             <input type="text" class="form-control input-field border-0 pt-4" placeholder="Caption..."
-                                id="caption" name="caption" value="{{ $post->caption }}"
+                                id="caption" name="caption" value="{{ $post->caption }}" required
                                 style="
-                                border-top: 1px solid #d9dee3 !important;
-                                border-right: 1px solid #d9dee3 !important;
-                                border-bottom: 0px !important;
-                                border-top-left-radius: 0px;
-                                border-bottom-right-radius: 0px;
                                 font-weight: bold;
                                 font-size: 20px;">
                             <textarea class="form-control pt-4 input-field rounded-0 border-0" rows="2" aria-label="With textarea"
-                                placeholder="Lorem Ipsum..." id="content" name="content" style="border-right: 1px solid #d9dee3 !important;">{{ $post->description }}</textarea>
+                                placeholder="Lorem Ipsum..." id="content" name="content" required>{{ $post->description }}</textarea>
                             <div class="m-2 flex justify-end">
                                 <button class="badge bg-label-primary cursor-pointer upload-btn" type="button"
                                     data-bs-toggle="collapse" data-bs-target="#uploadCollapse">Upload photos</i></button>
@@ -67,11 +65,11 @@
                             @php
                                 $photos = json_decode($post->photos, true);
                             @endphp
-                            <div class="collapse {{ $post->photos != null ? 'show' : '' }}" id="uploadCollapse"
+
+                            <div class="collapse {{ $post->photos != '[]' ? 'show' : '' }}" id="uploadCollapse"
                                 style="">
                                 <div class="d-grid d-sm-flex p-3 row border-0">
                                     <div class="flex flex-col justify-center gap-2 col-4">
-                                        <label for="photo_upload1" class="cursor-pointer">
                                         @if (isset($photos[0]) && $photos[0] !== null)
                                             <img src="{{ URL::asset($photos[0]) }}" alt="uploaded photo" accept="image/*"
                                                 class="mb-sm-0 mb-2 aspect-square rounded-md" id="img_1">
@@ -81,12 +79,10 @@
                                         @endif
                                         <input type="file" name="photo_upload1" id="photo_upload1" hidden
                                             class="account-file-input">
-                                        <span class="badge bg-label-secondary flex mt-2 justify-center cursor-pointer hover:scale-110 ease-in-out duration-300"
-                                            id="upload-btn1">{{ $post->photos != null ? 'Change' : 'Upload' }}</span>
-                                        </label>
+                                        <label for="photo_upload1" class="badge bg-label-secondary cursor-pointer"
+                                            id="upload-btn2">{{ isset($photos[0]) && $photos[0] !== null ? 'Change' : 'Upload' }}</label>
                                     </div>
                                     <div class="flex flex-col justify-center gap-2 col-4">
-                                        <label for="photo_upload1" class="cursor-pointer">
                                         @if (isset($photos[1]) && $photos[1] !== null)
                                             <img src="{{ URL::asset($photos[1]) }}" alt="uploaded photo" accept="image/*"
                                                 class="mb-sm-0 mb-2 aspect-square rounded-md" id="img_2">
@@ -95,12 +91,10 @@
                                                 class="mb-sm-0 mb-2 aspect-square rounded-md" id="img_2">
                                         @endif
                                         <input type="file" name="photo_upload2" id="photo_upload2" hidden>
-                                        <span class="badge bg-label-secondary flex mt-2 justify-center cursor-pointer hover:scale-110 ease-in-out duration-300"
-                                            id="upload-btn2">{{ $post->photos != null ? 'Change' : 'Upload' }}</span>
-                                        </label>
+                                        <label for="photo_upload2" class="badge bg-label-secondary cursor-pointer"
+                                            id="upload-btn2">{{ isset($photos[1]) && $photos[1] !== null ? 'Change' : 'Upload' }}</label>
                                     </div>
                                     <div class="flex flex-col justify-center gap-2 col-4">
-                                        <label for="photo_upload1" class="cursor-pointer">
                                         @if (isset($photos[2]) && $photos[2] !== null)
                                             <img src="{{ URL::asset($photos[2]) }}" alt="uploaded photo" accept="image/*"
                                                 class="mb-sm-0 mb-2 aspect-square rounded-md" id="img_3">
@@ -109,14 +103,15 @@
                                                 class="mb-sm-0 mb-2 aspect-square rounded-md" id="img_3">
                                         @endif
                                         <input type="file" name="photo_upload3" id="photo_upload3" hidden>
-                                        <span class="badge bg-label-secondary flex mt-2 justify-center cursor-pointer hover:scale-110 ease-in-out duration-300"
-                                            id="upload-btn3">{{ $post->photos != null ? 'Change' : 'Upload' }}</span>
-                                        </label>
+                                        <label for="photo_upload3" class="badge bg-label-secondary cursor-pointer"
+                                            id="upload-btn2">{{ isset($photos[2]) && $photos[2] !== null ? 'Change' : 'Upload' }}</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    {{-- taggs --}}
                     <div class="bg-indigo-100 px-2 py-3 flex justify-around gap-4"
                         style="border-bottom-left-radius: 0.375rem; border-bottom-right-radius: 0.375rem;">
                         <div class=" w-4/6">
@@ -138,6 +133,7 @@
                                     @endforeach
                                 </select>
                             </label>
+
                             <style>
                                 .checkbox-wrapper-34 {
                                     --blue: #0D7EFF;

@@ -408,6 +408,8 @@
                             @endforeach
                         </div>
                     </div>
+
+
                     <!-- comment and reaction -->
                     <div class="px-2" id="{{ $post->id }}">
                         <style>

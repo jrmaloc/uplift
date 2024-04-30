@@ -163,6 +163,8 @@ class AccountPostsController extends Controller
 
         $options = array_diff($tags, array('Faith', 'Family', 'Finance', 'Health', 'Studies', 'Work'));
 
+        // dd($post->photos);
+
         return view('account.post.edit', compact('post', 'tags', 'options'));
     }
 

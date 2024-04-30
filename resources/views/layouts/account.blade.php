@@ -114,13 +114,20 @@
                     </li> --}}
                     <li
                         class="menu-item {{ preg_match('/account\/posts$/', Request::path()) ||
-                        preg_match('/account\/posts\/\d+\/edit$/', Request::path()) ||
-                        preg_match('/profile$/', Request::path())
+                        preg_match('/account\/posts\/\d+\/edit$/', Request::path())
                             ? 'active'
                             : null }}">
                         <a href="{{ route('account.posts.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-clipboard"></i>
                             <div data-i18n="Users">Profile</div>
+                        </a>
+                    </li>
+
+                    <li
+                        class="menu-item {{ preg_match('/profile$/', Request::path()) ? 'active' : null }} }}">
+                        <a href="{{ route('profile.index') }}" class="menu-link">
+                            <i class="menu-icon bx bx-cog"></i>
+                            <div>Settings</div>
                         </a>
                     </li>
                     <!-- Pages -->
